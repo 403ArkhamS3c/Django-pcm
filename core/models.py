@@ -2,6 +2,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
+from django.core.exceptions import ValidationError
 
 
 # 1. Profil organisasi
@@ -230,11 +231,22 @@ class TautanTerkait(models.Model):
     def __str__(self):
         return self.nama
 
+# validasi untuk sambutan
+def maksimal_120_kata(value):
+    jumlah_kata = len(value.split())
+
+    if jumlah_kata > 120:
+        raise ValidationError(
+            f"Sambutan maksimal 120 kata. Saat ini terdapat {jumlah_kata} kata."
+        )
+
 # 10. Sambutan Ketua
 class SambutanKetua(models.Model):
     nama = models.CharField(max_length=150)
     foto = models.ImageField(upload_to="sambutan_ketua/")
-    sambutan = models.TextField()
+    sambutan = models.TextField(
+        validators=[maksimal_120_kata]
+    )
 
     class Meta:
         verbose_name = "Sambutan Ketua"
@@ -245,6 +257,7 @@ class SambutanKetua(models.Model):
             raise ValidationError(
                 "Sambutan Ketua hanya boleh memiliki satu data."
             )
+        self.full_clean()
         super().save(*args, **kwargs)
 
     def __str__(self):
