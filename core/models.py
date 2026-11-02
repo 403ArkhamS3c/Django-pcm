@@ -40,7 +40,6 @@ class ProfilOrganisasi(models.Model):
     def __str__(self):
         return self.nama_singkat
 
-
 # 2. Pimpinan
 class Pimpinan(models.Model):
     nama = models.CharField(max_length=150)
@@ -230,3 +229,40 @@ class TautanTerkait(models.Model):
 
     def __str__(self):
         return self.nama
+
+# 10. Sambutan Ketua
+class SambutanKetua(models.Model):
+    nama = models.CharField(max_length=150)
+    foto = models.ImageField(upload_to="sambutan_ketua/")
+    sambutan = models.TextField()
+
+    class Meta:
+        verbose_name = "Sambutan Ketua"
+        verbose_name_plural = "Sambutan Ketua"
+
+    def save(self, *args, **kwargs):
+        if not self.pk and SambutanKetua.objects.exists():
+            raise ValidationError(
+                "Sambutan Ketua hanya boleh memiliki satu data."
+            )
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.nama
+
+#11. galeri kegiatan
+class GaleriKegiatan(models.Model):
+    judul = models.CharField(
+        max_length=200,
+        blank=True,
+    )
+    gambar = models.ImageField(
+        upload_to="galeri_kegiatan/",
+    )
+
+    class Meta:
+        verbose_name = "Galeri Kegiatan"
+        verbose_name_plural = "Galeri Kegiatan"
+
+    def __str__(self):
+        return self.judul or "Dokumentasi Kegiatan"
