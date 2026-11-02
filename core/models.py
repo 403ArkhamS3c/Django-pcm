@@ -232,12 +232,12 @@ class TautanTerkait(models.Model):
         return self.nama
 
 # validasi untuk sambutan
-def maksimal_120_kata(value):
-    jumlah_kata = len(value.split())
+def maksimal_650_karakter(value):
+    jumlah_karakter = len(value)
 
-    if jumlah_kata > 120:
+    if jumlah_karakter > 650:
         raise ValidationError(
-            f"Sambutan maksimal 120 kata. Saat ini terdapat {jumlah_kata} kata."
+            f"Sambutan maksimal 650 karakter. Saat ini terdapat {jumlah_karakter} karakter."
         )
 
 # 10. Sambutan Ketua
@@ -245,7 +245,7 @@ class SambutanKetua(models.Model):
     nama = models.CharField(max_length=150)
     foto = models.ImageField(upload_to="sambutan_ketua/")
     sambutan = models.TextField(
-        validators=[maksimal_120_kata]
+    validators=[maksimal_650_karakter]
     )
 
     class Meta:
