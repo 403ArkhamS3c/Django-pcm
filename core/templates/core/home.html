@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no">
+
+    <title>Profil PCM Grogol</title>
+
+    {% load static %}
+
+    <link
+        
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="{% static 'core/style.css' %}">
+</head>
+
+<body>
+
+    <!-- MASTHEAD: gambar latar + ikon sosial + navbar + hero
+         Ganti gambar di static/img/hero-pcm.jpg-->
+    <div class="masthead" style="--hero-image: url('{% static 'img/hero-pcm.jpg' %}');"> <!-- masih revisi-->
+
+        <!-- Ikon media sosial (ganti href dengan akun resmi PCM) -->
+        <div class="topbar">
+            <div class="container">
+                <ul class="social-list" aria-label="Media sosial">
+                    <li>
+                        <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                            <i class="bi bi-instagram" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                            <i class="bi bi-facebook" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+                            <i class="bi bi-youtube" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.tiktok.com/" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+                            <i class="bi bi-tiktok" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Navbar (isi sama seperti sebelumnya, dibungkus panel putih) -->
+        <div class="container nav-wrap">
+            <nav class="navbar navbar-expand-xl nav-panel">
+                <div class="container-fluid px-2 px-xl-3 py-1">
+
+                    <a class="navbar-brand d-flex align-items-center gap-3" href="/">
+                        <span class="brand-icon">PCM</span>
+
+                        <span class="d-flex flex-column">
+                            <span>
+                                Pimpinan Cabang
+                            </span>
+                            <small class="text-secondary fw-normal">
+                                Muhammadiyah Grogol
+                            </small>
+                        </span>
+                    </a>
+
+                    <button
+                        class="navbar-toggler border-0 shadow-none"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarPCM"
+                        aria-controls="navbarPCM"
+                        aria-expanded="false"
+                        aria-label="Buka navigasi"
+                    >
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarPCM">
+                        <ul class="navbar-nav ms-auto align-items-xl-center gap-xl-1 py-3 py-xl-0">
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="/">Beranda</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'pimpinan' %}">Pimpinan</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'ranting' %}">Ranting</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'amal_usaha' %}">Amal Usaha</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'berita' %}">Berita</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'agenda' %}">Agenda</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'dokumen' %}">Dokumen</a>
+                            </li>
+
+                            <li class="nav-item mt-2 mt-xl-0 ms-xl-2">
+                                <a
+                                    class="btn btn-success rounded-pill px-3 py-2 fw-semibold"
+                                    href="{% url 'pesan_masuk' %}"
+                                >
+                                    Hubungi Kami
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                </div>
+            </nav>
+        </div>
+
+        <!-- Hero -->
+        <section class="hero text-center">
+            <div class="container">
+
+                <span class="hero-label">
+                    WEBSITE RESMI ORGANISASI
+                </span>
+
+                <h1>
+                    {% if profil %}
+                        {{ profil }}
+                    {% else %}
+                        Pimpinan Cabang Muhammadiyah Grogol
+                    {% endif %}
+                </h1>
+
+                <p>
+                    Mengenal organisasi, sejarah, visi, misi, serta berbagai
+                    informasi kegiatan Pimpinan Cabang Muhammadiyah Grogol dalam
+                    satu platform digital.
+                </p>
+
+            </div>
+        </section>
+
+    </div>
+
+    <!-- SAMBUTAN KETUA
+         Variabel: ketua.nama, ketua.foto, ketua.sambutan -->
+            {% if ketua %}
+            <section class="section section-alt" id="sambutan">
+                <div class="container">
+                    <div class="row g-4 g-lg-5 align-items-center">
+
+                        <!-- Judul Sambutan (khusus HP) -->
+                        <div class="col-12 d-md-none">
+                            <h2 class="section-title-tanpajarak">
+                                Sambutan Ketua
+                            </h2>
+                        </div>
+
+                        <!-- Gambar Ketua -->
+                        <div class="col-md-5 col-lg-4">
+                            <figure class="ketua-figure">
+                                {% if ketua.foto %}
+                                    <img src="{{ ketua.foto.url }}" alt="Foto {{ ketua.nama }}" loading="lazy">
+                                {% else %}
+                                    <div class="ketua-placeholder" aria-hidden="true">
+                                        <i class="bi bi-person"></i>
+                                    </div>
+                                {% endif %}
+                                <figcaption>
+                                    <strong>{{ ketua.nama }}</strong>
+                                    <span>Ketua Pimpinan Cabang Muhammadiyah Grogol</span>
+                                </figcaption>
+                            </figure>
+                        </div>
+
+                        <!-- Isi Sambutan -->
+                        <div class="col-md-7 col-lg-8">
+                            <!-- Judul khusus desktop -->
+                            <h2 class="section-title-tanpajarak d-none d-md-block">
+                                Sambutan Ketua
+                            </h2>
+
+                            <div class="sambutan">
+                                {{ ketua.sambutan|linebreaks }}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+            {% endif %}
+
+    <!-- STATISTIK
+         Variabel: jumlah_ranting, jumlah_aisyiyah, jumlah_masjid, jumlah_amal_usaha-->
+    <section class="section" id="statistik">
+        <div class="container">
+            <div class="section-head">
+            <div>
+                <h2 class="section-title">Akumulasi Aset</h2>
+                <p class="section-sub">
+                    Aset yang dikelola oleh Pimpinan Cabang Muhammadiyah Grogol.
+                </p>
+            </div>
+            </div>
+            <div class="row g-3 g-lg-4">
+
+                <div class="col-6 col-lg-3">
+                    <div class="stat-card">
+                        <span class="stat-icon"><i class="bi bi-diagram-3" aria-hidden="true"></i></span>
+                        <div class="stat-number">{{ jumlah_ranting|default:0 }}</div>
+                        <div class="stat-label">Pimpinan Ranting</div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-lg-3">
+                    <div class="stat-card">
+                        <span class="stat-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
+                        <div class="stat-number">{{ jumlah_aisyiyah|default:0 }}</div>
+                        <div class="stat-label">Pimpinan Aisyiyah</div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-lg-3">
+                    <div class="stat-card">
+                        <span class="stat-icon"><i class="bi bi-moon-stars" aria-hidden="true"></i></span>
+                        <div class="stat-number">{{ jumlah_masjid|default:0 }}</div>
+                        <div class="stat-label">Masjid &amp; Mushola</div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-lg-3">
+                    <div class="stat-card">
+                        <span class="stat-icon"><i class="bi bi-buildings" aria-hidden="true"></i></span>
+                        <div class="stat-number">{{ jumlah_amal_usaha|default:0 }}</div>
+                        <div class="stat-label">Amal Usaha</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================================================================
+         BERITA TERBARU
+         Variabel: berita_terbaru (queryset model Berita)
+         Field: judul, gambar, tanggal, isi
+         ================================================================== -->
+    
+<section class="section section-alt" id="berita">
+    <div class="container">
+
+        <div class="section-head">
+            <div>
+                <h2 class="section-title">Berita Terbaru</h2>
+                <p class="section-sub">
+                    Informasi dan kabar terbaru dari Pimpinan Cabang Muhammadiyah Grogol.
+                </p>
+            </div>
+
+            <a class="section-more" href="{% url 'berita' %}">
+                Lihat semua berita
+            </a>
+        </div>
+
+        <div class="row g-4">
+            {% for b in berita_terbaru %}
+                <div class="col-md-6 col-lg-4">
+                    <article class="news-card">
+
+                        <a class="news-thumb"
+                           href="{% url 'detail_berita' pk=b.pk %}"
+                           tabindex="-1"
+                           aria-hidden="true">
+
+                            {% if b.gambar_sampul %}
+                                <img src="{{ b.gambar_sampul.url }}"
+                                     alt="{{ b.judul }}"
+                                     loading="lazy">
+                            {% else %}
+                                <span class="thumb-placeholder">
+                                    <i class="bi bi-newspaper"></i>
+                                </span>
+                            {% endif %}
+
+                        </a>
+
+                        <div class="news-body">
+
+                            <time class="news-date"
+                                  datetime="{{ b.tanggal_terbit|date:'Y-m-d' }}">
+                                {{ b.tanggal_terbit|date:"d F Y" }}
+                            </time>
+
+                            <h3 class="news-title">
+                                <a href="{% url 'detail_berita' pk=b.pk %}">
+                                    {{ b.judul }}
+                                </a>
+                            </h3>
+
+                            <p class="news-excerpt">
+                                {{ b.ringkasan|striptags|truncatewords:22 }}
+                            </p>
+
+                        </div>
+                    </article>
+                </div>
+
+            {% empty %}
+                <div class="col-12">
+                    <div class="empty-state text-center">
+                        <h3 class="h5 fw-bold mb-2">
+                            Belum Ada Berita
+                        </h3>
+                        <p class="mb-0">
+                            Berita terbaru akan tampil di sini setelah diterbitkan.
+                        </p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</section>
+
+    <!-- ==================================================================
+         GALERI KEGIATAN
+         Variabel: galeri (queryset), field: gambar, judul
+         Gambar pertama tampil besar, sisanya kotak kecil.
+         ================================================================== -->
+    <section class="section" id="galeri">
+        <div class="container">
+
+            <div class="section-head">
+                <div>
+                    <h2 class="section-title">Galeri Kegiatan</h2>
+                    <p class="section-sub">Dokumentasi kegiatan Pimpinan Cabang Muhammadiyah Grogol.</p>
+                </div>
+            </div>
+
+            <div class="galeri-grid">
+                {% for g in galeri %}
+                    {% if g.gambar %}
+                        <a class="galeri-item" href="{{ g.gambar.url }}" target="_blank" rel="noopener noreferrer">
+                            <img src="{{ g.gambar.url }}" alt="{{ g.judul|default:'Dokumentasi kegiatan' }}" loading="lazy">
+                            {% if g.judul %}
+                                <span class="galeri-cap">{{ g.judul }}</span>
+                            {% endif %}
+                        </a>
+                    {% endif %}
+                {% empty %}
+                    <div class="empty-state text-center galeri-empty">
+                        <h3 class="h5 fw-bold mb-2">Galeri Belum Tersedia</h3>
+                        <p class="mb-0">Foto kegiatan akan tampil di sini setelah ditambahkan.</p>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ==================================================================
+         AGENDA KEGIATAN
+         Variabel: agenda_list, field: judul, tanggal, waktu, lokasi
+         ================================================================== -->
+        <section class="section section-alt" id="agenda">
+            <div class="container">
+
+                <div class="section-head">
+                    <div>
+                        <h2 class="section-title">Agenda Kegiatan</h2>
+                        <p class="section-sub">Jadwal kegiatan Pimpinan Cabang Muhammadiyah Grogol.</p>
+                    </div>
+                    <a class="section-more" href="{% url 'agenda' %}">Lihat semua agenda</a>
+                </div>
+
+                <div class="agenda-grid">
+                    {% for a in agenda_list %}
+                        <article class="agenda-card">
+                            <div class="agenda-date">
+                                <span class="agenda-day">{{ a.waktu_mulai|date:"d" }}</span>
+                                <span class="agenda-month">{{ a.waktu_mulai|date:"M Y" }}</span>
+                            </div>
+
+                            <div class="agenda-content">
+                                <h3 class="agenda-title">{{ a.nama_kegiatan }}</h3>
+
+                                <div class="agenda-meta">
+                                    <span>
+                                        <i class="bi bi-clock" aria-hidden="true"></i>
+                                        {{ a.waktu_mulai|date:"H:i" }} WIB
+                                    </span>
+
+                                    <span>
+                                        <i class="bi bi-geo-alt" aria-hidden="true"></i>
+                                        {{ a.tempat }}
+                                    </span>
+                                </div>
+
+                                {% if a.keterangan %}
+                                    <p class="agenda-description">
+                                        {{ a.keterangan }}
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </article>
+                    {% empty %}
+                        <div class="empty-state text-center">
+                            <h3 class="h5 fw-bold mb-2">Belum Ada Agenda</h3>
+                            <p class="mb-0">Agenda kegiatan akan tampil di sini setelah ditambahkan.</p>
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </section>
+
+        
+        <!-- Panel Video Profil PCM -->
+        <section class="video-section" id="video-profil">
+            <div class="container">
+                <div class="video-panel">
+
+                    <video
+                        id="videoProfil"
+                        class="video-player"
+                        preload="none"
+                        playsinline>
+                        <source
+                            src="{% static 'videos/profil-pcm.mp4' %}"
+                            type="video/mp4">
+                        Browser Anda tidak mendukung pemutaran video.
+                    </video>
+
+                    <button
+                        type="button"
+                        class="video-play-btn"
+                        id="videoPlayBtn"
+                        aria-label="Putar video profil PCM">
+                        <i class="bi bi-play-fill" aria-hidden="true"></i>
+                    </button>
+
+                </div>
+            </div>
+        </section>
+        <!-- Akhir Panel Video Profil PCM -->
+
+    <!-- ==================================================================
+         PIMPINAN PCM (bisa digeser dengan tombol)
+         Variabel: pimpinan_list, field: nama, jabatan, foto
+         ================================================================== -->
+        <section class="section" id="pimpinan">
+            <div class="container">
+
+                <div class="section-head">
+                    <div>
+                        <h2 class="section-title">Pimpinan PCM</h2>
+                        <p class="section-sub">
+                            Susunan pimpinan Cabang Muhammadiyah Grogol periode ini.
+                        </p>
+                    </div>
+                <div class="slider-controls">
+                    <button type="button" class="slider-btn" data-slider-btn data-target="#pimpinanTrack" data-dir="-1" aria-label="Geser ke kiri">
+                        <i class="bi bi-chevron-left" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" class="slider-btn" data-slider-btn data-target="#pimpinanTrack" data-dir="1" aria-label="Geser ke kanan">
+                        <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="slider-track" id="pimpinanTrack" tabindex="0" aria-label="Daftar pimpinan">
+                {% for p in pimpinan_list %}
+                    <article class="person-card">
+                        <div class="person-photo">
+                            {% if p.foto %}
+                                <img src="{{ p.foto.url }}" alt="Foto {{ p.nama }}" loading="lazy">
+                            {% else %}
+                                <i class="bi bi-person" aria-hidden="true"></i>
+                            {% endif %}
+                        </div>
+                        <h3 class="person-name">{{ p.nama }}</h3>
+                        <p class="person-role">{{ p.jabatan }}</p>
+                    </article>
+                {% empty %}
+                    <div class="empty-state text-center w-100">
+                        <h3 class="h5 fw-bold mb-2">Data Pimpinan Belum Tersedia</h3>
+                        <p class="mb-0">Susunan pimpinan akan tampil di sini setelah ditambahkan.</p>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ==================================================================
+         KONTEN PROFIL (HTML lama, dipertahankan)
+         ================================================================== -->
+        <section class="section section-alt" id="profil">
+            <div class="container main-content">
+
+            <section class="profile-card">
+
+                <div class="mb-4">
+                    <div class="section-label mb-2">
+                        Tentang Organisasi
+                    </div>
+
+                    <h2 class="section-heading h3 mb-2">
+                        Profil Organisasi
+                    </h2>
+
+                    <p class="text-secondary mb-0">
+                        Informasi mengenai identitas dan profil organisasi.
+                    </p>
+                </div>
+
+                <hr class="border-secondary opacity-10 mb-2">
+
+                {% if profil %}
+
+                    {% for field in detail_profil %}
+
+                        <div class="profile-field">
+
+                            <h3 class="field-title">
+                                {{ field.label|capfirst }}
+                            </h3>
+
+                            {% if field.jenis == "gambar" %}
+
+                            {% if field.url_file %}
+                                <a
+                                    href="{{ field.url_file }}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label="Buka gambar {{ field.label }}"
+                                >
+                                    <img
+                                        src="{{ field.url_file }}"
+                                        alt="{{ field.label }}"
+                                        class="profile-image"
+                                        loading="lazy"
+                                    >
+                                </a>
+
+                                <div class="d-flex justify-content-end mt-3">
+                                    <a
+                                        href="{{ field.url_file }}"
+                                        download
+                                        class="file-link"
+                                    >
+                                        <span aria-hidden="true">↓</span>
+                                        Unduh gambar {{ field.label }}
+                                    </a>
+                                </div>
+                            {% else %}
+                                <p class="field-value">
+                                    Gambar belum tersedia.
+                                </p>
+                            {% endif %}
+
+                            {% elif field.jenis == "file" %}
+
+                                {% if field.url_file %}
+                                    <a
+                                        href="{{ field.url_file }}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="file-link"
+                                    >
+                                        <span aria-hidden="true">↗</span>
+                                        Buka atau unduh {{ field.label }}
+                                    </a>
+                                {% else %}
+                                    <p class="field-value">
+                                        Dokumen belum tersedia.
+                                    </p>
+                                {% endif %}
+
+                            {% else %}
+
+                                <p class="field-value">{{ field.nilai }}</p>
+
+                            {% endif %}
+
+                        </div>
+
+                    {% empty %}
+
+                        <div class="empty-state text-center">
+                            <h3 class="h5 fw-bold mb-2">
+                                Informasi Belum Tersedia
+                            </h3>
+                            <p class="mb-0">
+                                Data profil organisasi belum ditambahkan.
+                            </p>
+                        </div>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <div class="empty-state text-center">
+                        <h3 class="h5 fw-bold mb-2">
+                            Selamat Datang
+                        </h3>
+                        <p class="mb-0">
+                            Informasi profil Pimpinan Cabang Muhammadiyah Grogol
+                            akan ditampilkan di halaman ini.
+                        </p>
+                    </div>
+
+                {% endif %}
+
+            </section>
+        </div>
+</section>
+
+    <!-- Footer -->
+    <footer class="site-footer py-4">
+        <div class="container">
+
+            <div class="d-flex flex-column flex-md-row
+                        justify-content-between align-items-md-center gap-3">
+
+                <div>
+                    <div class="footer-brand mb-1">
+                        Pimpinan Cabang Muhammadiyah Grogol
+                    </div>
+                    <div class="footer-muted">
+                        Media informasi dan profil organisasi.
+                    </div>
+                </div>
+
+                <div class="footer-muted">
+                    &copy; {% now "Y" %} PCM. Hak cipta dilindungi.
+                </div>
+
+            </div>
+
+        </div>
+    </footer>
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js">
+    </script>
+    <script src="{% static 'core/main.js' %}" defer></script>
+</body>
+</html>
