@@ -1,154 +1,13 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends 'core/components/base.html' %}
+{% block title %}{{ item }} | Detail Agenda PCM{% endblock %}
+{% block topbar %} {% include 'core/components/topbar.html' %} {% endblock %}
+{% block navbar %} {% include 'core/components/navbar.html' %} {% endblock %}
+{% block hero %}
+    {% include 'core/components/hero.html' with hero_label="INFORMASI KEGIATAN" hero_title="DETAIL AGENDA" hero_description="Informasi agenda kegiatan Pimpinan Cabang Muhammadiyah." %}
+{% endblock %}
 
-    <title>{{ item }} | Detail Agenda PCM</title>
-
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-    >
-
-    <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
-    >
-
-    <link rel="stylesheet" href="{% static 'core/style.css' %}">
-</head>
-
-<body>
-
-    <div class="masthead">
-
-        <nav class="nav-wrap">
-            <div class="container">
-
-                <div class="nav-panel navbar navbar-expand-xl">
-
-                    <a
-                        class="navbar-brand d-flex align-items-center gap-3"
-                        href="{% url 'home' %}"
-                    >
-                        <span class="brand-icon">PCM</span>
-
-                        <span class="d-flex flex-column">
-                            <span>Muhammadiyah</span>
-                            <small class="text-secondary fw-normal">
-                                Pimpinan Cabang
-                            </small>
-                        </span>
-                    </a>
-
-                    <button
-                        class="navbar-toggler border-0 shadow-none"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#navbarPCM"
-                        aria-controls="navbarPCM"
-                        aria-expanded="false"
-                        aria-label="Buka navigasi"
-                    >
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbarPCM">
-                        <ul class="navbar-nav ms-auto align-items-xl-center">
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'home' %}">
-                                    Beranda
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'pimpinan' %}">
-                                    Pimpinan
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'ranting' %}">
-                                    Ranting
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'amal_usaha' %}">
-                                    Amal Usaha
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'berita' %}">
-                                    Berita
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a
-                                    class="nav-link active"
-                                    aria-current="page"
-                                    href="{% url 'agenda' %}"
-                                >
-                                    Agenda
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'dokumen' %}">
-                                    Dokumen
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'tautan' %}">
-                                    Tautan
-                                </a>
-                            </li>
-
-                            <li class="nav-item ms-xl-2">
-                                <a
-                                    class="btn btn-success rounded-pill px-3"
-                                    href="{% url 'pesan_masuk' %}"
-                                >
-                                    Hubungi Kami
-                                </a>
-                            </li>
-
-                        </ul>
-                    </div>
-
-                </div>
-
-            </div>
-        </nav>
-
-        <header class="hero text-center">
-            <div class="container">
-
-                <span class="hero-label">
-                    INFORMASI KEGIATAN
-                </span>
-
-                <h1>DETAIL AGENDA</h1>
-
-                <p>
-                    Informasi agenda kegiatan
-                    Pimpinan Cabang Muhammadiyah.
-                </p>
-
-            </div>
-        </header>
-
-    </div>
-
-    <main class="main-content">
-
-        <section class="section section-alt">
+{% block content %}
+<section class="section section-alt">
             <div class="container">
 
                 <div class="row g-4">
@@ -237,44 +96,9 @@
                             >
                                 Kembali ke Beranda
                             </a>
-
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
         </section>
-
-    </main>
-
-    <footer class="site-footer py-4">
-        <div class="container">
-
-            <div class="d-flex flex-column flex-md-row
-                        justify-content-between align-items-md-center gap-3">
-
-                <div>
-                    <div class="footer-brand mb-1">
-                        Pimpinan Cabang Muhammadiyah
-                    </div>
-
-                    <div class="footer-muted">
-                        Media informasi dan profil organisasi.
-                    </div>
-                </div>
-
-                <div class="footer-muted">
-                    &copy; {% now "Y" %} PCM. Hak cipta dilindungi.
-                </div>
-
-            </div>
-
-        </div>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-
-</body>
-</html>
+{% endblock %}
