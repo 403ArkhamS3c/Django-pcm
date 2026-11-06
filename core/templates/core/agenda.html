@@ -1,320 +1,126 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends 'core/components/base.html' %}
+{% block title %}Agenda PCM{% endblock %}
+{% block topbar %} {% include 'core/components/topbar.html' %} {% endblock %}
+{% block navbar %} {% include 'core/components/navbar.html' %} {% endblock %}
+{% block hero %}
+    {% include 'core/components/hero.html' with hero_label="KEGIATAN ORGANISASI" hero_title="Agenda PCM" hero_description="Informasi jadwal kegiatan, pertemuan, dan agenda Pimpinan Cabang Muhammadiyah." %}
+{% endblock %}
 
-    <title>Agenda PCM</title>
+{% block content %}
+<section class="section section-alt" id="agenda">
+    <div class="container">
 
-    <!-- Bootstrap CSS -->
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-    >
-
-    <!-- Bootstrap Icons -->
-    <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
-    >
-
-    <!-- CSS Utama -->
-    <link rel="stylesheet" href="{% static 'core/style.css' %}">
-</head>
-
-<body>
-
-    <!-- Masthead -->
-    <div class="masthead">
-
-        <!-- Navbar -->
-        <nav class="nav-wrap">
-            <div class="container">
-
-                <div class="nav-panel navbar navbar-expand-xl">
-
-                    <a
-                        class="navbar-brand d-flex align-items-center gap-3"
-                        href="{% url 'home' %}"
-                    >
-                        <span class="brand-icon">PCM</span>
-
-                        <span class="d-flex flex-column">
-                            <span>Muhammadiyah</span>
-                            <small class="text-secondary fw-normal">
-                                Pimpinan Cabang
-                            </small>
-                        </span>
-                    </a>
-
-                    <button
-                        class="navbar-toggler border-0 shadow-none"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#navbarPCM"
-                        aria-controls="navbarPCM"
-                        aria-expanded="false"
-                        aria-label="Buka navigasi"
-                    >
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbarPCM">
-
-                        <ul class="navbar-nav ms-auto align-items-xl-center">
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'home' %}">
-                                    Beranda
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'pimpinan' %}">
-                                    Pimpinan
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'ranting' %}">
-                                    Ranting
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'amal_usaha' %}">
-                                    Amal Usaha
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'berita' %}">
-                                    Berita
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a
-                                    class="nav-link active"
-                                    aria-current="page"
-                                    href="{% url 'agenda' %}"
-                                >
-                                    Agenda
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'dokumen' %}">
-                                    Dokumen
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'tautan' %}">
-                                    Tautan
-                                </a>
-                            </li>
-
-                            <li class="nav-item ms-xl-2">
-                                <a
-                                    class="btn btn-success rounded-pill px-3"
-                                    href="{% url 'pesan_masuk' %}"
-                                >
-                                    Hubungi Kami
-                                </a>
-                            </li>
-
-                        </ul>
-
-                    </div>
-
-                </div>
-
-            </div>
-        </nav>
-
-
-        <!-- Hero -->
-        <header class="hero text-center">
-
-            <div class="container">
-
-                <span class="hero-label">
-                    KEGIATAN ORGANISASI
+        <!-- Judul Section -->
+        <div class="section-head">
+            <div>
+                <span class="section-label">
+                    Kegiatan Organisasi
                 </span>
 
-                <h1>Agenda PCM</h1>
+                <h2 class="section-heading h3 mt-3 mb-2">
+                    Daftar Agenda
+                </h2>
 
-                <p>
-                    Informasi jadwal kegiatan, pertemuan, dan agenda
+                <p class="text-secondary mb-0">
+                    Jadwal kegiatan, pertemuan, dan aktivitas
                     Pimpinan Cabang Muhammadiyah.
+                </p>
+            </div>
+        </div>
+
+        <hr>
+
+
+        <!-- Daftar Agenda -->
+        {% if daftar %}
+
+            <div class="agenda-grid">
+
+                {% for entri in daftar|slice:":6" %}
+
+                    <article class="agenda-card">
+
+                        <!-- Tanggal Agenda -->
+                        <div class="agenda-date">
+
+                            <span class="agenda-day">
+                                {{ entri.objek.waktu_mulai|date:"d" }}
+                            </span>
+
+                            <span class="agenda-month">
+                                {{ entri.objek.waktu_mulai|date:"M Y" }}
+                            </span>
+
+                        </div>
+
+
+                        <!-- Informasi Agenda -->
+                        <div class="agenda-content">
+
+                            <span class="agenda-category">
+                                AGENDA PCM
+                            </span>
+
+                            <h3 class="agenda-title">
+                                {{ entri.objek.nama_kegiatan }}
+                            </h3>
+
+                            <div class="agenda-meta">
+
+                                <span>
+                                    <i class="bi bi-clock" aria-hidden="true"></i>
+                                    {{ entri.objek.waktu_mulai|date:"H:i" }} WIB
+                                </span>
+
+                                <span>
+                                    <i class="bi bi-geo-alt" aria-hidden="true"></i>
+                                    {{ entri.objek.tempat }}
+                                </span>
+
+                            </div>
+
+                            {% if entri.objek.keterangan %}
+                                <p class="agenda-description">
+                                    {{ entri.objek.keterangan|truncatewords:30 }}
+                                </p>
+                            {% endif %}
+
+                            <a
+                                class="agenda-link"
+                                href="{% url 'detail_agenda' entri.objek.pk %}"
+                            >
+                                Lihat detail
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+
+                        </div>
+
+                    </article>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <!-- Kondisi Agenda Kosong -->
+            <div class="empty-state text-center">
+
+                <i class="bi bi-calendar-event fs-1"></i>
+
+                <h3 class="h5 fw-bold mb-2">
+                    Belum Ada Agenda
+                </h3>
+
+                <p class="mb-0">
+                    Belum ada agenda kegiatan yang tersedia.
+                    Silakan kunjungi kembali halaman ini nanti.
                 </p>
 
             </div>
 
-        </header>
+        {% endif %}
 
     </div>
-    <!-- Akhir Masthead -->
-
-
-    <!-- Konten Utama -->
-    <main class="main-content">
-
-        <section class="section section-alt" id="agenda">
-            <div class="container">
-
-                <!-- Judul Section -->
-                <div class="section-head">
-                    <div>
-                        <span class="section-label">
-                            Kegiatan Organisasi
-                        </span>
-
-                        <h2 class="section-heading h3 mt-3 mb-2">
-                            Daftar Agenda
-                        </h2>
-
-                        <p class="text-secondary mb-0">
-                            Jadwal kegiatan, pertemuan, dan aktivitas
-                            Pimpinan Cabang Muhammadiyah.
-                        </p>
-                    </div>
-                </div>
-
-                <hr>
-
-
-                <!-- Daftar Agenda -->
-                {% if daftar %}
-
-                    <div class="agenda-grid">
-
-                        {% for entri in daftar|slice:":6" %}
-
-                            <article class="agenda-card">
-
-                                <!-- Tanggal Agenda -->
-                                <div class="agenda-date">
-
-                                    <span class="agenda-day">
-                                        {{ entri.objek.waktu_mulai|date:"d" }}
-                                    </span>
-
-                                    <span class="agenda-month">
-                                        {{ entri.objek.waktu_mulai|date:"M Y" }}
-                                    </span>
-
-                                </div>
-
-
-                                <!-- Informasi Agenda -->
-                                <div class="agenda-content">
-
-                                    <span class="agenda-category">
-                                        AGENDA PCM
-                                    </span>
-
-                                    <h3 class="agenda-title">
-                                        {{ entri.objek.nama_kegiatan }}
-                                    </h3>
-
-                                    <div class="agenda-meta">
-
-                                        <span>
-                                            <i class="bi bi-clock" aria-hidden="true"></i>
-                                            {{ entri.objek.waktu_mulai|date:"H:i" }} WIB
-                                        </span>
-
-                                        <span>
-                                            <i class="bi bi-geo-alt" aria-hidden="true"></i>
-                                            {{ entri.objek.tempat }}
-                                        </span>
-
-                                    </div>
-
-                                    {% if entri.objek.keterangan %}
-                                        <p class="agenda-description">
-                                            {{ entri.objek.keterangan|truncatewords:30 }}
-                                        </p>
-                                    {% endif %}
-
-                                    <a
-                                        class="agenda-link"
-                                        href="{% url 'detail_agenda' entri.objek.pk %}"
-                                    >
-                                        Lihat detail
-                                        <i class="bi bi-arrow-right"></i>
-                                    </a>
-
-                                </div>
-
-                            </article>
-
-                        {% endfor %}
-
-                    </div>
-
-                {% else %}
-
-                    <!-- Kondisi Agenda Kosong -->
-                    <div class="empty-state text-center">
-
-                        <i class="bi bi-calendar-event fs-1"></i>
-
-                        <h3 class="h5 fw-bold mb-2">
-                            Belum Ada Agenda
-                        </h3>
-
-                        <p class="mb-0">
-                            Belum ada agenda kegiatan yang tersedia.
-                            Silakan kunjungi kembali halaman ini nanti.
-                        </p>
-
-                    </div>
-
-                {% endif %}
-
-            </div>
-        </section>
-
-    </main>
-
-
-    <!-- Footer -->
-    <footer class="site-footer py-4">
-
-        <div class="container">
-
-            <div class="d-flex flex-column flex-md-row
-                        justify-content-between align-items-md-center gap-3">
-
-                <div>
-
-                    <div class="footer-brand mb-1">
-                        Pimpinan Cabang Muhammadiyah
-                    </div>
-
-                    <div class="footer-muted">
-                        Media informasi dan profil organisasi.
-                    </div>
-
-                </div>
-
-                <div class="footer-muted">
-                    &copy; {% now "Y" %} PCM. Hak cipta dilindungi.
-                </div>
-
-            </div>
-
-        </div>
-
-    </footer>
-
-
-    <!-- Bootstrap JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-
-</body>
-</html>
+</section>
+{% endblock %}
