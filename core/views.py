@@ -54,7 +54,7 @@ def home(request):
             "ketua": ketua,
             "galeri": galeri,
             "agenda_list":agenda_list,
-            "pimpinan_list": pimpinan_list,
+            "pimpinan_list": pimpinan_list,  
         },
     )
 
