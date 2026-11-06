@@ -1,0 +1,78 @@
+{% load static %}
+<div class="container nav-wrap">
+    <nav class="navbar navbar-expand-xl nav-panel">
+        <div class="container-fluid px-2 px-xl-3 py-1">
+
+            <a class="navbar-brand d-flex align-items-center gap-3" href="/">
+                <span class="brand-icon">
+                    <img src="{% static 'images/logo.png' %}" alt="Logo PCM Grogol" class="brand-logo">
+                </span>
+
+                <span class="d-flex flex-column">
+                    <span>
+                        Pimpinan Cabang
+                    </span>
+                    <small class="text-secondary fw-normal">
+                        Muhammadiyah Grogol
+                    </small>
+                </span>
+            </a>
+
+            <button
+                class="navbar-toggler border-0 shadow-none"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarPCM"
+                aria-controls="navbarPCM"
+                aria-expanded="false"
+                aria-label="Buka navigasi"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarPCM">
+                <ul class="navbar-nav ms-auto align-items-xl-center gap-xl-1 py-3 py-xl-0">
+
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" {% if request.resolver_match.url_name == 'home' %}aria-current="page"{% endif %} href="{% url 'home' %}">Beranda</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'pimpinan' %}active{% endif %}" {% if request.resolver_match.url_name == 'pimpinan' %}aria-current="page"{% endif %} href="{% url 'pimpinan' %}">Pimpinan</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'ranting' %}active{% endif %}" {% if request.resolver_match.url_name == 'ranting' %}aria-current="page"{% endif %} href="{% url 'ranting' %}">Ranting</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'amal_usaha' %}active{% endif %}" {% if request.resolver_match.url_name == 'amal_usaha' %}aria-current="page"{% endif %} href="{% url 'amal_usaha' %}">Amal Usaha</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'berita' %}active{% endif %}" {% if request.resolver_match.url_name == 'berita' %}aria-current="page"{% endif %} href="{% url 'berita' %}">Berita</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'agenda' %}active{% endif %}" {% if request.resolver_match.url_name == 'agenda' %}aria-current="page"{% endif %} href="{% url 'agenda' %}">Agenda</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'dokumen' %}active{% endif %}" {% if request.resolver_match.url_name == 'dokumen' %}aria-current="page"{% endif %} href="{% url 'dokumen' %}">Dokumen</a>
+                    </li>
+
+                    <li class="nav-item mt-2 mt-xl-0 ms-xl-2">
+                        <a
+                            class="btn btn-success rounded-pill px-3 py-2 fw-semibold"
+                            href="{% url 'pesan_masuk' %}"
+                        >
+                            Hubungi Kami
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+
+        </div>
+    </nav>
+</div>
