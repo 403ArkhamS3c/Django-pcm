@@ -1243,6 +1243,69 @@ main.container {
         grid-template-columns: 1fr;
         gap: 0.25rem;
     }
+        /* Mengubah layout menjadi alur teks biasa */
+    #sambutan .row {
+        display: block;
+    }
+
+    /* Foto berada di kiri atas */
+    #sambutan .row > .col-md-5 {
+        float: left;
+        width: 125px;
+        padding: 0;
+        margin: 0 15px 8px 0;
+    }
+
+    /* Ukuran foto */
+    #sambutan .ketua-figure {
+        width: 100%;
+        max-width: 125px;
+        margin: 0;
+    }
+
+    #sambutan .ketua-figure img,
+    #sambutan .ketua-placeholder {
+        width: 125px;
+        height: 125px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    /* Nama dan jabatan ketua */
+    #sambutan .ketua-figure figcaption {
+        margin-top: 5px;
+        font-size: 0.7rem;
+        line-height: 1.4;
+    }
+
+    #sambutan .ketua-figure figcaption strong {
+        display: block;
+        font-size: 0.75rem;
+    }
+
+    #sambutan .ketua-figure figcaption span {
+        display: block;
+    }
+
+    /* Kolom isi sambutan */
+    #sambutan .row > .col-md-7 {
+        width: auto;
+        padding: 0;
+    }
+
+    #sambutan .sambutan {
+        text-align: justify;
+        line-height: 1.7;
+        font-size: 1rem;
+    }
+
+    #sambutan .sambutan p {
+       text-align: justify;
+        line-height: 1.7;
+        margin-bottom: 1rem;
+    }
+
+
 }
 
 @media (max-width: 575.98px) {
