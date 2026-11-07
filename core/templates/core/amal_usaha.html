@@ -1,5 +1,5 @@
 {% extends 'core/components/base.html' %}
-{% block title %}>Amal Usaha Muhammadiyah | PCM{% endblock %}
+{% block title %}Amal Usaha Muhammadiyah | PCM{% endblock %}
 {% block topbar %} {% include 'core/components/topbar.html' %} {% endblock %}
 {% block navbar %} {% include 'core/components/navbar.html' %} {% endblock %}
 {% block hero %}
@@ -135,56 +135,7 @@
 
             {% endfor %}
         </div>
-            <!-- Navigasi Data Amal Usaha -->
-                                <!-- Navigasi Data Amal Usaha -->
-        {% if ada_previous or ada_next %}
-
-            <div class="d-flex justify-content-center align-items-center gap-3 mt-4">
-
-                {% if ada_previous %}
-                    <a
-                        href="?page={{ halaman|add:'-1' }}#amal-usaha"
-                        class="btn btn-outline-success rounded-pill px-4"
-                    >
-                        <i class="bi bi-chevron-left"></i>
-                        Sebelumnya
-                    </a>
-                {% else %}
-                    <button
-                        type="button"
-                        class="btn btn-outline-success rounded-pill px-4"
-                        disabled
-                    >
-                        <i class="bi bi-chevron-left"></i>
-                        Sebelumnya
-                    </button>
-                {% endif %}
-
-                <span class="fw-semibold">
-                    Halaman {{ halaman }}
-                </span>
-
-                {% if ada_next %}
-                    <a
-                        href="?page={{ halaman|add:'1' }}#amal-usaha"
-                        class="btn btn-success rounded-pill px-4"
-                    >
-                        Selanjutnya
-                        <i class="bi bi-chevron-right"></i>
-                    </a>
-                {% else %}
-                    <button
-                        type="button"
-                        class="btn btn-success rounded-pill px-4"
-                        disabled
-                    >
-                        Selanjutnya
-                        <i class="bi bi-chevron-right"></i>
-                    </button>
-                {% endif %}
-
-            </div>
-
-        {% endif %}
+        <!-- PAGINATION BERITA -->
+        {% include "core/components/pagination.html" %}
 </section>
 {% endblock %}

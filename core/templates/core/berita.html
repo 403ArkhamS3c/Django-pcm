@@ -103,7 +103,6 @@
 
                     </div>
 
-
                     <!-- SISI KANAN: BERITA BERIKUTNYA SECARA VERTIKAL -->
                     {% if daftar|length > 4 %}
 
@@ -183,12 +182,13 @@
                                 {% endfor %}
 
                             </div>
-
+                        
                         </div>
 
                     {% endif %}
-
                 </div>
+            <!-- PAGINATION BERITA -->
+            {% include "core/components/pagination.html" %}
 
             {% else %}
 
@@ -208,8 +208,7 @@
 
                 </div>
 
-            {% endif %}
-
+            {% endif %} 
     </div>
 </section>
 {% endblock %}

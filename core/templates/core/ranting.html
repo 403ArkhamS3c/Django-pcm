@@ -154,55 +154,9 @@
                         </div>
 
                     {% endfor %}
-                    <!-- Navigasi Data Ranting -->
-                    {% if ada_previous or ada_next %}
-
-                    <div class="d-flex justify-content-between align-items-center mt-4">
-
-                        <div>
-                            {% if ada_previous %}
-                                <a
-                                    href="?page={{ halaman|add:'-1' }}#ranting"
-                                    class="btn btn-outline-success px-4"
-                                >
-                                    <i class="bi bi-arrow-left me-2"></i>
-                                    Previous
-                                </a>
-                            {% else %}
-                                <button class="btn btn-outline-success px-4" disabled>
-                                    <i class="bi bi-arrow-left me-2"></i>
-                                    Previous
-                                </button>
-                            {% endif %}
-                        </div>
-
-                        <span class="text-muted small">
-                            Halaman {{ halaman }}
-                        </span>
-
-                        <div>
-                            {% if ada_next %}
-                                <a
-                                    href="?page={{ halaman|add:'1' }}#ranting"
-                                    class="btn btn-success px-4"
-                                >
-                                    Next
-                                    <i class="bi bi-arrow-right ms-2"></i>
-                                </a>
-                            {% else %}
-                                <button class="btn btn-success px-4" disabled>
-                                    Next
-                                    <i class="bi bi-arrow-right ms-2"></i>
-                                </button>
-                            {% endif %}
-                        </div>
-
-                    </div>
-
-                    {% endif %}
-
+                    <!-- PAGINATION BERITA -->
+                    {% include "core/components/pagination.html" %}
                 </div>
-
             </div>
         </section>
 {% endblock %}
