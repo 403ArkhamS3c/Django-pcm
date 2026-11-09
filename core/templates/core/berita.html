@@ -67,7 +67,7 @@
                                             </span>
 
                                             <h3>
-                                                <a href="{% url 'detail_berita' entri.objek.pk %}">
+                                                <a href="{% url 'detail_berita' slug=entri.objek.slug %}">
                                                     {{ entri.objek.judul }}
                                                 </a>
                                             </h3>
@@ -83,7 +83,7 @@
 
                                             <a
                                                 class="read-more"
-                                                href="{% url 'detail_berita' entri.objek.pk %}"
+                                                href="{% url 'detail_berita' slug=entri.objek.slug %}"
                                             >
                                                 Baca selengkapnya
                                                 <i class="bi bi-arrow-right"></i>
@@ -151,7 +151,7 @@
                                                 <div class="news-card-body">
 
                                                     <h3 class="h6">
-                                                        <a href="{% url 'detail_berita' entri.objek.pk %}">
+                                                        <a href="{% url 'detail_berita' slug=entri.objek.slug %}">
                                                             {{ entri.objek.judul }}
                                                         </a>
                                                     </h3>
@@ -163,7 +163,7 @@
 
                                                     <a
                                                         class="read-more"
-                                                        href="{% url 'detail_berita' entri.objek.pk %}"
+                                                        href="{% url 'detail_berita' slug=entri.objek.slug %}"
                                                     >
                                                         Baca selengkapnya
                                                         <i class="bi bi-arrow-right"></i>

@@ -130,7 +130,7 @@
                     <article class="news-card">
 
                         <a class="news-thumb"
-                           href="{% url 'detail_berita' pk=b.pk %}"
+                           href="{% url 'detail_berita' slug=b.slug %}"
                            tabindex="-1"
                            aria-hidden="true">
 
@@ -154,7 +154,7 @@
                             </time>
 
                             <h3 class="news-title">
-                                <a href="{% url 'detail_berita' pk=b.pk %}">
+                                <a href="{% url 'detail_berita' slug=b.slug %}">
                                     {{ b.judul }}
                                 </a>
                             </h3>

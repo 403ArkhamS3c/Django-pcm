@@ -20,8 +20,6 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from core import views
-from django.conf import settings
-from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,7 +31,7 @@ urlpatterns = [
     path("berita/", views.daftar_berita, name="berita"),
     path("agenda/", views.daftar_agenda, name="agenda"),
     path("dokumen/", views.daftar_dokumen, name="dokumen"),
-    path("berita/<int:pk>/", views.detail_berita, name="detail_berita"),
+    path("berita/<slug:slug>/", views.detail_berita, name="detail_berita"),
     path("agenda/<int:pk>/", views.detail_agenda, name="detail_agenda"),
     path("pesan-masuk/", views.pesan_masuk, name="pesan_masuk"),
     path("tautan/", views.daftar_tautan, name="tautan"),

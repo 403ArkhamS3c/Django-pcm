@@ -237,10 +237,10 @@ def daftar_dokumen(request):
         },
     )
 
-def detail_berita(request, pk):
+def detail_berita(request, slug):
     item = get_object_or_404(
         konten_publik(Berita),
-        pk=pk,
+        slug=slug,
     )
 
     detail = data_tampilan(item)
