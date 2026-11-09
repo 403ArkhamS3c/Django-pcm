@@ -189,7 +189,6 @@ img { max-width: 100%; }
 .navbar-toggler:focus-visible { outline: 3px solid var(--gold-500); }
 
 /* ---------- Navbar: Dropdown Organisasi ---------- */
-/* Dropdown container */
 .nav-panel .dropdown-menu {
     min-width: 225px;
     margin-top: 0.85rem;
@@ -206,20 +205,18 @@ img { max-width: 100%; }
 }
 
 /* Animasi ketika dropdown dibuka */
-.nav-panel .dropdown-menu.show {
-    animation: dropdown-enter 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+.nav-panel .dropdown-menu {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.97);
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes dropdown-enter {
-    from {
-        opacity: 0;
-        transform: translateY(-10px) scale(0.97);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
+/* Dropdown terbuka */
+.nav-panel .dropdown-menu.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
 }
 
 /* Dropdown item */
@@ -345,6 +342,83 @@ img { max-width: 100%; }
 .nav-panel .nav-link.dropdown-toggle:hover::before,
 .nav-panel .nav-link.dropdown-toggle.active::before {
     transform: scaleX(1);
+}
+
+/* ---------- Global Page Loading ---------- */
+.page-loading {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(30, 30, 30, 0.45);
+    backdrop-filter: blur(3px);
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+        opacity 0.25s ease,
+        visibility 0.25s ease;
+}
+
+/* Ketika loading aktif */
+.page-loading.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+}
+
+/* Konten loading */
+.loading-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.loading-logo {
+    width: 65px;
+    height: 65px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: logo-spin 1.8s linear infinite;
+}
+
+.loading-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+@keyframes logo-spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Judul */
+.loading-title {
+    margin: 1.2rem 0 0.3rem;
+
+    color: var(--green-900);
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+/* Deskripsi */
+.loading-description {
+    color: #777;
+    font-size: 0.85rem;
 }
 
 /* ---------- Hero ---------- */
@@ -1552,4 +1626,9 @@ main.container {
     .nav-panel .dropdown-toggle::after {
         transition: none;
     }
+
+    .loading-logo {
+        animation: none;
+    }
+
 }

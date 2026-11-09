@@ -21,7 +21,24 @@
 </head>
 
 <body>
+    <!-- Loading page -->
+    <div id="page-loading" class="page-loading" aria-hidden="true">
+        <div class="loading-content">
 
+            <div class="loading-logo">
+                <img
+                    src="{% static 'images/logo.png' %}"
+                    alt="Logo PCM Grogol"
+                >
+            </div>
+
+            <p class="loading-title">Memuat halaman</p>
+            <span class="loading-description">
+                Mohon tunggu sebentar...
+            </span>
+
+        </div>
+    </div>
     <div class="masthead" style="--hero-image: url('{% static 'images/background.jpg' %}');">
 
         {% include 'core/components/topbar.html' %}
@@ -41,6 +58,7 @@
     </script>
 
     <script src="{% static 'core/main.js' %}" defer></script>
+    <script src="{% static 'core/loading.js' %}" defer></script>
 
 </body>
 </html>
