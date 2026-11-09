@@ -33,7 +33,7 @@ urlpatterns = [
     path("dokumen/", views.daftar_dokumen, name="dokumen"),
     path("berita/<slug:slug>/", views.detail_berita, name="detail_berita"),
     path("agenda/<int:pk>/", views.detail_agenda, name="detail_agenda"),
-    path("pesan-masuk/", views.pesan_masuk, name="pesan_masuk"),
+    path("kontak/", views.pesan_masuk, name="pesan_masuk"),
     path("tautan/", views.daftar_tautan, name="tautan"),
 ]
 
