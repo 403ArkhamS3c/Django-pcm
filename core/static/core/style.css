@@ -188,6 +188,165 @@ img { max-width: 100%; }
 
 .navbar-toggler:focus-visible { outline: 3px solid var(--gold-500); }
 
+/* ---------- Navbar: Dropdown Organisasi ---------- */
+/* Dropdown container */
+.nav-panel .dropdown-menu {
+    min-width: 225px;
+    margin-top: 0.85rem;
+    padding: 0.55rem;
+    background: var(--white);
+    border: 1px solid rgba(227, 167, 47, 0.35);
+    border-radius: 16px;
+
+    box-shadow:
+        0 16px 40px rgba(6, 61, 39, 0.13),
+        0 4px 12px rgba(6, 61, 39, 0.05);
+
+    transform-origin: top center;
+}
+
+/* Animasi ketika dropdown dibuka */
+.nav-panel .dropdown-menu.show {
+    animation: dropdown-enter 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes dropdown-enter {
+    from {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Dropdown item */
+.nav-panel .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 0.7rem 0.75rem;
+    margin-bottom: 2px;
+
+    color: var(--ink);
+    background: transparent;
+    border-radius: 11px;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+/* Icon */
+.nav-panel .dropdown-item i {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+
+    border-radius: 10px;
+    background: rgba(6, 61, 39, 0.07);
+
+    color: var(--green-700);
+    font-size: 1.05rem;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+/* Hover */
+.nav-panel .dropdown-item:hover,
+.nav-panel .dropdown-item:focus-visible {
+    color: var(--green-900);
+    background: rgba(227, 167, 47, 0.10);
+    transform: translateX(4px);
+}
+
+.nav-panel .dropdown-item:hover i {
+    color: var(--white);
+    background: var(--green-700);
+    transform: scale(1.05);
+}
+
+/* Active item */
+.nav-panel .dropdown-item.active {
+    color: var(--green-900);
+    background: rgba(227, 167, 47, 0.15);
+}
+
+.nav-panel .dropdown-item.active i {
+    color: var(--white);
+    background: var(--green-700);
+}
+
+/* Hilangkan garis bawah bawaan pada dropdown item */
+.nav-panel .dropdown-item::after {
+    display: none;
+}
+
+/* Dropdown caret
+   Reset pseudo-element dari style nav-link */
+.nav-panel .nav-link.dropdown-toggle::after {
+    position: static;
+    display: inline-block;
+
+    width: 0;
+    height: 0;
+
+    margin-left: 0.45rem;
+    vertical-align: 0.15em;
+
+    content: "";
+    background: transparent;
+    border-top: 0.35em solid currentColor;
+    border-right: 0.3em solid transparent;
+    border-bottom: 0;
+    border-left: 0.3em solid transparent;
+
+    transform: none;
+    transition: transform 0.2s ease;
+}
+
+/* Putar caret ketika dropdown terbuka */
+.nav-panel .dropdown.show .dropdown-toggle::after {
+    transform: rotate(180deg);
+}
+
+/* Garis emas untuk toggle aktif/hover */
+.nav-panel .nav-link.dropdown-toggle::before {
+    content: "";
+    position: absolute;
+
+    left: 0.9rem;
+    right: 0.9rem;
+    bottom: 0.25rem;
+
+    height: 2px;
+    background: var(--gold-500);
+
+    transform: scaleX(0);
+    transform-origin: left;
+
+    transition: transform 0.2s ease;
+}
+
+.nav-panel .nav-link.dropdown-toggle:hover::before,
+.nav-panel .nav-link.dropdown-toggle.active::before {
+    transform: scaleX(1);
+}
+
 /* ---------- Hero ---------- */
 .hero {
     padding: 4.5rem 0 6rem;
@@ -1226,6 +1385,28 @@ main.container {
     .detail-berita-sidebar {
         margin-top: 0px;
     }
+
+    .nav-panel .dropdown-menu {
+        min-width: 100%;
+        margin-top: 0.35rem;
+        padding: 0.4rem;
+
+        border: none;
+        border-left: 3px solid var(--gold-500);
+        border-radius: 0 12px 12px 0;
+
+        background: rgba(6, 61, 39, 0.035);
+        box-shadow: none;
+    }
+
+    .nav-panel .dropdown-item {
+        padding: 0.6rem 0.7rem;
+    }
+
+    .nav-panel .nav-link.dropdown-toggle::before {
+        display: none;
+    }
+
 }
 
 @media (max-width: 767.98px) {
@@ -1361,5 +1542,14 @@ main.container {
         opacity: 1;
         animation: none;
         transform: none;
+    }
+    .nav-panel .dropdown-menu.show {
+        animation: none;
+    }
+
+    .nav-panel .dropdown-item,
+    .nav-panel .dropdown-item i,
+    .nav-panel .dropdown-toggle::after {
+        transition: none;
     }
 }

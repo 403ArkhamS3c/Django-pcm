@@ -36,14 +36,56 @@
                     <li class="nav-item">
                         <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" {% if request.resolver_match.url_name == 'home' %}aria-current="page"{% endif %} href="{% url 'home' %}">Beranda</a>
                     </li>
+                             
+                    <li class="nav-item dropdown">
+                        <a
+                            class="nav-link dropdown-toggle {% if request.resolver_match.url_name == 'profil' or request.resolver_match.url_name == 'pimpinan' or request.resolver_match.url_name == 'ranting' %}active{% endif %}"
+                            href="#"
+                            role="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                            {% if request.resolver_match.url_name == 'profil' or request.resolver_match.url_name == 'pimpinan' or request.resolver_match.url_name == 'ranting' %}
+                                aria-current="page"
+                            {% endif %}
+                        >
+                            Organisasi
+                        </a>
 
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'pimpinan' %}active{% endif %}" {% if request.resolver_match.url_name == 'pimpinan' %}aria-current="page"{% endif %} href="{% url 'pimpinan' %}">Pimpinan</a>
+                        <ul class="dropdown-menu">
+
+                            <li>
+                                <a
+                                    class="dropdown-item {% if request.resolver_match.url_name == 'profil' %}active{% endif %}"
+                                    href="{% url 'profil' %}"
+                                >
+                                    <i class="bi bi-building"></i>
+                                    <span>Profil Organisasi</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a
+                                    class="dropdown-item {% if request.resolver_match.url_name == 'pimpinan' %}active{% endif %}"
+                                    href="{% url 'pimpinan' %}"
+                                >
+                                    <i class="bi bi-people"></i>
+                                    <span>Struktur Pimpinan</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a
+                                    class="dropdown-item {% if request.resolver_match.url_name == 'ranting' %}active{% endif %}"
+                                    href="{% url 'ranting' %}"
+                                >
+                                    <i class="bi bi-diagram-3"></i>
+                                    <span>Pimpinan Ranting</span>
+                                </a>
+                            </li>
+
+                        </ul>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'ranting' %}active{% endif %}" {% if request.resolver_match.url_name == 'ranting' %}aria-current="page"{% endif %} href="{% url 'ranting' %}">Ranting</a>
-                    </li>
 
                     <li class="nav-item">
                         <a class="nav-link {% if request.resolver_match.url_name == 'amal_usaha' %}active{% endif %}" {% if request.resolver_match.url_name == 'amal_usaha' %}aria-current="page"{% endif %} href="{% url 'amal_usaha' %}">Amal Usaha</a>

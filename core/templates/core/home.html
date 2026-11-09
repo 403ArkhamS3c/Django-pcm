@@ -1,8 +1,6 @@
 {% extends 'core/components/base.html' %}
 {% load static %}
 {% block title %}Beranda{% endblock %}
-{% block topbar %} {% include 'core/components/topbar.html' %} {% endblock %}
-{% block navbar %} {% include 'core/components/navbar.html' %} {% endblock %}
 {% block hero %}
     {% if profil %}
         {% include 'core/components/hero.html' with hero_label="WEBSITE RESMI ORGANISASI" hero_title=profil.nama_organisasi hero_description="Mengenal organisasi, sejarah, visi, misi, serta berbagai informasi kegiatan Pimpinan Cabang Muhammadiyah Grogol dalam satu platform digital." %}

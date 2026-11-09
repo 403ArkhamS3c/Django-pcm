@@ -59,11 +59,29 @@ def home(request):
         },
     )
 
+def profil_organisasi(request):
+    profil = ProfilOrganisasi.objects.first()
+
+    detail_profil = (
+        data_tampilan(profil)
+        if profil is not None
+        else []
+    )
+
+    return render(
+        request,
+        "core/profile.html",
+        {
+            "profil": profil,
+            "detail_profil": detail_profil,
+        },
+    )
+
 # pengubahan pagination
 def daftar_pimpinan(request):
     semua_pimpinan = Pimpinan.objects.all().order_by("urutan_tampil")
 
-    per_halaman = 2
+    per_halaman = 4 
     paginator = Paginator(semua_pimpinan, per_halaman)
 
     halaman = request.GET.get("page", 1)
