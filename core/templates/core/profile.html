@@ -1,0 +1,125 @@
+{% extends 'core/components/base.html' %}
+{% block title %}Pimpinan PCM{% endblock %}
+{% block hero %}
+    {% include 'core/components/hero.html' with hero_label="STRUKTUR ORGANISASI" hero_title="Pimpinan PCM" hero_description="Kenali jajaran pimpinan dan periode kepengurusan Pimpinan Cabang Muhammadiyah." %}
+{% endblock %}
+{% block content %}
+        <section class="section section-alt" id="profil">
+            <div class="container main-content">
+
+            <section class="profile-card">
+
+                <div class="mb-4">
+                    <div class="section-label mb-2">
+                        Tentang Organisasi
+                    </div>
+
+                    <h2 class="section-heading h3 mb-2">
+                        Profil Organisasi
+                    </h2>
+
+                    <p class="text-secondary mb-0">
+                        Informasi mengenai identitas dan profil organisasi.
+                    </p>
+                </div>
+
+                <hr class="border-secondary opacity-10 mb-2">
+
+                {% if profil %}
+
+                    {% for field in detail_profil %}
+
+                        <div class="profile-field">
+
+                            <h3 class="field-title">
+                                {{ field.label|capfirst }}
+                            </h3>
+
+                            {% if field.jenis == "gambar" %}
+
+                            {% if field.url_file %}
+                                <a
+                                    href="{{ field.url_file }}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label="Buka gambar {{ field.label }}"
+                                >
+                                    <img
+                                        src="{{ field.url_file }}"
+                                        alt="{{ field.label }}"
+                                        class="profile-image"
+                                        loading="lazy"
+                                    >
+                                </a>
+
+                                <div class="d-flex justify-content-end mt-3">
+                                    <a
+                                        href="{{ field.url_file }}"
+                                        download
+                                        class="file-link"
+                                    >
+                                        <span aria-hidden="true">↓</span>
+                                        Unduh gambar {{ field.label }}
+                                    </a>
+                                </div>
+                            {% else %}
+                                <p class="field-value">
+                                    Gambar belum tersedia.
+                                </p>
+                            {% endif %}
+
+                            {% elif field.jenis == "file" %}
+
+                                {% if field.url_file %}
+                                    <a
+                                        href="{{ field.url_file }}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="file-link"
+                                    >
+                                        <span aria-hidden="true">↗</span>
+                                        Buka atau unduh {{ field.label }}
+                                    </a>
+                                {% else %}
+                                    <p class="field-value">
+                                        Dokumen belum tersedia.
+                                    </p>
+                                {% endif %}
+
+                            {% else %}
+
+                                <p class="field-value">{{ field.nilai }}</p>
+
+                            {% endif %}
+
+                        </div>
+
+                    {% empty %}
+
+                        <div class="empty-state text-center">
+                            <h3 class="h5 fw-bold mb-2">
+                                Informasi Belum Tersedia
+                            </h3>
+                            <p class="mb-0">
+                                Data profil organisasi belum ditambahkan.
+                            </p>
+                        </div>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <div class="empty-state text-center">
+                        <h3 class="h5 fw-bold mb-2">
+                            Selamat Datang
+                        </h3>
+                        <p class="mb-0">
+                            Informasi profil Pimpinan Cabang Muhammadiyah Grogol
+                            akan ditampilkan di halaman ini.
+                        </p>
+                    </div>
+
+                {% endif %}
+
+            </section>
+{% endblock %}
