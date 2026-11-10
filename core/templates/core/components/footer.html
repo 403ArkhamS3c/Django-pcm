@@ -6,7 +6,7 @@
             <!-- Identitas PCM -->
             <div class="col-lg-4 col-md-6">
                 <div class="footer-brand mb-3">
-                    Pimpinan Cabang Muhammadiyah Grogol
+                    {{ profil.nama|default:"Pimpinan Cabang Muhammadiyah Grogol" }}
                 </div>
 
                 <p class="footer-muted mb-3">
@@ -55,26 +55,36 @@
                 </ul>
             </div>
 
-            <!-- Keterangan Akademik -->
+            <!-- Keterangan Tugas Kuliah dan Atribusi -->
             <div class="col-lg-5">
                 <h6 class="footer-heading mb-3">
                     Tentang Website
                 </h6>
 
                 <p class="footer-muted">
-                    Website ini dibuat untuk memenuhi tugas mata kuliah
-                    Pemrograman Web Berbasis Framework pada Program Studi
-                    Informatika, Universitas Muhammadiyah Surakarta.
+                    Website ini dibuat untuk tugas kuliah Pemrograman Web
+                    berbasis Framework (Program Studi Informatika,
+                    Universitas Muhammadiyah Surakarta),
+                    <strong>bukan website resmi PCM Grogol</strong>.
                 </p>
 
                 <h6 class="footer-heading mt-4 mb-2">
                     Atribusi
                 </h6>
 
+                <p class="footer-muted mb-2">
+                    Logo Muhammadiyah: K. H. Siradj Dahlan, vektor oleh
+                    Hibensis, via
+                    <a href="https://commons.wikimedia.org/wiki/File:Muhammadiyah.svg"
+                       target="_blank" rel="noopener noreferrer">Wikimedia Commons</a>,
+                    lisensi
+                    <a href="https://creativecommons.org/licenses/by-sa/4.0/"
+                       target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>.
+                </p>
+
                 <p class="footer-muted mb-0">
-                    Logo dan foto yang digunakan merupakan milik
-                    pemilik atau sumber masing-masing dan digunakan
-                    untuk keperluan proyek akademik.
+                    Foto: dokumentasi PCM Grogol dan sumber lain yang
+                    dicantumkan pada masing-masing halaman.
                 </p>
             </div>
 
@@ -82,10 +92,9 @@
 
         <hr class="footer-divider my-4">
 
-        <!-- Copyright -->
+        <!-- Keterangan bawah -->
         <div class="text-center footer-muted">
-            &copy; {% now "Y" %} Profil PCM Grogol.
-            Hak cipta dilindungi.
+            &copy; {% now "Y" %} Proyek tugas kuliah
         </div>
 
     </div>
