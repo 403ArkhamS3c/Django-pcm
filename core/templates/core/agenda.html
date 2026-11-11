@@ -3,12 +3,11 @@
 {% block hero %}
     {% include 'core/components/hero.html' with hero_label="KEGIATAN ORGANISASI" hero_title="Agenda PCM" hero_description="Informasi jadwal kegiatan, pertemuan, dan agenda Pimpinan Cabang Muhammadiyah." %}
 {% endblock %}
-
 {% block content %}
 <section class="section section-alt" id="agenda">
     <div class="container">
 
-        <!-- Judul Section -->
+        <!-- Judul halaman -->
         <div class="section-head">
             <div>
                 <span class="section-label">
@@ -20,7 +19,7 @@
                 </h2>
 
                 <p class="text-secondary mb-0">
-                    Jadwal kegiatan, pertemuan, dan aktivitas
+                    Jadwal kegiatan dan aktivitas
                     Pimpinan Cabang Muhammadiyah.
                 </p>
             </div>
@@ -28,97 +27,217 @@
 
         <hr>
 
+        <!-- 1. Agenda Mendatang -->
+        <div class="mb-5" id="agenda-mendatang">
 
-        <!-- Daftar Agenda -->
-        {% if daftar %}
+            <div class="section-head mb-4">
+                <div>
+                    <h3 class="section-heading h4 mb-2">
+                        <i class="bi bi-calendar-event text-success"></i>
+                        Agenda Mendatang
+                    </h3>
 
-            <div class="agenda-grid">
+                    <p class="text-secondary mb-0">
+                        Kegiatan yang akan dilaksanakan.
+                    </p>
+                </div>
+            </div>
 
-                {% for entri in daftar|slice:":6" %}
+            {% if agenda_mendatang %}
+                <div class="agenda-grid">
+                    {% for entri in agenda_mendatang %}
+                        {% include "core/components/agenda_card.html" %}
+                    {% endfor %}
+                </div>
 
-                    <article class="agenda-card">
+                {% if agenda_mendatang.has_other_pages %}
+                    <nav class="mt-4" aria-label="Pagination agenda mendatang">
+                        <ul class="pagination justify-content-center">
 
-                        <!-- Tanggal Agenda -->
-                        <div class="agenda-date">
-
-                            <span class="agenda-day">
-                                {{ entri.objek.waktu_mulai|date:"d" }}
-                            </span>
-
-                            <span class="agenda-month">
-                                {{ entri.objek.waktu_mulai|date:"M Y" }}
-                            </span>
-
-                        </div>
-
-
-                        <!-- Informasi Agenda -->
-                        <div class="agenda-content">
-
-                            <span class="agenda-category">
-                                AGENDA PCM
-                            </span>
-
-                            <h3 class="agenda-title">
-                                {{ entri.objek.nama_kegiatan }}
-                            </h3>
-
-                            <div class="agenda-meta">
-
-                                <span>
-                                    <i class="bi bi-clock" aria-hidden="true"></i>
-                                    {{ entri.objek.waktu_mulai|date:"H:i" }} WIB
-                                </span>
-
-                                <span>
-                                    <i class="bi bi-geo-alt" aria-hidden="true"></i>
-                                    {{ entri.objek.tempat }}
-                                </span>
-
-                            </div>
-
-                            {% if entri.objek.keterangan %}
-                                <p class="agenda-description">
-                                    {{ entri.objek.keterangan|truncatewords:30 }}
-                                </p>
+                            {% if agenda_mendatang.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link"
+                                       href="?page_mendatang={{ agenda_mendatang.previous_page_number }}&page_hari_ini={{ agenda_hari_ini.number }}&page_sebelumnya={{ agenda_sebelumnya.number }}#agenda-mendatang">
+                                        Sebelumnya
+                                    </a>
+                                </li>
                             {% endif %}
 
-                            <a
-                                class="agenda-link"
-                                href="{% url 'detail_agenda' entri.objek.pk %}"
-                            >
-                                Lihat detail
-                                <i class="bi bi-arrow-right"></i>
-                            </a>
+                            <li class="page-item active">
+                                <span class="page-link">
+                                    {{ agenda_mendatang.number }}
+                                </span>
+                            </li>
 
-                        </div>
+                            {% if agenda_mendatang.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link"
+                                       href="?page_mendatang={{ agenda_mendatang.next_page_number }}&page_hari_ini={{ agenda_hari_ini.number }}&page_sebelumnya={{ agenda_sebelumnya.number }}#agenda-mendatang">
+                                        Berikutnya
+                                    </a>
+                                </li>
+                            {% endif %}
 
-                    </article>
-
-                {% endfor %}
-
-            </div>
-            <!-- PAGINATION BERITA -->
-            {% include "core/components/pagination.html" %}
+                        </ul>
+                    </nav>
+                {% endif %}
 
             {% else %}
-            <!-- Kondisi Agenda Kosong -->
-            <div class="empty-state text-center">
+                <div class="empty-state text-center">
+                    <i class="bi bi-calendar-check fs-1"></i>
+                    <h3 class="h5 fw-bold mt-2">
+                        Belum Ada Agenda Mendatang
+                    </h3>
+                    <p class="mb-0">
+                        Saat ini belum terdapat jadwal kegiatan yang akan datang.
+                    </p>
+                </div>
+            {% endif %}
 
-                <i class="bi bi-calendar-event fs-1"></i>
+        </div>
 
-                <h3 class="h5 fw-bold mb-2">
-                    Belum Ada Agenda
-                </h3>
+        <hr class="my-5">
 
-                <p class="mb-0">
-                    Belum ada agenda kegiatan yang tersedia.
-                    Silakan kunjungi kembali halaman ini nanti.
-                </p>
+        <!-- 2. Agenda Hari Ini -->
+        <div class="mb-5" id="agenda-hari-ini">
 
+            <div class="section-head mb-4">
+                <div>
+                    <h3 class="section-heading h4 mb-2">
+                        <i class="bi bi-calendar-day text-success"></i>
+                        Agenda Hari Ini
+                    </h3>
+
+                    <p class="text-secondary mb-0">
+                        Kegiatan yang dijadwalkan pada hari ini,
+                        {{ tanggal_hari_ini|date:"d F Y" }}.
+                    </p>
+                </div>
             </div>
 
-        {% endif %}
+            {% if agenda_hari_ini %}
+                <div class="agenda-grid">
+                    {% for entri in agenda_hari_ini %}
+                        {% include "core/components/agenda_card.html" %}
+                    {% endfor %}
+                </div>
+
+                {% if agenda_hari_ini.has_other_pages %}
+                    <nav class="mt-4" aria-label="Pagination agenda hari ini">
+                        <ul class="pagination justify-content-center">
+
+                            {% if agenda_hari_ini.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link"
+                                       href="?page_mendatang={{ agenda_mendatang.number }}&page_hari_ini={{ agenda_hari_ini.previous_page_number }}&page_sebelumnya={{ agenda_sebelumnya.number }}#agenda-hari-ini">
+                                        Sebelumnya
+                                    </a>
+                                </li>
+                            {% endif %}
+
+                            <li class="page-item active">
+                                <span class="page-link">
+                                    {{ agenda_hari_ini.number }}
+                                </span>
+                            </li>
+
+                            {% if agenda_hari_ini.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link"
+                                       href="?page_mendatang={{ agenda_mendatang.number }}&page_hari_ini={{ agenda_hari_ini.next_page_number }}&page_sebelumnya={{ agenda_sebelumnya.number }}#agenda-hari-ini">
+                                        Berikutnya
+                                    </a>
+                                </li>
+                            {% endif %}
+
+                        </ul>
+                    </nav>
+                {% endif %}
+
+            {% else %}
+                <div class="empty-state text-center">
+                    <i class="bi bi-calendar2-x fs-1"></i>
+                    <h3 class="h5 fw-bold mt-2">
+                        Tidak Ada Agenda Hari Ini
+                    </h3>
+                    <p class="mb-0">
+                        Tidak terdapat kegiatan yang dijadwalkan hari ini.
+                    </p>
+                </div>
+            {% endif %}
+
+        </div>
+
+        <hr class="my-5">
+
+        <!-- 3. Agenda Sebelumnya -->
+        <div class="mb-4" id="agenda-sebelumnya">
+
+            <div class="section-head mb-4">
+                <div>
+                    <h3 class="section-heading h4 mb-2">
+                        <i class="bi bi-calendar2-check text-secondary"></i>
+                        Agenda Sebelumnya
+                    </h3>
+
+                    <p class="text-secondary mb-0">
+                        Arsip kegiatan yang telah berlalu.
+                    </p>
+                </div>
+            </div>
+
+            {% if agenda_sebelumnya %}
+                <div class="agenda-grid">
+                    {% for entri in agenda_sebelumnya %}
+                        {% include "core/components/agenda_card.html" %}
+                    {% endfor %}
+                </div>
+
+                {% if agenda_sebelumnya.has_other_pages %}
+                    <nav class="mt-4" aria-label="Pagination agenda sebelumnya">
+                        <ul class="pagination justify-content-center">
+
+                            {% if agenda_sebelumnya.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link"
+                                       href="?page_mendatang={{ agenda_mendatang.number }}&page_hari_ini={{ agenda_hari_ini.number }}&page_sebelumnya={{ agenda_sebelumnya.previous_page_number }}#agenda-sebelumnya">
+                                        Sebelumnya
+                                    </a>
+                                </li>
+                            {% endif %}
+
+                            <li class="page-item active">
+                                <span class="page-link">
+                                    {{ agenda_sebelumnya.number }}
+                                </span>
+                            </li>
+
+                            {% if agenda_sebelumnya.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link"
+                                       href="?page_mendatang={{ agenda_mendatang.number }}&page_hari_ini={{ agenda_hari_ini.number }}&page_sebelumnya={{ agenda_sebelumnya.next_page_number }}#agenda-sebelumnya">
+                                        Berikutnya
+                                    </a>
+                                </li>
+                            {% endif %}
+
+                        </ul>
+                    </nav>
+                {% endif %}
+
+            {% else %}
+                <div class="empty-state text-center">
+                    <i class="bi bi-archive fs-1"></i>
+                    <h3 class="h5 fw-bold mt-2">
+                        Belum Ada Arsip Agenda
+                    </h3>
+                    <p class="mb-0">
+                        Belum terdapat kegiatan yang telah berlalu.
+                    </p>
+                </div>
+            {% endif %}
+
+        </div>
 
     </div>
 </section>
