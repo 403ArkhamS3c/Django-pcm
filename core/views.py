@@ -8,6 +8,7 @@ from .forms import PesanMasukForm
 from django.utils import timezone
 from django.db.models import ImageField, FileField
 from django.core.paginator import Paginator
+from django.db.models import Q
 
 
 FIELD_PUBLIK = {
@@ -151,10 +152,19 @@ def daftar_amal_usaha(request):
         "pagination_anchor": "amal-usaha",
     })
 
-#penerapan pagination
+# Pencarian dan pagination berita
 def daftar_berita(request):
-    berita = konten_publik(Berita)
+    kata_kunci = request.GET.get("q", "").strip()
 
+    # Mengambil berita yang sudah diterbitkan
+    berita = konten_publik(Berita).order_by("-tanggal_terbit")
+
+    # Melakukan pencarian berdasarkan judul, ringkasan, dan isi
+    if kata_kunci:
+        berita = berita.filter(
+            Q(judul__icontains=kata_kunci))
+
+    # Pagination
     per_halaman = 11
     paginator = Paginator(berita, per_halaman)
 
@@ -175,39 +185,64 @@ def daftar_berita(request):
         "ada_previous": data_berita.has_previous(),
         "ada_next": data_berita.has_next(),
         "pagination_anchor": "berita",
+        "kata_kunci": kata_kunci,
+        "jumlah_berita": paginator.count,
+        "sedang_mencari": bool(kata_kunci),
     }
 
-    return render(request, "core/berita.html", context, )
+    return render(request, "core/berita.html", context)
 
-
-# menerapkan pagination
 def daftar_agenda(request):
-    agenda = konten_publik(Agenda)
+    tanggal_hari_ini = timezone.localdate()
 
-    per_halaman = 5
-    paginator = Paginator(agenda, per_halaman)
+    # 1. Agenda mendatang
+    agenda_mendatang = (
+        Agenda.objects
+        .filter(waktu_mulai__date__gt=tanggal_hari_ini)
+        .order_by("waktu_mulai")
+    )
 
-    halaman = request.GET.get("page", 1)
-    data_agenda = paginator.get_page(halaman)
+    # 2. Agenda hari ini
+    agenda_hari_ini = (
+        Agenda.objects
+        .filter(waktu_mulai__date=tanggal_hari_ini)
+        .order_by("waktu_mulai")
+    )
 
-    daftar = [
+    # 3. Agenda sebelumnya
+    agenda_sebelumnya = (
+        Agenda.objects
+        .filter(waktu_mulai__date__lt=tanggal_hari_ini)
+        .order_by("-waktu_mulai")
+    )
+
+    # Pagination masing-masing kategori
+    paginator_mendatang = Paginator(agenda_mendatang, 5)
+    paginator_hari_ini = Paginator(agenda_hari_ini, 5)
+    paginator_sebelumnya = Paginator(agenda_sebelumnya, 5)
+
+    halaman_mendatang = paginator_mendatang.get_page(
+        request.GET.get("page_mendatang", 1)
+    )
+
+    halaman_hari_ini = paginator_hari_ini.get_page(
+        request.GET.get("page_hari_ini", 1)
+    )
+
+    halaman_sebelumnya = paginator_sebelumnya.get_page(
+        request.GET.get("page_sebelumnya", 1)
+    )
+
+    return render(
+        request,
+        "core/agenda.html",
         {
-            "objek": item,
-            "detail": data_tampilan(item),
-        }
-        for item in data_agenda
-    ]
-
-    context = {
-        "daftar": daftar,
-        "halaman": data_agenda.number,
-        "ada_previous": data_agenda.has_previous(),
-        "ada_next": data_agenda.has_next(),
-        "pagination_anchor": "agenda",
-    }
-
-    return render(request, "core/agenda.html", context)
-
+            "agenda_mendatang": halaman_mendatang,
+            "agenda_hari_ini": halaman_hari_ini,
+            "agenda_sebelumnya": halaman_sebelumnya,
+            "tanggal_hari_ini": tanggal_hari_ini,
+        },
+    )
 
 def daftar_dokumen(request):
     semua_dokumen = Dokumen.objects.all().order_by("judul")

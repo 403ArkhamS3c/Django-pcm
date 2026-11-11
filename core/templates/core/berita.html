@@ -29,6 +29,51 @@
 
                 <hr>
 
+                <!-- FORM PENCARIAN BERITA -->
+                <div class="mb-4">
+                    <form method="GET" action="{% url 'berita' %}">
+                        <div class="input-group">
+
+                            <span class="input-group-text bg-white">
+                                <i class="bi bi-search text-success"></i>
+                            </span>
+
+                            <input
+                                type="search"
+                                name="q"
+                                class="form-control"
+                                placeholder="Cari berita berdasarkan judul atau isi..."
+                                value="{{ kata_kunci }}"
+                                aria-label="Cari berita"
+                            >
+
+                            <button
+                                type="submit"
+                                class="btn btn-success px-4"
+                            >
+                                Cari
+                            </button>
+
+                            {% if sedang_mencari %}
+                                <a
+                                    href="{% url 'berita' %}"
+                                    class="btn btn-outline-secondary"
+                                >
+                                    Reset
+                                </a>
+                            {% endif %}
+
+                        </div>
+                    </form>
+
+                    {% if sedang_mencari %}
+                        <p class="text-secondary small mt-2 mb-0">
+                            Menampilkan {{ jumlah_berita }} hasil pencarian
+                            untuk "<strong>{{ kata_kunci }}</strong>".
+                        </p>
+                    {% endif %}
+                </div>
+
                 <div class="row g-4">
 
                     <!-- SISI KIRI: 4 BERITA DALAM 2 KOLOM -->
@@ -187,26 +232,51 @@
                 </div>
             <!-- PAGINATION BERITA -->
             {% include "core/components/pagination.html" %}
-
+       
             {% else %}
 
-                <!-- KONDISI BERITA KOSONG -->
                 <div class="empty-state text-center">
 
-                    <i class="bi bi-newspaper fs-1"></i>
+                    {% if sedang_mencari %}
 
-                    <h3 class="h5 fw-bold mb-2">
-                        Belum Ada Berita
-                    </h3>
+                        <i class="bi bi-search fs-1"></i>
 
-                    <p class="mb-0">
-                        Belum ada berita yang diterbitkan.
-                        Silakan kunjungi kembali halaman ini nanti.
-                    </p>
+                        <h3 class="h5 fw-bold mb-2">
+                            Berita Tidak Ditemukan
+                        </h3>
+
+                        <p class="mb-3">
+                            Tidak ditemukan berita dengan kata kunci
+                            "<strong>{{ kata_kunci }}</strong>".
+                            Coba gunakan kata kunci lainnya.
+                        </p>
+
+                        <a
+                            href="{% url 'berita' %}"
+                            class="btn btn-outline-success rounded-pill px-4"
+                        >
+                            <i class="bi bi-arrow-counterclockwise"></i>
+                            Tampilkan Semua Berita
+                        </a>
+
+                    {% else %}
+
+                        <i class="bi bi-newspaper fs-1"></i>
+
+                        <h3 class="h5 fw-bold mb-2">
+                            Belum Ada Berita
+                        </h3>
+
+                        <p class="mb-0">
+                            Belum ada berita yang diterbitkan.
+                            Silakan kunjungi kembali halaman ini nanti.
+                        </p>
+
+                    {% endif %}
 
                 </div>
 
-            {% endif %} 
+            {% endif %}
     </div>
 </section>
 {% endblock %}
