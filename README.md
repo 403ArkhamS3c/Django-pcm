@@ -124,10 +124,11 @@ Berikut merupakan pembagian tugas dan kontribusi setiap anggota selama proses pe
 
 | No. | Nama Anggota | Kontribusi |
 |---|---|---|
-| 1 | Arifa Satya Wicaksana | [Pengembangan backend Django, model, views, integrasi database, dan lainnya] |
-| 2 | [Nama Anggota 2] | [Kontribusi] |
-| 3 | [Nama Anggota 3] | [Kontribusi] |
-| 4 | [Nama Anggota 4] | [Kontribusi] |
+| 1 | Amanda Yesi | Pengembangan backend Django, model, views, integrasi database, dan lainnya |
+| 2 | Faqih Indra | Pengembangan backend Django, model, views, integrasi database, dan lainnya |
+| 3 | Arifa Satya Wicaksana | Pengembangan backend Django, model, views, integrasi database, dan lainnya |
+| 4 | Satria Maulana | Pengembangan backend Django, model, views, integrasi database, dan lainnya |
+| 5 | Mada Kumba | Pengembangan backend Django, model, views, integrasi database, dan lainnya |
 
 Kontribusi di atas disesuaikan dengan pekerjaan yang benar-benar dilakukan oleh setiap anggota kelompok.
 
