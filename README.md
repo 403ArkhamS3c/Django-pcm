@@ -4,6 +4,29 @@ Dokumentasi implementasi dan pengembangan website Pimpinan Cabang Muhammadiyah (
 
 ---
 
+# Konfigurasi keamanan
+
+Salin `.env.example` menjadi `.env`, lalu isi `SECRET_KEY` dengan kunci acak yang
+unik. Kunci dapat dibuat dengan perintah:
+
+```bash
+python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+```
+
+Jangan gunakan atau bagikan kunci tersebut, dan jangan unggah file `.env` ke
+repository. Aplikasi sekarang menolak untuk berjalan tanpa `SECRET_KEY`, serta
+`DEBUG` secara default nonaktif. Untuk pengembangan lokal, atur `DEBUG=True`
+secara eksplisit. Di production, gunakan HTTPS; pengalihan ke HTTPS dan cookie
+secure aktif secara default saat `DEBUG=False`. Jika HTTPS dihentikan oleh
+reverse proxy, konfigurasikan proxy agar Django mengenali request HTTPS sebelum
+mengaktifkan pengalihan tersebut. Atur `ALLOWED_HOSTS` dan
+`CSRF_TRUSTED_ORIGINS` ke domain production yang benar; jangan biarkan konfigurasi
+localhost dari contoh untuk deployment publik. HSTS aktif selama satu jam secara
+default dalam production; naikkan `SECURE_HSTS_SECONDS` hanya setelah HTTPS
+terverifikasi konsisten pada domain tersebut. Subdomain dan preload tidak diaktifkan.
+
+---
+
 # 1. Implementasi Context Processor untuk Footer
 
 ## 1.1 Deskripsi

@@ -24,25 +24,17 @@ load_dotenv(BASE_DIR / ".env")
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY", "")
-
-if not SECRET_KEY:
-    if os.getenv("DEBUG", "True").lower() != "true":
-        raise ValueError(
-            "SECRET_KEY wajib diatur ketika DEBUG=False."
-        )
-    SECRET_KEY = (
-        "django-insecure-kunci-sementara-untuk-lokal"
-    )
-
 DEBUG = os.getenv("DEBUG", "False").lower() in (
     "true", "1", "yes", "on"
 )
 
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = os.getenv("SECRET_KEY", "").strip()
+if not SECRET_KEY:
+    raise ValueError(
+        "SECRET_KEY wajib diatur melalui environment atau file .env."
+    )
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 ALLOWED_HOSTS = [
     host.strip()
@@ -59,6 +51,15 @@ CSRF_TRUSTED_ORIGINS = [
     ).split(",")
     if origin.strip()
 ]
+
+SECURE_SSL_REDIRECT = os.getenv(
+    "SECURE_SSL_REDIRECT", str(not DEBUG)
+).lower() in ("true", "1", "yes", "on")
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
+SECURE_HSTS_SECONDS = int(
+    os.getenv("SECURE_HSTS_SECONDS", "3600" if not DEBUG else "0")
+)
 
 
 # Application definition
@@ -149,7 +150,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Jakarta'
 
 USE_I18N = True
 

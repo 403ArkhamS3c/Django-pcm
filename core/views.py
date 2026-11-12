@@ -195,38 +195,26 @@ def daftar_berita(request):
 def daftar_agenda(request):
     tanggal_hari_ini = timezone.localdate()
 
-    # 1. Agenda mendatang
+    # Agenda hari ini tetap dianggap akan datang karena Agenda tidak menyimpan waktu selesai.
     agenda_mendatang = (
         Agenda.objects
-        .filter(waktu_mulai__date__gt=tanggal_hari_ini)
+        .filter(waktu_mulai__date__gte=tanggal_hari_ini)
         .order_by("waktu_mulai")
     )
 
-    # 2. Agenda hari ini
-    agenda_hari_ini = (
-        Agenda.objects
-        .filter(waktu_mulai__date=tanggal_hari_ini)
-        .order_by("waktu_mulai")
-    )
-
-    # 3. Agenda sebelumnya
+    # Agenda yang tanggalnya sudah lewat ditampilkan sebagai kegiatan terlaksana.
     agenda_sebelumnya = (
         Agenda.objects
         .filter(waktu_mulai__date__lt=tanggal_hari_ini)
         .order_by("-waktu_mulai")
     )
 
-    # Pagination masing-masing kategori
+    # Pagination masing-masing kategori.
     paginator_mendatang = Paginator(agenda_mendatang, 5)
-    paginator_hari_ini = Paginator(agenda_hari_ini, 5)
     paginator_sebelumnya = Paginator(agenda_sebelumnya, 5)
 
     halaman_mendatang = paginator_mendatang.get_page(
         request.GET.get("page_mendatang", 1)
-    )
-
-    halaman_hari_ini = paginator_hari_ini.get_page(
-        request.GET.get("page_hari_ini", 1)
     )
 
     halaman_sebelumnya = paginator_sebelumnya.get_page(
@@ -238,7 +226,6 @@ def daftar_agenda(request):
         "core/agenda.html",
         {
             "agenda_mendatang": halaman_mendatang,
-            "agenda_hari_ini": halaman_hari_ini,
             "agenda_sebelumnya": halaman_sebelumnya,
             "tanggal_hari_ini": tanggal_hari_ini,
         },
@@ -399,4 +386,3 @@ def konten_publik(model):
     return model.objects.filter(
         **{nama_field: nilai_terbit}
     )
-
