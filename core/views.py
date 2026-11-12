@@ -13,7 +13,7 @@ from django.db.models import Q
 
 FIELD_PUBLIK = {
     ProfilOrganisasi: ["nama", "nama_singkat", "tagline", "tentang", "sejarah", "visi", "misi", "alamat_sekretariat", "telepon", "email", "jumlah_anggota_ktam", "gambar_utama"],
-    Pimpinan: ["nama", "jabatan", "periode", "alamat","foto", "urutan_tampil"],
+    Pimpinan: ["nama", "jabatan", "periode","foto", "urutan_tampil"],
     Ranting: ["nama_ranting", "ketua", "alamat", "telepon"],
     AmalUsaha: ["nama", "bidang", "deskripsi", "alamat", "gambar"],
     Berita: ["judul", "slug", "ringkasan", "isi", "gambar_sampul", "tanggal_terbit", "status"],
@@ -156,16 +156,11 @@ def daftar_amal_usaha(request):
 def daftar_berita(request):
     kata_kunci = request.GET.get("q", "").strip()
 
-    # Mengambil berita yang sudah diterbitkan
-    berita = konten_publik(Berita).order_by("-tanggal_terbit")
-
-    # Melakukan pencarian berdasarkan judul, ringkasan, dan isi
+    berita = Berita.objects.terbit()
     if kata_kunci:
-        berita = berita.filter(
-            Q(judul__icontains=kata_kunci))
+        berita = berita.cari(kata_kunci)
 
-    # Pagination
-    per_halaman = 11
+    per_halaman = 6
     paginator = Paginator(berita, per_halaman)
 
     halaman = request.GET.get("page", 1)
@@ -274,15 +269,15 @@ def daftar_dokumen(request):
 
 def detail_berita(request, slug):
     item = get_object_or_404(
-        konten_publik(Berita),
+        Berita.objects.terbit(),
         slug=slug,
     )
 
     detail = data_tampilan(item)
 
-    # Mengambil 5 berita terbaru selain berita yang sedang dibuka
+    # 5 berita terbaru selain yang sedang dibuka
     berita_terbaru = (
-        konten_publik(Berita)
+        Berita.objects.terbit()
         .exclude(pk=item.pk)
         .order_by("-tanggal_terbit")[:5]
     )

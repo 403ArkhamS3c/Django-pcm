@@ -8,275 +8,209 @@
 <section class="section section-alt" id="berita">
     <div class="container">
 
-            {% if daftar %}
+        <!-- FORM PENCARIAN BERITA -->
+        <div class="mb-4">
+            <form method="GET" action="{% url 'berita' %}">
+                <div class="input-group">
+                    <span class="input-group-text bg-white">
+                        <i class="bi bi-search text-success"></i>
+                    </span>
 
-                <div class="section-head">
-                    <div>
-                        <span class="section-label">
-                            Informasi Organisasi
-                        </span>
+                    <input
+                        type="search"
+                        name="q"
+                        class="form-control"
+                        placeholder="Cari berita berdasarkan judul atau isi..."
+                        value="{{ kata_kunci }}"
+                        aria-label="Cari berita"
+                    >
 
-                        <h2 class="section-heading h3 mt-3 mb-2">
-                            Berita PCM
-                        </h2>
-
-                        <p class="text-secondary mb-0">
-                            Informasi terbaru, kegiatan, dan perkembangan
-                            Pimpinan Cabang Muhammadiyah.
-                        </p>
-                    </div>
-                </div>
-
-                <hr>
-
-                <!-- FORM PENCARIAN BERITA -->
-                <div class="mb-4">
-                    <form method="GET" action="{% url 'berita' %}">
-                        <div class="input-group">
-
-                            <span class="input-group-text bg-white">
-                                <i class="bi bi-search text-success"></i>
-                            </span>
-
-                            <input
-                                type="search"
-                                name="q"
-                                class="form-control"
-                                placeholder="Cari berita berdasarkan judul atau isi..."
-                                value="{{ kata_kunci }}"
-                                aria-label="Cari berita"
-                            >
-
-                            <button
-                                type="submit"
-                                class="btn btn-success px-4"
-                            >
-                                Cari
-                            </button>
-
-                            {% if sedang_mencari %}
-                                <a
-                                    href="{% url 'berita' %}"
-                                    class="btn btn-outline-secondary"
-                                >
-                                    Reset
-                                </a>
-                            {% endif %}
-
-                        </div>
-                    </form>
+                    <button type="submit" class="btn btn-success px-4">
+                        Cari
+                    </button>
 
                     {% if sedang_mencari %}
-                        <p class="text-secondary small mt-2 mb-0">
-                            Menampilkan {{ jumlah_berita }} hasil pencarian
-                            untuk "<strong>{{ kata_kunci }}</strong>".
-                        </p>
+                        <a href="{% url 'berita' %}" class="btn btn-outline-secondary">
+                            Reset
+                        </a>
                     {% endif %}
                 </div>
+            </form>
 
-                <div class="row g-4">
+            {% if sedang_mencari %}
+                <p class="text-secondary small mt-2 mb-0">
+                    Menampilkan {{ jumlah_berita }} hasil pencarian
+                    untuk "<strong>{{ kata_kunci }}</strong>".
+                </p>
+            {% endif %}
+        </div>
 
-                    <!-- SISI KIRI: 4 BERITA DALAM 2 KOLOM -->
-                    <div class="col-12 col-lg-8">
+        {% if daftar %}
 
-                        <div class="row g-3">
+            <div class="section-head">
+                <div>
+                    <span class="section-label">Informasi Organisasi</span>
+                    <h2 class="section-heading h3 mt-3 mb-2">Berita PCM</h2>
+                    <p class="text-secondary mb-0">
+                        Informasi terbaru, kegiatan, dan perkembangan
+                        Pimpinan Cabang Muhammadiyah.
+                    </p>
+                </div>
+            </div>
 
-                            {% for entri in daftar|slice:":4" %}
+            <hr>
 
-                                <div class="col-12 col-md-6">
+            <div class="row g-4">
 
-                                    <article class="news-card-horizontal h-100">
+                <!-- SISI KIRI: 4 BERITA DALAM 2 KOLOM -->
+                <div class="col-12 col-lg-8">
+                    <div class="row g-3">
+                        {% for entri in daftar|slice:":4" %}
+                            <div class="col-12 col-md-6">
+                                <article class="news-card-horizontal h-100">
 
-                                        <div class="news-card-image">
-
-                                            {% if entri.objek.gambar_sampul %}
-                                                <img
-                                                    src="{{ entri.objek.gambar_sampul.url }}"
-                                                    alt="{{ entri.objek.judul }}"
-                                                    loading="lazy"
-                                                >
-                                            {% else %}
-                                                <div class="featured-placeholder">
-                                                    <i class="bi bi-image"></i>
-                                                    <span>Gambar tidak tersedia</span>
-                                                </div>
-                                            {% endif %}
-
-                                        </div>
-
-                                        <div class="news-card-body">
-
-                                            <span class="category-label">
-                                                <i class="bi bi-newspaper"></i>
-                                                Informasi PCM
-                                            </span>
-
-                                            <h3>
-                                                <a href="{% url 'detail_berita' slug=entri.objek.slug %}">
-                                                    {{ entri.objek.judul }}
-                                                </a>
-                                            </h3>
-
-                                            <p class="featured-description">
-                                                {{ entri.objek.ringkasan|truncatewords:18 }}
-                                            </p>
-
-                                            <div class="news-meta">
-                                                <i class="bi bi-calendar3"></i>
-                                                {{ entri.objek.tanggal_terbit|date:"d F Y" }}
-                                            </div>
-
-                                            <a
-                                                class="read-more"
-                                                href="{% url 'detail_berita' slug=entri.objek.slug %}"
+                                    <div class="news-card-image">
+                                        {% if entri.objek.gambar_sampul %}
+                                            <img
+                                                src="{{ entri.objek.gambar_sampul.url }}"
+                                                alt="{{ entri.objek.judul }}"
+                                                loading="lazy"
                                             >
-                                                Baca selengkapnya
-                                                <i class="bi bi-arrow-right"></i>
-                                            </a>
+                                        {% else %}
+                                            <div class="featured-placeholder">
+                                                <i class="bi bi-image"></i>
+                                                <span>Gambar tidak tersedia</span>
+                                            </div>
+                                        {% endif %}
+                                    </div>
 
+                                    <div class="news-card-body">
+                                        <span class="category-label">
+                                            <i class="bi bi-newspaper"></i>
+                                            Informasi PCM
+                                        </span>
+
+                                        <h3>
+                                            <a href="{% url 'detail_berita' slug=entri.objek.slug %}">
+                                                {{ entri.objek.judul }}
+                                            </a>
+                                        </h3>
+
+                                        <p class="featured-description">
+                                            {{ entri.objek.ringkasan|truncatewords:18 }}
+                                        </p>
+
+                                        <div class="news-meta">
+                                            <i class="bi bi-calendar3"></i>
+                                            {{ entri.objek.tanggal_terbit|date:"d F Y" }}
                                         </div>
 
-                                    </article>
+                                        <a class="read-more" href="{% url 'detail_berita' slug=entri.objek.slug %}">
+                                            Baca selengkapnya
+                                            <i class="bi bi-arrow-right"></i>
+                                        </a>
+                                    </div>
 
-                                </div>
+                                </article>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
 
+                <!-- SISI KANAN: BERITA BERIKUTNYA -->
+                {% if daftar|length > 4 %}
+                    <div class="col-12 col-lg-4">
+
+                        <div class="section-head mb-3">
+                            <div>
+                                <span class="section-label">Berita Terbaru</span>
+                                <h2 class="section-heading h5 mt-2 mb-1">Berita Lainnya</h2>
+                            </div>
+                        </div>
+
+                        <div class="d-flex flex-column gap-3">
+                            {% for entri in daftar|slice:"4:" %}
+                                <article class="news-card-horizontal">
+                                    <div class="row g-0 align-items-center">
+
+                                        <div class="col-4">
+                                            <div class="news-card-image">
+                                                {% if entri.objek.gambar_sampul %}
+                                                    <img
+                                                        src="{{ entri.objek.gambar_sampul.url }}"
+                                                        alt="{{ entri.objek.judul }}"
+                                                        loading="lazy"
+                                                    >
+                                                {% else %}
+                                                    <div class="featured-placeholder">
+                                                        <i class="bi bi-image"></i>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+
+                                        <div class="col-8">
+                                            <div class="news-card-body">
+                                                <h3 class="h6">
+                                                    <a href="{% url 'detail_berita' slug=entri.objek.slug %}">
+                                                        {{ entri.objek.judul }}
+                                                    </a>
+                                                </h3>
+
+                                                <div class="news-meta">
+                                                    <i class="bi bi-calendar3"></i>
+                                                    {{ entri.objek.tanggal_terbit|date:"d F Y" }}
+                                                </div>
+
+                                                <a class="read-more" href="{% url 'detail_berita' slug=entri.objek.slug %}">
+                                                    Baca selengkapnya
+                                                    <i class="bi bi-arrow-right"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </article>
                             {% endfor %}
-
                         </div>
 
                     </div>
+                {% endif %}
+            </div>
 
-                    <!-- SISI KANAN: BERITA BERIKUTNYA SECARA VERTIKAL -->
-                    {% if daftar|length > 4 %}
-
-                        <div class="col-12 col-lg-4">
-
-                            <div class="section-head mb-3">
-                                <div>
-                                    <span class="section-label">
-                                        Berita Terbaru
-                                    </span>
-
-                                    <h2 class="section-heading h5 mt-2 mb-1">
-                                        Berita Lainnya
-                                    </h2>
-                                </div>
-                            </div>
-
-                            <div class="d-flex flex-column gap-3">
-
-                                {% for entri in daftar|slice:"4:" %}
-
-                                    <article class="news-card-horizontal">
-
-                                        <div class="row g-0 align-items-center">
-
-                                            <div class="col-4">
-
-                                                <div class="news-card-image">
-
-                                                    {% if entri.objek.gambar_sampul %}
-                                                        <img
-                                                            src="{{ entri.objek.gambar_sampul.url }}"
-                                                            alt="{{ entri.objek.judul }}"
-                                                            loading="lazy"
-                                                        >
-                                                    {% else %}
-                                                        <div class="featured-placeholder">
-                                                            <i class="bi bi-image"></i>
-                                                        </div>
-                                                    {% endif %}
-
-                                                </div>
-
-                                            </div>
-
-                                            <div class="col-8">
-
-                                                <div class="news-card-body">
-
-                                                    <h3 class="h6">
-                                                        <a href="{% url 'detail_berita' slug=entri.objek.slug %}">
-                                                            {{ entri.objek.judul }}
-                                                        </a>
-                                                    </h3>
-
-                                                    <div class="news-meta">
-                                                        <i class="bi bi-calendar3"></i>
-                                                        {{ entri.objek.tanggal_terbit|date:"d F Y" }}
-                                                    </div>
-
-                                                    <a
-                                                        class="read-more"
-                                                        href="{% url 'detail_berita' slug=entri.objek.slug %}"
-                                                    >
-                                                        Baca selengkapnya
-                                                        <i class="bi bi-arrow-right"></i>
-                                                    </a>
-
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-
-                                    </article>
-
-                                {% endfor %}
-
-                            </div>
-                        
-                        </div>
-
-                    {% endif %}
-                </div>
             <!-- PAGINATION BERITA -->
             {% include "core/components/pagination.html" %}
-       
-            {% else %}
 
-                <div class="empty-state text-center">
+        {% else %}
 
-                    {% if sedang_mencari %}
+            <div class="empty-state text-center">
+                {% if sedang_mencari %}
 
-                        <i class="bi bi-search fs-1"></i>
+                    <i class="bi bi-search fs-1"></i>
+                    <h3 class="h5 fw-bold mb-2">Berita Tidak Ditemukan</h3>
+                    <p class="mb-3">
+                        Tidak ditemukan berita dengan kata kunci
+                        "<strong>{{ kata_kunci }}</strong>".
+                        Coba gunakan kata kunci lainnya.
+                    </p>
+                    <a href="{% url 'berita' %}" class="btn btn-outline-success rounded-pill px-4">
+                        <i class="bi bi-arrow-counterclockwise"></i>
+                        Tampilkan Semua Berita
+                    </a>
 
-                        <h3 class="h5 fw-bold mb-2">
-                            Berita Tidak Ditemukan
-                        </h3>
+                {% else %}
 
-                        <p class="mb-3">
-                            Tidak ditemukan berita dengan kata kunci
-                            "<strong>{{ kata_kunci }}</strong>".
-                            Coba gunakan kata kunci lainnya.
-                        </p>
+                    <i class="bi bi-newspaper fs-1"></i>
+                    <h3 class="h5 fw-bold mb-2">Belum Ada Berita</h3>
+                    <p class="mb-0">
+                        Belum ada berita yang diterbitkan.
+                        Silakan kunjungi kembali halaman ini nanti.
+                    </p>
 
-                        <a
-                            href="{% url 'berita' %}"
-                            class="btn btn-outline-success rounded-pill px-4"
-                        >
-                            <i class="bi bi-arrow-counterclockwise"></i>
-                            Tampilkan Semua Berita
-                        </a>
+                {% endif %}
+            </div>
 
-                    {% else %}
-
-                        <i class="bi bi-newspaper fs-1"></i>
-
-                        <h3 class="h5 fw-bold mb-2">
-                            Belum Ada Berita
-                        </h3>
-
-                        <p class="mb-0">
-                            Belum ada berita yang diterbitkan.
-                            Silakan kunjungi kembali halaman ini nanti.
-                        </p>
-
-                    {% endif %}
-
-                </div>
-
-            {% endif %}
+        {% endif %}
     </div>
 </section>
 {% endblock %}

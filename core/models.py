@@ -2,7 +2,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
-from django.core.exceptions import ValidationError
+from django.db.models import Q
 
 
 # 1. Profil organisasi
@@ -46,8 +46,6 @@ class Pimpinan(models.Model):
     nama = models.CharField(max_length=150)
     jabatan = models.CharField(max_length=150)
     periode = models.CharField(max_length=30, default="-", help_text="Contoh: 2022–2027")
-    alamat = models.TextField(blank=True, help_text="Masukkan alamat pimpinan (opsional)"
-    )
     foto = models.ImageField(upload_to="pimpinan/")
     urutan_tampil = models.PositiveIntegerField(default=0)
 
@@ -110,7 +108,12 @@ class BeritaQuerySet(models.QuerySet):
             status=self.model.Status.TERBIT,
             tanggal_terbit__lte=sekarang
         )
-
+    def cari(self, q):
+        return self.filter(
+            Q(judul__icontains=q)
+            | Q(ringkasan__icontains=q)
+            | Q(isi__icontains=q)
+        )
 
 class Berita(models.Model):
     class Status(models.TextChoices):
