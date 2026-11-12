@@ -1,272 +1,400 @@
-# Django PCM Grogol
+# Website Profil Pimpinan Cabang Muhammadiyah Grogol
 
-Dokumentasi implementasi dan pengembangan website Pimpinan Cabang Muhammadiyah (PCM) Grogol menggunakan Django.
+Website profil Pimpinan Cabang Muhammadiyah (PCM) Grogol merupakan aplikasi berbasis web yang dikembangkan menggunakan Django sebagai bagian dari tugas mata kuliah Pemrograman Web Berbasis Framework.
 
----
+Website ini bertujuan untuk menyediakan informasi organisasi, meliputi profil, sejarah, visi dan misi, struktur pimpinan, ranting, amal usaha, berita, agenda kegiatan, serta dokumen organisasi.
 
-# 1. Implementasi Context Processor untuk Footer
-
-## 1.1 Deskripsi
-
-Context Processor digunakan untuk menyediakan data tautan persyarikatan (`TautanTerkait`) dari database ke seluruh template Django secara otomatis.
-
-Dengan menggunakan Context Processor, data tautan tidak perlu diambil dan dikirim secara berulang melalui setiap fungsi View. Hal ini membuat pengelolaan kode lebih efisien dan memudahkan pemeliharaan aplikasi.
-
-## 1.2 Struktur File
-
-Tambahkan file `context_processors.py` di dalam direktori aplikasi `core`.
-
-```text
-core/
-├── context_processors.py
-├── models.py
-├── views.py
-└── templates/
-```
-
-## 1.3 Pembuatan Context Processor
-
-Buat fungsi `tautan_footer` pada file `core/context_processors.py`.
-
-```python
-from .models import TautanTerkait
-
-def tautan_footer(request):
-    return {
-        "tautan_terkait": TautanTerkait.objects.all()
-    }
-```
-
-**Keterangan:**
-
-- `TautanTerkait`: Model yang digunakan untuk mengambil data tautan dari database.
-- `request`: Parameter request yang diberikan Django kepada Context Processor.
-- `tautan_terkait`: Nama variabel yang dapat dipanggil langsung dari template.
-- `objects.all()`: Mengambil seluruh data tautan yang tersimpan di database.
-
-## 1.4 Konfigurasi pada settings.py
-
-Daftarkan Context Processor pada bagian `TEMPLATES`, tepatnya di dalam konfigurasi `context_processors`.
-
-```python
-'context_processors': [
-    'django.template.context_processors.request',
-    'django.contrib.auth.context_processors.auth',
-    'django.contrib.messages.context_processors.messages',
-    'core.context_processors.tautan_footer',
-],
-```
-
-Pendaftaran ini memungkinkan Django menjalankan fungsi `tautan_footer` ketika memproses template menggunakan konfigurasi tersebut.
-
-## 1.5 Penerapan pada Template Footer
-
-Gunakan variabel `tautan_terkait` untuk menampilkan daftar tautan persyarikatan pada footer.
-
-```django
-<ul class="list-unstyled footer-links">
-    {% for tautan in tautan_terkait %}
-        <li class="mb-2">
-            <a href="{{ tautan.url }}"
-               target="_blank"
-               rel="noopener noreferrer">
-                {{ tautan.nama }}
-            </a>
-        </li>
-    {% empty %}
-        <li class="footer-muted">
-            Belum ada tautan tersedia.
-        </li>
-    {% endfor %}
-</ul>
-```
-
-**Keterangan:**
-
-- `tautan.nama`: Menampilkan nama tautan.
-- `tautan.url`: Menampilkan alamat tujuan tautan.
-- `target="_blank"`: Membuka tautan pada tab baru.
-- `{% empty %}`: Menampilkan keterangan apabila belum terdapat data tautan.
-
-## 1.6 Keuntungan Penggunaan Context Processor
-
-1. **Efisiensi kode:** Tidak perlu mengambil data tautan secara berulang pada setiap View.
-2. **Konsistensi data:** Seluruh halaman dapat menampilkan daftar tautan yang sama.
-3. **Kemudahan pemeliharaan:** Perubahan data cukup dilakukan melalui pengelolaan database.
-4. **Penggunaan ulang (reusability):** Data dapat digunakan pada berbagai template selama diproses menggunakan konfigurasi Context Processor tersebut.
-
-## 1.7 Hasil Implementasi
-
-Data tautan persyarikatan yang tersimpan di database dapat ditampilkan secara otomatis pada footer di seluruh halaman website yang menggunakan template footer tersebut, tanpa perlu menambahkan pengambilan data secara manual pada setiap fungsi View.
+> **Disclaimer:** Website ini dibuat untuk memenuhi tugas kuliah Pemrograman Web Berbasis Framework, bukan merupakan website resmi Pimpinan Cabang Muhammadiyah Grogol.
 
 ---
 
-# 2. Implementasi Django Template: Extends dan Include
+## 1. Identitas Kelompok
 
-## 2.1 Tujuan
+**Nama Kelompok:** Kelompok M
 
-Penggunaan `extends` dan `include` bertujuan untuk menghindari penulisan kode HTML yang berulang pada setiap halaman website PCM Grogol.
+**Mata Kuliah:** Pemrograman Web Berbasis Framework
 
-Dengan penerapan ini, bagian yang memiliki struktur sama dapat digunakan kembali sehingga pengelolaan template menjadi lebih mudah dan konsisten.
+**Program Studi:** Informatika
 
-## 2.2 Struktur Template
+**Fakultas:** Komunikasi dan Informatika
 
-Komponen template disusun seperti berikut:
+**Universitas:** Universitas Muhammadiyah Surakarta
 
-```text
-core/
-└── templates/
-    └── core/
-        ├── components/
-        │   ├── base.html
-        │   ├── topbar.html
-        │   ├── navbar.html
-        │   ├── hero.html
-        │   └── footer.html
-        │
-        ├── home.html
-        ├── pimpinan.html
-        └── ranting.html
-```
+### Anggota Kelompok
 
-**Keterangan:**
+| No. | Nama Anggota | NIM | Kontribusi |
+|---|---|---|---|
+| 1 | Amanda Yesi | L2002400 | Hihu |
+| 2 | Faqih Indra | L2002400 | Hihi |
+| 3 | Arifa Satya Wicaksana | L200240029 | Pengembangan backend Django, perancangan model database, implementasi views dan URL routing, integrasi template, pagination, fitur pencarian berita, serta konfigurasi dependensi menggunakan uv. |
+| 4 | Satria Maulana | L2002400 | Haha |
+| 5 | Mada Kumba | L2002400 | Hoho |
 
-- `base.html`: Template utama yang menjadi kerangka dasar halaman.
-- `topbar.html`: Komponen bagian informasi atas website.
-- `navbar.html`: Komponen navigasi website.
-- `hero.html`: Komponen banner atau bagian pengenalan halaman.
-- `footer.html`: Komponen bagian bawah website.
-- Template halaman seperti `home.html`, `pimpinan.html`, dan `ranting.html` berisi konten khusus masing-masing halaman.
+---
 
-## 2.3 Penggunaan Extends
+## 2. Identitas PCM yang Dipilih
 
-`extends` digunakan untuk mewarisi struktur HTML dari template utama (`base.html`).
-
-Contoh penerapan pada `pimpinan.html`:
-
-```django
-{% extends 'core/components/base.html' %}
-
-{% block title %}Pimpinan PCM{% endblock %}
-
-{% block hero %}
-    ...
-{% endblock %}
-
-{% block content %}
-    ...
-{% endblock %}
-```
-
-Dengan menggunakan `extends`, halaman `pimpinan.html` tidak perlu menuliskan ulang struktur HTML utama seperti `<html>`, `<head>`, `<body>`, dan komponen umum lainnya.
-
-### Penggunaan Block
-
-`block` digunakan untuk menentukan bagian template yang dapat diisi atau diganti oleh template turunan.
-
-Block yang digunakan antara lain:
-
-| Block | Fungsi |
+| Informasi | Keterangan |
 |---|---|
-| `title` | Mengatur judul halaman pada tab browser. |
-| `topbar` | Menyediakan bagian topbar. |
-| `navbar` | Menyediakan bagian navigasi. |
-| `hero` | Menampilkan banner atau pengenalan halaman. |
-| `content` | Menampilkan konten utama halaman. |
+| Nama Organisasi | Pimpinan Cabang Muhammadiyah Grogol |
+| Singkatan | PCM Grogol |
+| Wilayah | Grogol, Kabupaten Sukoharjo, Jawa Tengah |
+| Organisasi Induk | Muhammadiyah |
+| Website | [URL Produksi] |
 
-Contoh pada `base.html`:
+---
 
-```django
-<title>{% block title %}PCM Grogol{% endblock %}</title>
+## 3. Deskripsi Website
 
-{% block hero %}{% endblock %}
+Website Profil PCM Grogol dikembangkan untuk mempermudah masyarakat dalam memperoleh informasi mengenai organisasi dan kegiatan Pimpinan Cabang Muhammadiyah Grogol.
 
-{% block content %}{% endblock %}
-```
+### Fitur Website
 
-Template turunan dapat mengisi block tersebut sesuai kebutuhan masing-masing halaman.
+1. **Beranda:** Menampilkan informasi utama dan ringkasan profil organisasi.
+2. **Profil Organisasi:** Menampilkan identitas, sejarah, visi, dan misi PCM.
+3. **Pimpinan:** Menampilkan informasi pengurus dan struktur pimpinan organisasi.
+4. **Ranting:** Menampilkan daftar Pimpinan Ranting Muhammadiyah di wilayah Grogol.
+5. **Amal Usaha:** Menampilkan informasi amal usaha Muhammadiyah.
+6. **Berita:** Menampilkan informasi dan dokumentasi kegiatan organisasi.
+7. **Agenda:** Menampilkan jadwal kegiatan organisasi.
+8. **Dokumen:** Menyediakan informasi dan dokumen organisasi yang dapat diakses.
+9. **Tautan Terkait:** Menampilkan tautan menuju website Persyarikatan Muhammadiyah.
 
-## 2.4 Penggunaan Include
+---
 
-`include` digunakan untuk memasukkan komponen template lain ke dalam template yang sedang digunakan.
+## 4. Teknologi yang Digunakan
 
-Contoh penerapan pada `base.html`:
+| Teknologi | Keterangan |
+|---|---|
+| Python | Bahasa pemrograman utama |
+| Django | Backend web framework |
+| HTML5 | Struktur halaman website |
+| CSS3 | Styling dan tampilan website |
+| Bootstrap 5 | Framework antarmuka |
+| JavaScript | Interaksi pada halaman website |
+| SQLite / PostgreSQL | Database |
+| Pillow | Pengelolaan gambar |
+| uv | Pengelolaan dependensi Python |
+| Git & GitHub | Version control dan kolaborasi |
 
-```django
-{% include 'core/components/topbar.html' %}
-{% include 'core/components/navbar.html' %}
+---
 
-{% block hero %}{% endblock %}
+## 5. Sumber Data dan Dokumentasi
 
-{% block content %}{% endblock %}
+Seluruh data yang digunakan dalam pengembangan website dicatat berdasarkan sumber perolehannya untuk menjaga transparansi dan memudahkan proses verifikasi.
 
-{% include 'core/components/footer.html' %}
-```
+### Tabel Sumber Data
 
-Dengan demikian, komponen topbar, navbar, dan footer cukup dibuat satu kali dan dapat digunakan kembali pada berbagai halaman.
+| No. | Data | Sumber | Tanggal Diambil |
+|---|---|---|---|
+| 1 | Profil organisasi | 	Wawancara dengan pengurus PCM Grogol | 26 Oktober 2026 |
+| 2 | Sejarah organisasi | File dokumen resmi dari pengurus PCM Grogol | 26 Oktober 2026 |
+| 3 | Visi dan misi | 	Wawancara dengan pengurus PCM Grogol | 26 Oktober 2026 |
+| 4 | Struktur pimpinan | File dokumen resmi dari pengurus PCM Grogol | 26 Oktober 2026 |
+| 5 | Data pimpinan | File dokumen resmi dari pengurus PCM Grogol | 26 Oktober 2026 |
+| 6 | Data ranting | File dokumen resmi dari pengurus PCM Grogol | 26 Oktober 2026 |
+| 7 | Data amal usaha | File dokumen resmi dari pengurus PCM Grogol | 26 Oktober 2026 |
+| 8 | Berita dan kegiatan | Wawancara dengan pengurus PCM Grogol | 26 Oktober 2026 |
+| 9 | Agenda kegiatan | Wawancara dengan pengurus PCM Grogol | 26 Oktober 2026 |
+| 10 | Foto dan dokumentasi | File dokumen resmi dari pengurus PCM Grogol | 26 Oktober 2026 |
 
-### Include dengan Parameter
+**Keterangan sumber data:**
+- Website resmi Muhammadiyah atau organisasi terkait.
+- Informasi yang diperoleh melalui wawancara dengan pengurus PCM Grogol.
+- Dokumen atau arsip organisasi yang diberikan oleh pengurus.
+- Dokumentasi kegiatan yang telah dipublikasikan.
+- Sumber lainnya yang dapat dipertanggungjawabkan.
 
-Komponen Hero memiliki struktur yang sama, tetapi isi teksnya berbeda pada setiap halaman. Oleh karena itu, digunakan `include` dengan parameter `with`.
+### Izin Penggunaan Data dan Dokumentasi
 
-Contoh penerapan pada `pimpinan.html`:
+Penggunaan foto, dokumen, maupun informasi internal organisasi yang belum dipublikasikan dilakukan setelah memperoleh izin dari pihak yang berwenang.
 
-```django
-{% block hero %}
-    {% include 'core/components/hero.html' with
-        hero_label="STRUKTUR ORGANISASI"
-        hero_title="Pimpinan PCM"
-        hero_description="Kenali jajaran pimpinan dan periode kepengurusan Pimpinan Cabang Muhammadiyah."
-    %}
-{% endblock %}
-```
+| No. | Nama Pengurus | Jabatan | Data yang Diizinkan | Bentuk Izin |
+|---|---|---|---|---|
+| 1 | Agus Komarudin | Ketua | Informasi Dokumen Data dan Foto | Lisan |
+| 2 | Drs H Muhamad Safrudin | Sekretaris | Informasi Dokumen Data dan Foto | Lisan |
 
-Parameter tersebut digunakan untuk mengirimkan informasi ke `hero.html`.
+Apabila tidak menggunakan data atau dokumentasi yang memerlukan izin khusus, bagian ini dapat disesuaikan dengan kondisi sebenarnya.
 
-Contoh isi `hero.html`:
+---
 
-```django
-<header class="hero text-center">
-    <div class="container">
-        <span class="hero-label">{{ hero_label }}</span>
-        <h1>{{ hero_title }}</h1>
-        <p>{{ hero_description }}</p>
-    </div>
-</header>
-```
+## 6. Kontribusi Anggota Kelompok
 
-Dengan cara ini, struktur Hero tetap sama, sedangkan teksnya dapat disesuaikan untuk setiap halaman.
+Berikut merupakan pembagian tugas dan kontribusi setiap anggota selama proses pengembangan website.
 
-## 2.5 Pembagian Tanggung Jawab Template
-
-Penerapan `extends` dan `include` membagi tanggung jawab template sebagai berikut:
-
-- `base.html` mengatur kerangka utama halaman, pemanggilan komponen umum, file CSS, dan JavaScript.
-- `topbar.html`, `navbar.html`, `hero.html`, dan `footer.html` menyimpan komponen yang dapat digunakan kembali.
-- Template turunan seperti `pimpinan.html` dan `ranting.html` mengatur konten yang bersifat khusus untuk halaman tersebut.
-
-Sebagai contoh, pada `pimpinan.html`, bagian daftar pimpinan, foto, informasi identitas, kondisi data kosong, dan pagination tetap berada di dalam block `content`.
-
-## 2.6 Perbedaan Extends dan Include
-
-| Aspek | Extends | Include |
+| No. | Nama Anggota | Kontribusi |
 |---|---|---|
-| Fungsi | Mewarisi template utama. | Memasukkan komponen template lain. |
-| Penggunaan | Hubungan template induk dan turunan. | Menggunakan kembali potongan template. |
-| Contoh | `base.html` ke `pimpinan.html`. | `navbar.html` ke `base.html`. |
-| Tujuan | Menghindari pengulangan kerangka halaman. | Menghindari pengulangan komponen HTML. |
+| 1 | Arifa Satya Wicaksana | [Pengembangan backend Django, model, views, integrasi database, dan lainnya] |
+| 2 | [Nama Anggota 2] | [Kontribusi] |
+| 3 | [Nama Anggota 3] | [Kontribusi] |
+| 4 | [Nama Anggota 4] | [Kontribusi] |
 
-## 2.7 Catatan Penting
+Kontribusi di atas disesuaikan dengan pekerjaan yang benar-benar dilakukan oleh setiap anggota kelompok.
 
-1. Penggunaan `extends` harus ditempatkan di bagian paling atas template turunan.
-2. Nama block pada template turunan harus sesuai dengan nama block yang tersedia pada template utama.
-3. Komponen yang selalu digunakan pada semua halaman sebaiknya dipanggil langsung dari `base.html`.
-4. Komponen yang memiliki struktur sama tetapi isi berbeda dapat menggunakan `include` dengan parameter `with`.
-5. Jika sebuah file template menggunakan `{% static %}`, tambahkan `{% load static %}` pada file tersebut.
-6. Jangan menuliskan ulang footer, navbar, Bootstrap JavaScript, dan file JavaScript utama di template turunan apabila sudah ditangani oleh `base.html`.
+---
 
-## 2.8 Kesimpulan
+## 7. Struktur Direktori Proyek
 
-Penggunaan `extends` dan `include` membuat struktur template website PCM Grogol menjadi lebih terorganisasi dan mengurangi duplikasi kode HTML.
+```text
+django-pcm/
+├── config/
+│   ├── settings.py
+│   ├── urls.py
+│   └── ...
+├── core/
+│   ├── management/
+│   ├── migrations/
+│   ├── models.py
+│   ├── views.py
+│   ├── urls.py
+│   ├── admin.py
+│   ├── templates/
+│   └── static/
+├── media/
+├── staticfiles/
+├── .env.example
+├── .gitignore
+├── .python-version
+├── Dockerfile
+├── docker-compose.yml
+├── manage.py
+├── pyproject.toml
+├── uv.lock
+└── README.md
+```
 
-`extends` digunakan untuk mewarisi kerangka halaman, sedangkan `include` digunakan untuk menggunakan kembali komponen tertentu. Dengan penerapan ini, perubahan pada komponen umum dapat dilakukan cukup dari satu file tanpa harus mengubah setiap halaman secara terpisah.
+*Struktur direktori di atas merupakan gambaran umum dan perlu disesuaikan dengan struktur repository sebenarnya.*
+
+---
+
+## 8. Persiapan dan Instalasi
+
+Pastikan perangkat telah memiliki:
+- Python versi 3.12 atau sesuai konfigurasi proyek.
+- Git.
+- uv.
+- Docker dan Docker Compose (untuk menjalankan menggunakan Docker).
+
+### A. Menjalankan Secara Lokal Menggunakan uv
+
+**1. Clone repository**
+
+```bash
+git clone https://github.com/403ArkhamS3c/Django-pcm.git
+```
+
+**2. Masuk ke direktori proyek**
+
+```bash
+cd Django-pcm
+```
+
+**3. Install dependensi**
+
+```bash
+uv sync
+```
+
+**4. Konfigurasi environment variable**
+
+Salin file `.env.example` menjadi `.env`.
+
+Windows PowerShell:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+Linux/macOS:
+
+```bash
+cp .env.example .env
+```
+
+Sesuaikan nilai environment variable dengan konfigurasi lokal.
+
+**5. Jalankan migrasi database**
+
+```bash
+uv run python manage.py migrate
+```
+
+**6. Jalankan server Django**
+
+```bash
+uv run python manage.py runserver
+```
+
+**7. Buka website**
+
+```text
+http://127.0.0.1:8000/
+```
+
+### B. Menjalankan Menggunakan Docker
+
+Pastikan Docker Desktop atau Docker Engine telah berjalan.
+
+**1. Clone repository**
+
+```bash
+git clone https://github.com/403ArkhamS3c/Django-pcm.git
+cd Django-pcm
+```
+
+**2. Buat file environment**
+
+```powershell
+Copy-Item .env.example .env
+```
+
+**3. Build dan jalankan container**
+
+```bash
+docker compose up --build -d
+```
+
+**4. Jalankan migrasi database**
+
+```bash
+docker compose exec web python manage.py migrate
+```
+
+**5. Akses website**
+
+```text
+http://localhost:8000/
+```
+
+*Catatan: Nama service `web` dan konfigurasi perintah di atas harus disesuaikan dengan `docker-compose.yml` yang digunakan.*
+
+### Perintah Docker Tambahan
+
+Melihat container yang berjalan:
+
+```bash
+docker compose ps
+```
+
+Melihat log aplikasi:
+
+```bash
+docker compose logs -f
+```
+
+Menghentikan container tanpa menghapus volume:
+
+```bash
+docker compose down
+```
+
+**PERINGATAN:**
+
+```bash
+docker compose down -v
+```
+
+Perintah tersebut menghapus container beserta volume yang terhubung dengan proyek.
+
+Volume Docker dapat menyimpan data persisten, termasuk database PostgreSQL. Oleh karena itu, penggunaan opsi `-v` dapat menyebabkan seluruh data database yang tersimpan di volume tersebut terhapus secara permanen.
+
+Gunakan perintah tersebut hanya jika memang ingin menghapus data dan telah melakukan pencadangan (backup) terlebih dahulu.
+
+---
+
+## 9. Konfigurasi Environment Variable
+
+Konfigurasi aplikasi disimpan menggunakan environment variable untuk memisahkan informasi sensitif dari source code.
+
+File `.env` tidak disertakan dalam repository GitHub. Sebagai gantinya, repository menyediakan `.env.example` sebagai referensi konfigurasi.
+
+### Daftar Environment Variable
+
+| Variable | Fungsi | Contoh |
+|---|---|---|
+| SECRET_KEY | Kunci keamanan Django | Hihu |
+| DEBUG | Mengaktifkan mode debug | Haha |
+| ALLOWED_HOSTS | Daftar host yang diizinkan | Hihi |
+| DATABASE_URL | Koneksi database | Huhu |
+
+*Daftar ini harus disesuaikan dengan variabel yang benar-benar dibaca oleh aplikasi.*
+
+Contoh `.env.example`:
+
+```env
+SECRET_KEY= Hihu
+DEBUG=Hihi
+ALLOWED_HOSTS=Haha
+DATABASE_URL=Huhu
+```
+
+**Penting:** Jangan memasukkan SECRET_KEY asli, password database, atau kredensial lainnya ke repository publik.
+
+---
+
+## 10. Deployment dan Infrastruktur Produksi
+
+Website direncanakan atau telah dipublikasikan melalui platform berikut.
+
+| Komponen | Keterangan |
+|---|---|
+| URL Produksi | [URL Website] |
+| Platform Hosting | [Nama Platform] |
+| Database Produksi | [Nama Database] |
+| Backend | Django |
+| Pengelolaan Dependensi | uv |
+
+### Alasan Pemilihan Platform
+
+**Platform Hosting:**
+
+[Alasan memilih platform hosting, misalnya kemudahan deployment, dukungan Python/Django, integrasi GitHub, ketersediaan layanan, dan biaya.]
+
+**Database:**
+
+[Alasan memilih SQLite atau PostgreSQL, misalnya kebutuhan penyimpanan data, skalabilitas, dukungan relasi, dan kemudahan pengelolaan.]
+
+---
+
+## 11. Akun Admin Demo untuk Penilaian
+
+Akun administrator disediakan untuk membantu dosen melakukan pengujian terhadap fitur pengelolaan data pada website.
+
+| Informasi | Keterangan |
+|---|---|
+| URL Admin | [URL Admin] |
+| Username | [Dikirim secara terpisah] |
+| Password | [Dikirim secara terpisah] |
+
+**Catatan keamanan:**
+- Kredensial akun admin demo tidak disimpan di repository GitHub.
+- Username dan password disampaikan melalui media terpisah kepada dosen.
+- Akun demo hanya digunakan untuk keperluan penilaian.
+
+---
+
+## 12. Catatan dan Ketentuan Penggunaan
+
+1. Website ini dikembangkan untuk keperluan akademik dalam mata kuliah Pemrograman Web Berbasis Framework.
+2. Website ini bukan merupakan website resmi PCM Grogol.
+3. Informasi organisasi yang ditampilkan digunakan untuk keperluan pembelajaran dan pengembangan aplikasi.
+4. Penggunaan foto, dokumen, dan informasi internal mengikuti izin dari pihak terkait.
+5. Informasi yang ditampilkan perlu dikonfirmasi kepada pengurus PCM sebelum digunakan sebagai informasi resmi organisasi.
+
+---
+
+## 13. Repository
+
+Source code proyek dapat diakses melalui GitHub:
+
+https://github.com/403ArkhamS3c/Django-pcm
+
+---
+
+**Dikembangkan oleh Kelompok [Nama Kelompok]**
+
+Program Studi Informatika  
+Fakultas Komunikasi dan Informatika  
+Universitas Muhammadiyah Surakarta
+
+2026
