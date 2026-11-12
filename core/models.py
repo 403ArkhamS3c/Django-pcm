@@ -4,7 +4,6 @@ from django.utils import timezone
 from django.utils.text import slugify
 from django.db.models import Q
 
-
 # 1. Profil organisasi
 class ProfilOrganisasi(models.Model):
     nama = models.CharField(max_length=200)

@@ -212,9 +212,9 @@ def daftar_agenda(request):
     )
 
     # Pagination masing-masing kategori
-    paginator_mendatang = Paginator(agenda_mendatang, 5)
-    paginator_hari_ini = Paginator(agenda_hari_ini, 5)
-    paginator_sebelumnya = Paginator(agenda_sebelumnya, 5)
+    paginator_mendatang = Paginator(agenda_mendatang, 3)
+    paginator_hari_ini = Paginator(agenda_hari_ini, 3)
+    paginator_sebelumnya = Paginator(agenda_sebelumnya, 3)
 
     halaman_mendatang = paginator_mendatang.get_page(
         request.GET.get("page_mendatang", 1)

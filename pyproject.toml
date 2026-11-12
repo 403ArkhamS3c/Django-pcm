@@ -1,0 +1,19 @@
+[project]
+name = "django-pcm"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Arifa Satya Wicaksana", email = "Aripa0349@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "asgiref==3.13.0",
+    "dj-database-url==3.1.2",
+    "django==6.1.2",
+    "pillow==13.0.0",
+    "python-dotenv==1.2.4",
+    "sqlparse==0.6.0",
+    "tzdata==2026.5",
+]
+
