@@ -4,7 +4,6 @@ from django.utils import timezone
 from django.utils.text import slugify
 from django.core.exceptions import ValidationError
 
-
 # 1. Profil organisasi
 class ProfilOrganisasi(models.Model):
     nama = models.CharField(max_length=200)
