@@ -24,7 +24,7 @@ Website ini bertujuan untuk menyediakan informasi organisasi, meliputi profil, s
 
 | No. | Nama Anggota | NIM | Kontribusi |
 |---|---|---|---|
-| 1 | Amanda Yesi | L2002400 | Hihu |
+| 1 | Amanda Yesi Kurniaty | L200240007 | Hihu |
 | 2 | Faqih Indra | L2002400 | Hihi |
 | 3 | Arifa Satya Wicaksana | L200240029 | Pengembangan backend Django, perancangan model database, implementasi views dan URL routing, integrasi template, pagination, fitur pencarian berita, serta konfigurasi dependensi menggunakan uv. |
 | 4 | Satria Maulana | L2002400 | Haha |
