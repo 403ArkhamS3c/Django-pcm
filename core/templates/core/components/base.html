@@ -1,3 +1,4 @@
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="id">
@@ -21,6 +22,7 @@
 </head>
 
 <body>
+
     <!-- Loading page -->
     <div id="page-loading" class="page-loading" aria-hidden="true">
         <div class="loading-content">
@@ -39,8 +41,37 @@
 
         </div>
     </div>
-    <div class="masthead" style="--hero-image: url('{% static 'images/background.jpg' %}');">
 
+    <!-- Masthead -->
+    <div class="masthead">
+
+        <!-- Background Slider -->
+        <div class="masthead-slides">
+
+            <div class="masthead-slide active">
+                <img
+                    src="{% static 'images/background.jpg' %}"
+                    alt=""
+                >
+            </div>
+
+            <div class="masthead-slide">
+                <img
+                    src="{% static 'images/background2.png' %}"
+                    alt=""
+                >
+            </div>
+
+            <div class="masthead-slide">
+                <img
+                    src="{% static 'images/background3.png' %}"
+                    alt=""
+                >
+            </div>
+
+        </div>
+
+        <!-- Header Components -->
         {% include 'core/components/topbar.html' %}
         {% include 'core/components/navbar.html' %}
         {% block hero %}{% endblock %}

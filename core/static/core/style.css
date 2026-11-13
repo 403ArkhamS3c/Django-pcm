@@ -35,7 +35,7 @@ body {
     color: var(--ink);
 
     background-color: var(--paper);
-    background-image: url("/static/images/background.jpg");
+    background-image: url("/static/images/background2.png");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -62,26 +62,104 @@ img { max-width: 100%; }
     border-radius: 4px;
 }
 
-/* ---------- Masthead: gambar latar dari atas sampai hero ---------- */
+
+
+/* ---------- Masthead Horizontal Slider ---------- */
+
 .masthead {
     position: relative;
+    isolation: isolate;
+    overflow: hidden;
     color: var(--white);
-    background:
-        linear-gradient(180deg, rgba(6, 61, 39, 0.30) 0%, rgba(6, 61, 39, 0.45) 100%),
-        var(--hero-image) center / cover no-repeat,
-        var(--green-800);
+    background: var(--green-800);
+    cursor: grab;
+    touch-action: pan-y;
 }
 
-/* Pita emas di dasar masthead */
+/* Area slider */
+.masthead-slides {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+
+    display: flex;
+    width: 100%;
+    height: 100%;
+
+    transition: transform 1s cubic-bezier(0.65, 0, 0.35, 1);
+    will-change: transform;
+}
+
+/* Setiap slide */
+.masthead-slide {
+    position: relative;
+    flex: 0 0 100%;
+    width: 100%;
+    height: 100%;
+}
+
+/* Gambar */
+.masthead-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+/* Overlay hijau */
+.masthead::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+
+    background: linear-gradient(
+        180deg,
+        rgba(6, 61, 39, 0.30) 0%,
+        rgba(6, 61, 39, 0.45) 100%
+    );
+}
+
+/* Konten masthead */
+.masthead > :not(.masthead-slides) {
+    position: relative;
+    z-index: 3;
+}
+
+/* Pita emas */
 .masthead::after {
     content: "";
     position: absolute;
     left: 0;
     right: 0;
     bottom: 0;
+    z-index: 4;
     height: 6px;
-    background: linear-gradient(90deg, var(--gold-500), var(--gold-400), var(--gold-500));
+
+    background: linear-gradient(
+        90deg,
+        var(--gold-500),
+        var(--gold-400),
+        var(--gold-500)
+    );
 }
+
+/* Kondisi ketika slider sedang diusap */
+.masthead.is-dragging {
+    cursor: grabbing;
+    user-select: none;
+}
+
+.masthead.is-dragging .masthead-slides {
+    transition: none;
+}
+
 
 /* ---------- Ikon media sosial ---------- */
 .topbar { padding: 0.7rem 0 0.2rem; }

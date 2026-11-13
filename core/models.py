@@ -46,6 +46,7 @@ class Pimpinan(models.Model):
     jabatan = models.CharField(max_length=150)
     periode = models.CharField(max_length=30, default="-", help_text="Contoh: 2022–2027")
     foto = models.ImageField(upload_to="pimpinan/")
+    alamat = models.CharField(max_length=255, blank=True)
     urutan_tampil = models.PositiveIntegerField(default=0)
 
     class Meta:
