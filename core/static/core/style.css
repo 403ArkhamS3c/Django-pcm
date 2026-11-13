@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
 
 :root {
     --green-900: #063d27;
@@ -35,7 +35,7 @@ body {
     color: var(--ink);
 
     background-color: var(--paper);
-    background-image: url("/static/images/background.jpg");
+    background-image: url("/static/images/backgrounds.png");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -61,18 +61,88 @@ img { max-width: 100%; }
     outline-offset: 2px;
     border-radius: 4px;
 }
-
-/* ---------- Masthead: gambar latar dari atas sampai hero ---------- */
+ /*masthead navbar*/
 .masthead {
     position: relative;
     color: var(--white);
-    background:
-        linear-gradient(180deg, rgba(6, 61, 39, 0.30) 0%, rgba(6, 61, 39, 0.45) 100%),
-        var(--hero-image) center / cover no-repeat,
-        var(--green-800);
+    background: transparent;
 }
 
-/* Pita emas di dasar masthead */
+/* Slideshow */
+.masthead-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: transform 1.2s ease-in-out, opacity 1.2s ease-in-out;
+}
+
+/* Setiap gambar */
+.masthead-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transform: translateX(100%);
+    transition:
+        transform 1.2s ease-in-out,
+        opacity 1.2s ease-in-out;
+
+    background:
+        linear-gradient(
+        180deg,
+        rgba(6, 61, 39, 0.30) 0%,
+        rgba(6, 61, 39, 0.45) 100%
+    );
+}
+
+.masthead-slide img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+.masthead-slide.is-active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.masthead-slide.is-before {
+    opacity: 1;
+    transform: translateX(-100%);
+}
+
+/* Konten di atas slideshow */
+.masthead > .topbar {
+    position: relative;
+    z-index: 5;
+}
+
+.masthead > .nav-wrap {
+    position: relative;
+    z-index: 20;
+}
+
+.masthead > .hero {
+    position: relative;
+    z-index: 1;
+}
+
+.masthead-slide::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        rgba(3, 45, 30, 0.30) 0%,
+        rgba(3, 45, 30, 0.20) 45%,
+        rgba(3, 45, 30, 0.40) 100%
+    );
+    z-index: 1;
+}
+/* Pita emas */
 .masthead::after {
     content: "";
     position: absolute;
@@ -80,7 +150,14 @@ img { max-width: 100%; }
     right: 0;
     bottom: 0;
     height: 6px;
-    background: linear-gradient(90deg, var(--gold-500), var(--gold-400), var(--gold-500));
+    z-index: 10;
+
+    background: linear-gradient(
+        90deg,
+        var(--gold-500),
+        var(--gold-400),
+        var(--gold-500)
+    );
 }
 
 /* ---------- Ikon media sosial ---------- */
@@ -113,6 +190,41 @@ img { max-width: 100%; }
     background: var(--gold-500);
     border-color: var(--gold-500);
     color: var(--green-900);
+}
+
+/* Navbar mengikuti scroll */
+.nav-wrap.is-fixed {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(1100px, 92%);
+    z-index: 1050;
+}
+
+/* Animasi navbar muncul */
+.nav-wrap.is-fixed .nav-panel {
+    animation: navbarSlideDown 0.35s ease-out;
+    box-shadow:
+        0 5px 18px rgba(6, 61, 39, 0.15),
+        0 8px 28px rgba(227, 167, 47, 0.22);
+}
+
+@keyframes navbarSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Ruang pengganti ketika navbar menjadi fixed */
+.navbar-spacer {
+    display: block;
+    height: 0;
 }
 
 /* ---------- Navbar: panel putih berlapis, bayangan emas ---------- */
@@ -1276,48 +1388,42 @@ img { max-width: 100%; }
     background:
         linear-gradient(
             180deg,
-            rgba(6, 61, 39, 0.30) 0%,
-            rgba(6, 61, 39, 0.45) 100%
+            rgba(6, 61, 39, 0.45) 0%,
+            rgba(6, 61, 39, 0.58) 100%
         ),
-        url("../images/background.jpg") center / cover no-repeat,
-        var(--hero-image) center / cover no-repeat,
+        url("../images/footer.png") center top / cover no-repeat,
         var(--green-800);
 
     border-top: 5px solid var(--gold-500);
-    color: rgba(255, 255, 255, 0.85);
+    color: #ffffff;
 }
 
-.footer-brand {
-    font-weight: 800;
-    color: var(--white);
-}
-
+.footer-brand,
 .footer-heading {
-    font-weight: 700;
-    color: var(--white);
+    color: #ffffff;
+    font-weight: 800;
 }
 
 .footer-muted {
+    color: rgba(255, 255, 255, 0.82);
     font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.75);
 }
 
 .footer-links a {
-    color: rgba(255, 255, 255, 0.75);
+    color: rgba(255, 255, 255, 0.85);
     text-decoration: none;
     font-size: 0.9rem;
     transition: color 0.2s ease;
 }
 
 .footer-links a:hover {
-    color: var(--gold-500);
+    color: var(--gold-400);
 }
 
 .footer-divider {
-    border-top: 2px solid rgba(255,255,255,0.7); 
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
     opacity: 1;
 }
-
 
 /* ---------- Video Profil PCM ---------- */
 
@@ -1401,11 +1507,10 @@ img { max-width: 100%; }
 }
 
 .container {
-    width: min(1100px, 92%);
-    margin: 0 auto;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
 }
-
-
 
 .section {
     margin-bottom: 24px;
@@ -1435,6 +1540,155 @@ img { max-width: 100%; }
 
 main.container {
     margin-top: 24px;
+}
+
+/* Font judul dan navigasi */
+h1, h2, h3, h4,
+.navbar-brand,
+.nav-panel .nav-link,
+.nav-panel .dropdown-item,
+.hero-label {
+    font-family: "Manrope", sans-serif;
+}
+
+/* ---------- Lapisan gambar ---------- */
+.masthead-slide::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        rgba(3, 45, 30, 0.18) 0%,
+        rgba(3, 45, 30, 0.12) 45%,
+        rgba(3, 45, 30, 0.25) 100%
+    );
+    z-index: 1;
+}
+
+/* ---------- Topbar ---------- */
+.topbar {
+    color: rgba(255, 255, 255, 0.96);
+    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.55);
+}
+
+.topbar a:not(.social-list a) {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.social-list a {
+    color: #ffffff;
+    background: rgba(3, 45, 30, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(5px);
+}
+
+.social-list a:hover {
+    color: var(--green-900);
+    background: var(--gold-400);
+    border-color: var(--gold-400);
+}
+
+/* ---------- Navbar ---------- */
+.nav-panel {
+    background: rgba(255, 255, 255, 0.97);
+    border: 1px solid rgba(227, 167, 47, 0.65);
+    backdrop-filter: blur(12px);
+}
+
+.navbar-brand {
+    color: var(--green-900);
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.navbar-brand:hover {
+    color: var(--green-700);
+}
+
+.navbar-brand span span {
+    font-size: 1.1rem;
+    letter-spacing: -0.4px;
+}
+
+.navbar-brand span small {
+    color: #687a70 !important;
+    font-size: 0.72rem;
+    font-weight: 600 !important;
+    letter-spacing: 0.3px;
+}
+
+.nav-panel .nav-link {
+    color: var(--green-900);
+    font-size: 0.94rem;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+}
+
+.nav-panel .nav-link:hover,
+.nav-panel .nav-link.active {
+    color: var(--green-700);
+}
+
+.navbar-toggler {
+    border-color: rgba(6, 61, 39, 0.25);
+    color: var(--green-900);
+}
+
+.navbar-toggler:focus {
+    box-shadow: 0 0 0 0.2rem rgba(16, 138, 86, 0.15);
+}
+
+/* ---------- Hero ---------- */
+.hero {
+    color: #ffffff;
+    text-align: center;
+}
+
+.hero-label {
+    padding: 0.5rem 1.2rem;
+    color: #ffda82;
+    background: rgba(3, 35, 24, 0.58);
+    border: 1px solid rgba(240, 192, 90, 0.8);
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    backdrop-filter: blur(6px);
+}
+
+.hero h1 {
+    color: #ffffff;
+    font-family: "Manrope", sans-serif;
+    font-size: clamp(2.1rem, 5vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -1.2px;
+    text-shadow:
+        0 2px 5px rgba(0, 0, 0, 0.55),
+        0 5px 22px rgba(0, 0, 0, 0.45);
+}
+
+.hero p {
+    color: rgba(255, 255, 255, 0.96);
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 1.05rem;
+    font-weight: 500;
+    line-height: 1.8;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.75);
+}
+
+/* ---------- Dropdown ---------- */
+.nav-panel .dropdown-item {
+    color: var(--green-900);
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-weight: 600;
+}
+
+.nav-panel .dropdown-item:hover {
+    color: var(--green-900);
+    background: rgba(227, 167, 47, 0.13);
 }
 
 /* ---------- Responsif ---------- */
@@ -1631,4 +1885,28 @@ main.container {
         animation: none;
     }
 
+}
+
+/* Mencegah halaman melebar ke samping */
+html,
+body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* Membatasi area slideshow */
+.masthead {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.masthead-slides {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
 }

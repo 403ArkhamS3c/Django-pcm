@@ -3,9 +3,9 @@
 {% block title %}Beranda{% endblock %}
 {% block hero %}
     {% if profil %}
-        {% include 'core/components/hero.html' with hero_label="WEBSITE RESMI ORGANISASI" hero_title=profil.nama_organisasi hero_description="Mengenal organisasi, sejarah, visi, misi, serta berbagai informasi kegiatan Pimpinan Cabang Muhammadiyah Grogol dalam satu platform digital." %}
+        {% include 'core/components/hero.html' with hero_label="WEBSITE ORGANISASI" hero_title=profil.nama_organisasi hero_description="Mengenal organisasi, sejarah, visi, misi, serta berbagai informasi kegiatan Pimpinan Cabang Muhammadiyah Grogol dalam satu platform digital." %}
     {% else %}
-        {% include 'core/components/hero.html' with hero_label="WEBSITE RESMI ORGANISASI" hero_title="Pimpinan Cabang Muhammadiyah Grogol" hero_description="Mengenal organisasi, sejarah, visi, misi, serta berbagai informasi kegiatan Pimpinan Cabang Muhammadiyah Grogol dalam satu platform digital." %}
+        {% include 'core/components/hero.html' with hero_label="WEBSITE ORGANISASI" hero_title="Pimpinan Cabang Muhammadiyah Grogol" hero_description="Mengenal organisasi, sejarah, visi, misi, serta berbagai informasi kegiatan Pimpinan Cabang Muhammadiyah Grogol dalam satu platform digital." %}
     {% endif %}
 {% endblock %}
 {% block content %}

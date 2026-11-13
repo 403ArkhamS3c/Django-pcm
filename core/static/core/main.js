@@ -140,3 +140,63 @@ if (
         });
     });
 })();
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const slides = document.querySelectorAll(".masthead-slide");
+
+    if (slides.length <= 1) return;
+
+    let currentIndex = 0;
+
+    slides.forEach((slide, index) => {
+        slide.classList.toggle("is-active", index === 0);
+        slide.classList.remove("is-before");
+    });
+
+    function nextSlide() {
+        slides[currentIndex].classList.remove("is-active");
+
+        currentIndex = (currentIndex + 1) % slides.length;
+
+        slides[currentIndex].classList.add("is-active");
+    }
+
+    setInterval(nextSlide, 6000);
+});
+
+//scrol navbar
+document.addEventListener("DOMContentLoaded", function () {
+    const navWrap = document.querySelector(".masthead > .nav-wrap");
+
+    if (!navWrap) return;
+
+    // Membuat ruang pengganti navbar
+    const spacer = document.createElement("div");
+    spacer.classList.add("navbar-spacer");
+    spacer.setAttribute("aria-hidden", "true");
+
+    navWrap.parentNode.insertBefore(spacer, navWrap);
+
+    function updateNavbar() {
+        const shouldFix = spacer.getBoundingClientRect().top <= 0;
+
+        if (shouldFix && !navWrap.classList.contains("is-fixed")) {
+            spacer.style.height = navWrap.offsetHeight + "px";
+            navWrap.classList.add("is-fixed");
+        } else if (!shouldFix && navWrap.classList.contains("is-fixed")) {
+            navWrap.classList.remove("is-fixed");
+            spacer.style.height = "0px";
+        }
+
+        // Menyesuaikan ukuran saat jendela berubah
+        if (navWrap.classList.contains("is-fixed")) {
+            spacer.style.height = navWrap.offsetHeight + "px";
+        }
+    }
+
+    window.addEventListener("scroll", updateNavbar, { passive: true });
+    window.addEventListener("resize", updateNavbar);
+
+    updateNavbar();
+});

@@ -39,12 +39,26 @@
 
         </div>
     </div>
-    <div class="masthead" style="--hero-image: url('{% static 'images/background.jpg' %}');">
+    <div class="masthead">
+        <div class="masthead-slides">
+
+            <div class="masthead-slide is-active">
+                <img src="{% static 'images/nav1.png' %}" alt="">
+            </div>
+
+            <div class="masthead-slide">
+                <img src="{% static 'images/nav2.png' %}" alt="">
+            </div>
+
+            <div class="masthead-slide">
+                <img src="{% static 'images/nav3.png' %}" alt="">
+            </div>
+
+        </div>
 
         {% include 'core/components/topbar.html' %}
         {% include 'core/components/navbar.html' %}
         {% block hero %}{% endblock %}
-
     </div>
 
     <main class="main-content">
