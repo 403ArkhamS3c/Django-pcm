@@ -422,6 +422,168 @@ https://github.com/403ArkhamS3c/Django-pcm
 
 ---
 
+Instalasi dan Menjalankan Proyek
+
+1. Clone Repository
+
+git clone https://github.com/403ArkhamS3c/Django-pcm.git
+cd Django-pcm
+
+2. Membuat File Environment
+
+Salin .env.example menjadi .env.
+
+Windows PowerShell:
+
+Copy-Item .env.example .env
+
+Linux/macOS:
+
+cp .env.example .env
+
+Buka file .env, kemudian sesuaikan konfigurasi berikut:
+
+SECRET_KEY=isi-dengan-secret-key-yang-aman
+DEBUG=False
+ALLOWED_HOSTS=localhost,127.0.0.1,web
+CSRF_TRUSTED_ORIGINS=http://localhost:8000
+
+POSTGRES_DB=pcm_db
+POSTGRES_USER=pcm_user
+POSTGRES_PASSWORD=isi-dengan-password-yang-kuat
+
+DATABASE_URL=
+
+Gunakan secret key dan password database yang kuat. Jangan mengunggah file .env ke repository.
+
+3. Menjalankan Docker
+
+Jalankan perintah:
+
+docker compose up --build
+
+Docker Compose akan menjalankan dua layanan:
+
+db: PostgreSQL 17 sebagai database.
+
+web: Aplikasi Django yang dijalankan menggunakan Gunicorn.
+
+Proses startup aplikasi akan menjalankan migrasi database secara otomatis sebelum Gunicorn dijalankan.
+
+Setelah proses berhasil, website dapat diakses melalui:
+
+http://localhost:8000
+
+4. Menyalin File Media
+
+Folder media/ tidak disertakan dalam Docker build context karena dikecualikan melalui .dockerignore.
+
+Oleh karena itu, setelah container berjalan, salin file media lokal ke named volume Docker:
+
+docker compose cp ./media/. web:/app/media/
+
+Perintah tersebut menyalin gambar dan dokumen ke penyimpanan media aplikasi.
+
+Untuk Windows PowerShell, perintah yang sama dapat digunakan:
+
+docker compose cp .\media\. web:/app/media/
+
+Langkah ini harus dilakukan sebelum menjalankan perintah seed data, agar file yang dibutuhkan oleh data awal tersedia.
+
+5. Membuat Akun Administrator
+
+Jalankan:
+
+docker compose exec web uv run python manage.py createsuperuser
+
+Ikuti instruksi untuk membuat username, email, dan password administrator.
+
+Halaman administrasi dapat diakses melalui:
+
+http://localhost:8000/admin/
+
+6. Memasukkan Data Awal
+
+Jalankan perintah:
+
+docker compose exec web uv run python manage.py seed_pcm
+
+Perintah tersebut digunakan untuk memasukkan data awal PCM Grogol ke database.
+
+Secara default, perintah seed menggunakan mode aman sehingga data yang sudah tersedia tidak ditimpa. Untuk memperbarui data yang sudah ada, gunakan opsi --update apabila memang diperlukan:
+
+docker compose exec web uv run python manage.py seed_pcm --update
+
+Perintah Docker yang Berguna
+
+Melihat status container:
+
+docker compose ps
+
+Melihat log aplikasi:
+
+docker compose logs -f web
+
+Melihat log database:
+
+docker compose logs -f db
+
+Menghentikan container:
+
+docker compose stop
+
+Menjalankan kembali container:
+
+docker compose start
+
+Menghentikan dan menghapus container serta network:
+
+docker compose down
+
+Membangun ulang aplikasi:
+
+docker compose up --build
+
+Penyimpanan Data
+
+Proyek menggunakan Docker named volume untuk menjaga data tetap tersimpan meskipun container dihentikan atau dihapus.
+
+Volume
+
+Fungsi
+
+postgres_data
+
+Menyimpan database PostgreSQL
+
+media_data
+
+Menyimpan gambar dan dokumen yang diunggah
+
+Perintah berikut tidak menghapus data dalam named volume:
+
+docker compose down
+
+Ketika container dijalankan kembali, data database dan media tetap tersedia.
+
+Perhatian: Perintah berikut menghapus container sekaligus seluruh named volume proyek, termasuk database dan file media:
+
+docker compose down -v
+
+Gunakan perintah tersebut hanya jika memang ingin menghapus seluruh data dan memulai proyek dari kondisi kosong.
+
+Catatan Pengembangan
+
+File .env berisi konfigurasi rahasia dan tidak boleh dimasukkan ke repository.
+
+File media awal harus disalin ke Docker volume sebelum menjalankan seed data.
+
+File media yang baru ditambahkan ke folder lokal setelah proses penyalinan perlu disalin kembali ke volume jika ingin digunakan oleh aplikasi.
+
+Migrasi database dijalankan secara otomatis ketika container web mulai berjalan.
+
+File statis dikumpulkan menggunakan collectstatic ketika Docker image dibangun.
+
 **Dikembangkan oleh Kelompok [Nama Kelompok]**
 
 Program Studi Informatika  

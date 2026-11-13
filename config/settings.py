@@ -40,10 +40,6 @@ DEBUG = os.getenv("DEBUG", "False").lower() in (
     "true", "1", "yes", "on"
 )
 
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
 ALLOWED_HOSTS = [
     host.strip()
     for host in os.getenv(
@@ -76,6 +72,8 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -113,7 +111,10 @@ DATABASE_URL = os.getenv("DATABASE_URL", "").strip()
 
 if DATABASE_URL:
     DATABASES = {
-        "default": dj_database_url.parse(DATABASE_URL)
+        "default": dj_database_url.parse(
+            DATABASE_URL,
+            conn_max_age=600,
+        )
     }
 else:
     DATABASES = {
@@ -124,6 +125,22 @@ else:
     }
 
 
+# Security HTTPS
+SECURE_SSL_REDIRECT = os.getenv(
+    "SECURE_SSL_REDIRECT", "False"
+).lower() == "true"
+
+SECURE_HSTS_SECONDS = int(
+    os.getenv("SECURE_HSTS_SECONDS", "0")
+)
+
+SESSION_COOKIE_SECURE = os.getenv(
+    "SESSION_COOKIE_SECURE", "False"
+).lower() == "true"
+
+CSRF_COOKIE_SECURE = os.getenv(
+    "CSRF_COOKIE_SECURE", "False"
+).lower() == "true"
 
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
@@ -159,15 +176,30 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
+# Email
 MAILERS = {
-    'default': {
-        'BACKEND': 'django.core.mail.backends.console.EmailBackend',
+    "default": {
+        "BACKEND": "django.core.mail.backends.smtp.EmailBackend",
+        "HOST": os.getenv("EMAIL_HOST", "localhost"),
+        "PORT": int(os.getenv("EMAIL_PORT", "587")),
+        "USE_TLS": os.getenv("EMAIL_USE_TLS", "True").lower() == "true",
+        "USERNAME": os.getenv("EMAIL_HOST_USER", ""),
+        "PASSWORD": os.getenv("EMAIL_HOST_PASSWORD", ""),
     },
 }
 

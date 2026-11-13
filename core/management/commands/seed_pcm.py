@@ -250,7 +250,7 @@ PIMPINAN = [
         "nama": "Muh. Fadly, S.Pd",
         "jabatan": "Anggota (Majelis Tabligh)",
         "periode": "Periode ke-48",
-        "foto": "pimpinan/faldy.png",
+        "foto": "pimpinan/muh_fadly.png",
         "urutan_tampil": 25,
     },
     {
@@ -884,7 +884,7 @@ BERITA = [
             pengasuh semakin erat sehingga tercipta
             lingkungan pengasuhan yang positif.
             """,
-            "gambar_sampul": "berita/panti2",
+            "gambar_sampul": "berita/panti2.png",
             "tanggal_terbit": timezone.make_aware(
                 datetime(2026, 6, 24, 9, 0)
             ),

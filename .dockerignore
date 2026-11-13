@@ -1,0 +1,30 @@
+# Environment dan konfigurasi lokal
+.env
+.venv/
+venv/
+
+# Git
+.git/
+.gitignore
+
+# Database lokal
+db.sqlite3
+*.sqlite3
+
+# File media lokal
+media/
+
+# File static hasil generate
+staticfiles/
+
+# Cache Python
+__pycache__/
+*.py[cod]
+
+# File editor
+.vscode/
+.idea/
+
+# File sistem
+.DS_Store
+Thumbs.db
