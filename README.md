@@ -137,31 +137,61 @@ Kontribusi di atas disesuaikan dengan pekerjaan yang benar-benar dilakukan oleh 
 ## 7. Struktur Direktori Proyek
 
 ```text
-django-pcm/
+Django-pcm/
+│
 ├── config/
+│   ├── __init__.py
+│   ├── asgi.py
 │   ├── settings.py
 │   ├── urls.py
-│   └── ...
+│   └── wsgi.py
+│
 ├── core/
 │   ├── management/
+│   │
 │   ├── migrations/
-│   ├── models.py
-│   ├── views.py
-│   ├── urls.py
-│   ├── admin.py
+│   │
+│   ├── static/
+│   │   ├── core/
+│   │   ├── images/
+│   │   └── videos/
+│   │
 │   ├── templates/
-│   └── static/
+│   │   └── core/
+│   │       ├── components/
+│   │       ├── agenda.html
+│   │       ├── amal_usaha.html
+│   │       ├── berita.html
+│   │       └── detail_agenda.html
+│   │
+│   ├── admin.py
+│   ├── apps.py
+│   ├── context_processors.py
+│   ├── forms.py
+│   ├── models.py
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
+│
 ├── media/
-├── staticfiles/
+│   ├── amal_usaha/
+│   ├── berita/
+│   ├── dokumen/
+│   ├── galeri_kegiatan/
+│   ├── pimpinan/
+│   ├── profile/
+│   └── sambutan_ketua/
+│
 ├── .env.example
 ├── .gitignore
 ├── .python-version
-├── Dockerfile
-├── docker-compose.yml
+├── db.sqlite3
 ├── manage.py
 ├── pyproject.toml
-├── uv.lock
-└── README.md
+├── README.md
+├── requirements.txt
+├── seed_amal_usaha.py
+└── uv.lock
 ```
 
 *Struktur direktori di atas merupakan gambaran umum dan perlu disesuaikan dengan struktur repository sebenarnya.*
