@@ -11,6 +11,7 @@ dependencies = [
     "asgiref==3.13.0",
     "dj-database-url==3.1.2",
     "django==6.1.2",
+    "django-unfold>=0.110.1",
     "gunicorn>=27.0.1",
     "pillow==13.0.0",
     "psycopg[binary]>=3.3.9",

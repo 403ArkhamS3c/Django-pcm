@@ -42,7 +42,7 @@ def home(request):
     )
     berita_terbaru = Berita.objects.terbit()[:3]
     ketua = SambutanKetua.objects.first()
-    galeri = GaleriKegiatan.objects.all()
+    galeri = GaleriKegiatan.objects.all()[:5]
     agenda_list = Agenda.objects.all()[:6]
     pimpinan_list = Pimpinan.objects.all()
 

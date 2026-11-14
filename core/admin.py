@@ -1,5 +1,5 @@
-
 from django.contrib import admin
+from unfold.admin import ModelAdmin
 from .models import (
     ProfilOrganisasi,
     Pimpinan,
@@ -16,7 +16,7 @@ from .models import (
 
 
 @admin.register(ProfilOrganisasi)
-class ProfilOrganisasiAdmin(admin.ModelAdmin):
+class ProfilOrganisasiAdmin(ModelAdmin):
     def has_add_permission(self, request):
         # Hanya izinkan penambahan jika profil belum ada.
         return not ProfilOrganisasi.objects.exists()
@@ -26,7 +26,7 @@ class ProfilOrganisasiAdmin(admin.ModelAdmin):
         return False
 
 @admin.register(Pimpinan)
-class PimpinanAdmin(admin.ModelAdmin):
+class PimpinanAdmin(ModelAdmin):
     list_display = ("nama", "jabatan", "periode", "urutan_tampil")
     search_fields = ("nama", "jabatan", "periode")
     list_filter = ("periode",)
@@ -34,21 +34,21 @@ class PimpinanAdmin(admin.ModelAdmin):
 
 
 @admin.register(Ranting)
-class RantingAdmin(admin.ModelAdmin):
+class RantingAdmin(ModelAdmin):
     list_display = ("nama_ranting", "ketua", "telepon")
     search_fields = ("nama_ranting", "ketua", "alamat")
     ordering = ("nama_ranting",)
 
 
 @admin.register(AmalUsaha)
-class AmalUsahaAdmin(admin.ModelAdmin):
+class AmalUsahaAdmin(ModelAdmin):
     list_display = ("nama", "bidang")
     search_fields = ("nama", "alamat")
     list_filter = ("bidang",)
 
 
 @admin.register(Berita)
-class BeritaAdmin(admin.ModelAdmin):
+class BeritaAdmin(ModelAdmin):
     list_display = ("judul", "status", "tanggal_terbit")
     search_fields = ("judul", "slug", "isi")
     list_filter = ("status", "tanggal_terbit")
@@ -56,21 +56,21 @@ class BeritaAdmin(admin.ModelAdmin):
 
 
 @admin.register(Agenda)
-class AgendaAdmin(admin.ModelAdmin):
+class AgendaAdmin(ModelAdmin):
     list_display = ("nama_kegiatan", "waktu_mulai", "tempat")
     search_fields = ("nama_kegiatan", "tempat", "keterangan")
     list_filter = ("waktu_mulai",)
 
 
 @admin.register(Dokumen)
-class DokumenAdmin(admin.ModelAdmin):
+class DokumenAdmin(ModelAdmin):
     list_display = ("judul", "tanggal_unggah")
     search_fields = ("judul", "keterangan")
     list_filter = ("tanggal_unggah",)
 
 
 @admin.register(PesanMasuk)
-class PesanMasukAdmin(admin.ModelAdmin):
+class PesanMasukAdmin(ModelAdmin):
     list_display = (
         "nama", "email", "subjek", "sudah_dibaca", "waktu_kirim"
     )
@@ -80,13 +80,13 @@ class PesanMasukAdmin(admin.ModelAdmin):
 
 
 @admin.register(TautanTerkait)
-class TautanTerkaitAdmin(admin.ModelAdmin):
+class TautanTerkaitAdmin(ModelAdmin):
     list_display = ("nama", "url", "urutan")
     search_fields = ("nama",)
     ordering = ("urutan", "nama")
 
 @admin.register(SambutanKetua)
-class SambutanKetuaAdmin(admin.ModelAdmin):
+class SambutanKetuaAdmin(ModelAdmin):
     list_display = ("nama",)
 
     def has_add_permission(self, request):
@@ -96,6 +96,6 @@ class SambutanKetuaAdmin(admin.ModelAdmin):
         return False
 
 @admin.register(GaleriKegiatan)
-class GaleriKegiatanAdmin(admin.ModelAdmin):
+class GaleriKegiatanAdmin(ModelAdmin):
     list_display = ("judul",)
     search_fields = ("judul",)

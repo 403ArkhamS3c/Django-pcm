@@ -60,6 +60,8 @@ CSRF_TRUSTED_ORIGINS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'unfold',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -69,6 +71,31 @@ INSTALLED_APPS = [
 
     'core.apps.CoreConfig',
 ]
+
+UNFOLD = {
+    "SITE_TITLE" : "PCM Grogol Admin",
+    "SITE_HEADER" : "PCM Grogol",
+    "SITE_SUBHEADER" : "Panel Pengelolaan Website",
+    "SITE_URL" : "/",
+    "SITE_SYMBOL" : "account_balance",
+    "SHOW_HISTORY": True,
+    "SHOW_VIEW_ON_SITE" : True,
+    "COLORS": {
+        "primary" : {
+            "50" : "240 253 244",
+            "100" : "220 252 231",
+            "200" : "187 247 208",
+            "300": "134 239 172",
+            "400" : "74 222 128",
+            "500" : "34 197 94",
+            "600" : "22 163 74",
+            "700" : "21 128 61",
+            "800" : "22, 101, 52",
+            "900" : "20 83 45",
+            "950" : "5 46 22",
+        },
+    },
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
