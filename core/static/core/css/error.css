@@ -1,0 +1,608 @@
+
+/* =========================================
+   ERROR PAGE - PCM GROGOL
+   ========================================= */
+
+:root {
+    --primary: #176b45;
+    --primary-dark: #104b32;
+    --primary-light: #e8f2ec;
+
+    --accent: #d6ad51;
+    --accent-light: #f8efd9;
+
+    --text: #202b25;
+    --text-muted: #718078;
+
+    --background: #f5f7f5;
+    --surface: #ffffff;
+    --border: #e8ece9;
+
+    --radius: 22px;
+    --shadow: 0 18px 55px rgba(20, 55, 37, 0.09);
+}
+
+/* =========================================
+   RESET
+   ========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Plus Jakarta Sans", sans-serif;
+    color: var(--text);
+    background: var(--background);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    -webkit-font-smoothing: antialiased;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button {
+    font: inherit;
+}
+
+/* =========================================
+   ACCESSIBILITY
+   ========================================= */
+
+.skip-link {
+    position: absolute;
+    top: -100px;
+    left: 16px;
+    z-index: 1000;
+
+    padding: 12px 18px;
+    background: var(--primary);
+    color: white;
+    border-radius: 8px;
+}
+
+.skip-link:focus {
+    top: 16px;
+}
+
+a:focus-visible,
+button:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 4px;
+}
+
+/* =========================================
+   HEADER
+   ========================================= */
+
+.error-header {
+    width: 100%;
+    min-height: 88px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 16px max(calc((100% - 1180px) / 2), 5%);
+
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+}
+
+.error-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.error-logo {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+}
+
+.error-brand span {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.error-brand strong {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--primary-dark);
+}
+
+.error-brand small {
+    font-size: 10px;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.error-nav {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.error-nav a {
+    font-size: 13px;
+    font-weight: 600;
+    color: #66746b;
+    transition: color 0.2s ease;
+}
+
+.error-nav a:hover {
+    color: var(--primary);
+}
+
+/* =========================================
+   MAIN
+   ========================================= */
+
+.error-main {
+    flex: 1;
+
+    width: 100%;
+    max-width: 1180px;
+
+    margin: 0 auto;
+    padding: 65px 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* =========================================
+   ERROR CARD
+   ========================================= */
+
+.error-card {
+    width: 100%;
+    max-width: 1000px;
+
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+
+    align-items: center;
+    gap: 35px;
+
+    padding: 55px;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+
+    box-shadow: var(--shadow);
+
+    animation: card-enter 0.65s ease both;
+}
+
+@keyframes card-enter {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================================
+   ILLUSTRATION
+   ========================================= */
+
+.error-illustration {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.error-illustration svg {
+    width: 100%;
+    max-width: 390px;
+    height: auto;
+    overflow: visible;
+}
+
+.illustration-circle {
+    fill: var(--accent-light);
+}
+
+.cable {
+    fill: none;
+    stroke-width: 10;
+    stroke-linecap: round;
+}
+
+.cable-dark {
+    stroke: #24362c;
+}
+
+.cable-accent {
+    stroke: var(--primary);
+}
+
+.plug-dark {
+    fill: #24362c;
+}
+
+.plug-metal {
+    fill: #9ba99f;
+}
+
+.plug-accent {
+    fill: var(--primary);
+}
+
+.spark {
+    transform-origin: 220px 150px;
+    animation: spark-animation 2s ease-in-out infinite;
+}
+
+.spark-second {
+    animation-delay: -0.8s;
+}
+
+@keyframes spark-animation {
+    0%, 100% {
+        opacity: 0.45;
+        transform: scale(0.85);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.12);
+    }
+}
+
+/* =========================================
+   ERROR CONTENT
+   ========================================= */
+
+.error-content {
+    width: 100%;
+}
+
+.error-code {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+
+    padding: 8px 13px;
+
+    color: var(--primary);
+    background: var(--primary-light);
+
+    border-radius: 50px;
+
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+.error-code span {
+    color: var(--accent);
+}
+
+.error-content h1 {
+    margin-top: 22px;
+
+    color: var(--primary-dark);
+
+    font-size: clamp(27px, 3vw, 37px);
+    line-height: 1.3;
+    font-weight: 800;
+    letter-spacing: -1.3px;
+}
+
+.error-description {
+    margin-top: 17px;
+
+    color: var(--text-muted);
+
+    font-size: 13px;
+    line-height: 1.9;
+    font-weight: 500;
+}
+
+/* =========================================
+   BUTTONS
+   ========================================= */
+
+.error-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    margin-top: 28px;
+}
+
+.error-button {
+    min-height: 47px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    padding: 0 18px;
+
+    border-radius: 9px;
+    border: 1px solid transparent;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.error-button svg {
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+}
+
+.error-button:hover {
+    transform: translateY(-2px);
+}
+
+.error-button-primary {
+    color: white;
+    background: var(--primary);
+}
+
+.error-button-primary:hover {
+    background: var(--primary-dark);
+    box-shadow: 0 7px 18px rgba(23, 107, 69, 0.2);
+}
+
+.error-button-secondary {
+    color: var(--primary);
+    background: white;
+    border-color: var(--border);
+}
+
+.error-button-secondary:hover {
+    background: var(--primary-light);
+    border-color: var(--primary-light);
+}
+
+/* =========================================
+   INFORMATION
+   ========================================= */
+
+.error-divider {
+    width: 100%;
+    height: 1px;
+    background: var(--border);
+    margin: 30px 0 22px;
+}
+
+.error-information {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.information-icon {
+    width: 25px;
+    height: 25px;
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: var(--accent-light);
+    color: #99701e;
+
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.error-information strong {
+    display: block;
+
+    margin-bottom: 5px;
+
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--text);
+}
+
+.error-information p {
+    color: var(--text-muted);
+    font-size: 11px;
+    line-height: 1.8;
+}
+
+.error-reference {
+    margin-top: 22px;
+
+    color: #89958d;
+    font-size: 10px;
+}
+
+.error-reference strong {
+    color: var(--primary);
+    letter-spacing: 0.5px;
+}
+
+/* =========================================
+   FOOTER
+   ========================================= */
+
+.error-footer {
+    width: 100%;
+    min-height: 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+
+    padding: 18px max(calc((100% - 1180px) / 2), 5%);
+
+    background: white;
+    border-top: 1px solid var(--border);
+
+    color: var(--text-muted);
+    font-size: 10px;
+    font-weight: 500;
+}
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 768px) {
+
+    .error-header {
+        min-height: 75px;
+    }
+
+    .error-nav {
+        gap: 15px;
+    }
+
+    .error-nav a {
+        font-size: 11px;
+    }
+
+    .error-card {
+        grid-template-columns: 1fr;
+        gap: 15px;
+
+        padding: 35px 28px;
+    }
+
+    .error-illustration svg {
+        max-width: 270px;
+    }
+
+    .error-content {
+        text-align: center;
+    }
+
+    .error-actions {
+        justify-content: center;
+    }
+
+    .error-information {
+        text-align: left;
+    }
+
+    .error-reference {
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .error-header {
+        padding: 14px 18px;
+    }
+
+    .error-logo {
+        width: 40px;
+        height: 40px;
+    }
+
+    .error-brand strong {
+        font-size: 13px;
+    }
+
+    .error-brand small {
+        font-size: 9px;
+    }
+
+    .error-nav {
+        gap: 10px;
+    }
+
+    .error-nav a {
+        font-size: 10px;
+    }
+
+    .error-nav a:nth-child(2) {
+        display: none;
+    }
+
+    .error-main {
+        padding: 35px 15px;
+    }
+
+    .error-card {
+        padding: 28px 20px;
+        border-radius: 16px;
+    }
+
+    .error-illustration svg {
+        max-width: 230px;
+    }
+
+    .error-content h1 {
+        font-size: 26px;
+    }
+
+    .error-description {
+        font-size: 12px;
+    }
+
+    .error-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .error-button {
+        width: 100%;
+    }
+
+    .error-footer {
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        padding: 18px;
+        font-size: 9px;
+    }
+}
+
+/* =========================================
+   REDUCE MOTION
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

@@ -55,7 +55,7 @@ PROFIL = {
     "alamat_sekretariat": "Jl. Raya Solo Baru No. 62 A Madegondo, Grogol, Sukoharjo, Jawa Tengah",
     "telepon": "0811 2634 335 (Safruddin)",
     "email": None,
-    "jumlah_anggota_ktam": 27,
+    "jumlah_anggota_ktam": 72,
     "gambar_utama": "profile/pcm.png",
 }
 

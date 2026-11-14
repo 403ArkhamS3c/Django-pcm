@@ -234,3 +234,6 @@ MAILERS = {
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+# menambahkan garis miring (/) di akhir URL secara otomatis
+APPEND_SLASH = True

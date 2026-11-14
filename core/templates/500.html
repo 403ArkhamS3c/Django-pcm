@@ -1,0 +1,196 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kesalahan Server (500) | PCM Grogol</title>
+
+    <meta name="description" content="Terjadi kesalahan pada server website PCM Grogol. Silakan coba kembali beberapa saat lagi.">
+    <meta name="robots" content="noindex, nofollow">
+
+    <link rel="icon" href="{% static 'images/logo.png' %}" type="image/png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'core/css/error.css' %}">
+</head>
+
+<body class="error-page error-500">
+
+    <a class="skip-link" href="#main">
+        Lewati ke konten
+    </a>
+
+    <header class="error-header">
+        <a class="error-brand" href="{% url 'home' %}" aria-label="Beranda PCM Grogol">
+            <img
+                src="{% static 'images/logo.png' %}"
+                alt="Logo PCM Grogol"
+                class="error-logo"
+            >
+
+            <span>
+                <strong>PCM Grogol</strong>
+                <small>Pimpinan Cabang Muhammadiyah</small>
+            </span>
+        </a>
+
+        <nav class="error-nav" aria-label="Navigasi utama">
+            <a href="{% url 'home' %}">Beranda</a>
+            <a href="{% url 'pimpinan' %}">Pimpinan</a>
+            <a href="{% url 'berita' %}">Berita</a>
+        </nav>
+    </header>
+
+    <main class="error-main" id="main">
+
+        <section class="error-card" aria-labelledby="error-title">
+
+            <div class="error-illustration">
+
+                <svg viewBox="0 0 400 300"
+                     role="img"
+                     aria-labelledby="illustration-title">
+
+                    <title id="illustration-title">
+                        Ilustrasi kabel yang terputus
+                    </title>
+
+                    <circle cx="200" cy="150" r="130" class="illustration-circle"/>
+
+                    <path
+                        d="M-10 190c60 0 70-40 110-40h40"
+                        class="cable cable-dark"
+                    />
+
+                    <rect x="136" y="126" width="44" height="48" rx="10" class="plug-dark"/>
+
+                    <rect x="178" y="136" width="18" height="6" rx="3" class="plug-metal"/>
+                    <rect x="178" y="158" width="18" height="6" rx="3" class="plug-metal"/>
+
+                    <rect x="244" y="118" width="54" height="64" rx="12" class="plug-accent"/>
+
+                    <rect x="236" y="136" width="10" height="6" rx="2" class="plug-dark"/>
+                    <rect x="236" y="158" width="10" height="6" rx="2" class="plug-dark"/>
+
+                    <path
+                        d="M298 150h30c40 0 50 40 90 40"
+                        class="cable cable-accent"
+                    />
+
+                    <g class="spark">
+                        <path
+                            d="M216 120l6 14 14-4-8 12 12 8-14 2 2 14-10-10-10 10 2-14-14-2 12-8-8-12 14 4z"
+                            fill="#e8b84c"
+                        />
+                    </g>
+
+                    <g class="spark spark-second">
+                        <circle cx="222" cy="186" r="4" fill="#e8b84c"/>
+                        <circle cx="210" cy="104" r="3" fill="#e8b84c"/>
+                    </g>
+
+                </svg>
+
+            </div>
+
+            <div class="error-content">
+
+                <span class="error-code">
+                    500 <span>•</span> Kesalahan Server
+                </span>
+
+                <h1 id="error-title">
+                    Terjadi Kesalahan pada Server.
+                </h1>
+
+                <p class="error-description">
+                    Maaf, terjadi kesalahan yang tidak terduga ketika
+                    server memproses permintaan Anda. Tim pengelola
+                    website akan melakukan pemeriksaan.
+                    Silakan coba kembali beberapa saat lagi.
+                </p>
+
+                <div class="error-actions">
+
+                    <button
+                        type="button"
+                        class="error-button error-button-primary"
+                        onclick="window.location.reload()"
+                    >
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path
+                                d="M20 12a8 8 0 1 1-2.3-5.7M20 4v5h-5"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+                        </svg>
+
+                        Coba Lagi
+                    </button>
+
+                    <a
+                        href="{% url 'home' %}"
+                        class="error-button error-button-secondary"
+                    >
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path
+                                d="M4 11 12 4l8 7v8a1 1 0 0 1-1 1h-5v-6h-4v6H5a1 1 0 0 1-1-1z"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linejoin="round"
+                            />
+                        </svg>
+
+                        Kembali ke Beranda
+                    </a>
+
+                </div>
+
+                <div class="error-divider"></div>
+
+                <div class="error-information">
+                    <span class="information-icon">
+                        !
+                    </span>
+
+                    <div>
+                        <strong>Informasi</strong>
+                        <p>
+                            Jika masalah terus terjadi, silakan
+                            hubungi pengelola website PCM Grogol.
+                        </p>
+                    </div>
+                </div>
+
+                <p class="error-reference">
+                    Kode kesalahan:
+                    <strong>PCM-500</strong>
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer class="error-footer">
+        <span>
+            &copy; {% now "Y" %} Pimpinan Cabang Muhammadiyah Grogol.
+        </span>
+
+        <span>
+            Website Informasi PCM Grogol
+        </span>
+    </footer>
+
+</body>
+</html>

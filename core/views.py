@@ -80,6 +80,7 @@ def profil_organisasi(request):
 
 # pengubahan pagination
 def daftar_pimpinan(request):
+    #raise Exception("Tes Internal Server Error pada halaman Pimpinan") = test eror 500
     semua_pimpinan = Pimpinan.objects.all().order_by("urutan_tampil")
 
     per_halaman = 4 
