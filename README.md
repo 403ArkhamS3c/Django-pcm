@@ -198,37 +198,29 @@ Django-pcm/
 
 ---
 
-## 8. Persiapan dan Instalasi
+## 8. Persiapan, Instalasi, dan Pengujian
+
+### Persyaratan Sistem
 
 Pastikan perangkat telah memiliki:
-- Python versi 3.12 atau sesuai konfigurasi proyek.
+
+- Python 3.12 atau versi yang sesuai dengan konfigurasi proyek.
 - Git.
-- uv.
-- Docker dan Docker Compose (untuk menjalankan menggunakan Docker).
+- uv sebagai pengelola dependensi Python.
+- Docker Desktop atau Docker Engine dengan Docker Compose (untuk menjalankan menggunakan Docker).
 
 ### A. Menjalankan Secara Lokal Menggunakan uv
+
+Metode ini digunakan untuk pengembangan dan pengujian Django secara langsung di komputer.
 
 **1. Clone repository**
 
 ```bash
 git clone https://github.com/403ArkhamS3c/Django-pcm.git
-```
-
-**2. Masuk ke direktori proyek**
-
-```bash
 cd Django-pcm
 ```
 
-**3. Install dependensi**
-
-```bash
-uv sync
-```
-
-**4. Konfigurasi environment variable**
-
-Salin file `.env.example` menjadi `.env`.
+**2. Membuat file environment**
 
 Windows PowerShell:
 
@@ -242,21 +234,37 @@ Linux/macOS:
 cp .env.example .env
 ```
 
-Sesuaikan nilai environment variable dengan konfigurasi lokal.
+**3. Membuat Secret Key**
 
-**5. Jalankan migrasi database**
+Jalankan perintah berikut untuk menghasilkan Secret Key:
+
+```bash
+uv run python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+```
+
+Salin hasilnya ke variabel `SECRET_KEY` di dalam file `.env`. Pastikan konfigurasi database juga sesuai dengan lingkungan lokal.
+
+**4. Menginstal dependensi**
+
+```bash
+uv sync
+```
+
+**5. Menjalankan migrasi database**
 
 ```bash
 uv run python manage.py migrate
 ```
 
-**6. Jalankan server Django**
+**6. Menjalankan server pengembangan Django**
 
 ```bash
 uv run python manage.py runserver
 ```
 
-**7. Buka website**
+**7. Mengakses website**
+
+Buka browser melalui alamat:
 
 ```text
 http://127.0.0.1:8000/
@@ -264,7 +272,7 @@ http://127.0.0.1:8000/
 
 ### B. Menjalankan Menggunakan Docker
 
-Pastikan Docker Desktop atau Docker Engine telah berjalan.
+Metode ini digunakan untuk menjalankan aplikasi Django bersama PostgreSQL menggunakan Docker Compose. Aplikasi dijalankan menggunakan Gunicorn, sedangkan file statis dilayani oleh WhiteNoise.
 
 **1. Clone repository**
 
@@ -273,35 +281,227 @@ git clone https://github.com/403ArkhamS3c/Django-pcm.git
 cd Django-pcm
 ```
 
-**2. Buat file environment**
+**2. Membuat file environment**
+
+Windows PowerShell:
 
 ```powershell
 Copy-Item .env.example .env
 ```
 
-**3. Build dan jalankan container**
+Linux/macOS:
 
 ```bash
-docker compose up --build -d
+cp .env.example .env
 ```
 
-**4. Jalankan migrasi database**
+Buka file `.env`, kemudian sesuaikan `SECRET_KEY`, password PostgreSQL, dan konfigurasi lainnya. Jangan mengunggah file `.env` ke repository.
+
+**3. Membuat Secret Key**
+
+Jika belum memiliki Secret Key, jalankan:
 
 ```bash
-docker compose exec web python manage.py migrate
+uv run python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
 ```
 
-**5. Akses website**
+Masukkan hasilnya ke dalam file `.env`.
+
+**4. Build dan menjalankan container**
+
+```bash
+docker compose up -d --build
+```
+
+Docker Compose akan menjalankan dua layanan:
+
+- `db`: PostgreSQL 17 sebagai database.
+- `web`: Aplikasi Django yang dijalankan menggunakan Gunicorn.
+
+Pada saat container `web` dimulai, proses migrasi database dijalankan secara otomatis melalui Dockerfile sebelum Gunicorn dijalankan.
+
+File statis juga dikumpulkan menggunakan `collectstatic` pada saat proses build Docker image.
+
+**Dengan demikian, tidak perlu menjalankan `migrate` dan `collectstatic` secara manual setelah container berhasil dijalankan.**
+
+**5. Memeriksa status container**
+
+```bash
+docker compose ps
+```
+
+Pastikan layanan `web` dan `db` berjalan dengan baik.
+
+Untuk melihat log aplikasi:
+
+```bash
+docker compose logs -f web
+```
+
+Tekan `Ctrl + C` untuk keluar dari tampilan log tanpa menghentikan container.
+
+**6. Mengisi data awal**
+
+Setelah aplikasi berjalan, masukkan data awal PCM Grogol:
+
+```bash
+docker compose exec web uv run python manage.py seed_pcm
+```
+
+Perintah tersebut digunakan untuk memasukkan data awal ke database PostgreSQL.
+
+Secara default, perintah seed menggunakan mode aman sehingga data yang sudah tersedia tidak ditimpa. Untuk memperbarui data yang sudah ada, gunakan:
+
+```bash
+docker compose exec web uv run python manage.py seed_pcm --update
+```
+
+**7. Membuat akun administrator**
+
+```bash
+docker compose exec web uv run python manage.py createsuperuser
+```
+
+Ikuti instruksi untuk membuat username, email, dan password administrator.
+
+**8. Mengakses website**
+
+Website:
 
 ```text
 http://localhost:8000/
 ```
 
-*Catatan: Nama service `web` dan konfigurasi perintah di atas harus disesuaikan dengan `docker-compose.yml` yang digunakan.*
+Halaman administrasi:
 
-### Perintah Docker Tambahan
+```text
+http://localhost:8000/admin/
+```
 
-Melihat container yang berjalan:
+### C. Pengujian Konfigurasi Docker
+
+Pengujian berikut dilakukan untuk memastikan konfigurasi aplikasi berjalan sesuai kebutuhan produksi.
+
+**1. Memeriksa konfigurasi Django**
+
+```bash
+docker compose exec web uv run python manage.py check
+```
+
+**2. Memeriksa kesiapan konfigurasi produksi**
+
+```bash
+docker compose exec web uv run python manage.py check --deploy
+```
+
+Perintah ini memeriksa sejumlah pengaturan keamanan Django. Peringatan terkait HTTPS dapat muncul ketika aplikasi masih dijalankan secara lokal menggunakan HTTP dan belum dikonfigurasi untuk HTTPS.
+
+**3. Memastikan DEBUG dalam keadaan False**
+
+```bash
+docker compose exec web uv run python manage.py shell -c "from django.conf import settings; print('DEBUG:', settings.DEBUG); print('STATIC_ROOT:', settings.STATIC_ROOT)"
+```
+
+Hasil yang diharapkan:
+
+```text
+DEBUG: False
+STATIC_ROOT: /app/staticfiles
+```
+
+**4. Memeriksa konfigurasi WhiteNoise**
+
+```bash
+docker compose exec web uv run python manage.py shell -c "from django.conf import settings; print('WhiteNoise:', any('whitenoise.middleware.WhiteNoiseMiddleware' in m for m in settings.MIDDLEWARE))"
+```
+
+Hasil yang diharapkan:
+
+```text
+WhiteNoise: True
+```
+
+**5. Memeriksa file static Django Admin**
+
+```bash
+docker compose exec web ls -la /app/staticfiles/admin/css/
+```
+
+Pastikan file CSS Django Admin tersedia di dalam direktori tersebut.
+
+**6. Memeriksa tampilan website dan Django Admin**
+
+Buka website dan halaman administrasi melalui browser. Pastikan halaman dapat diakses dan tampilan CSS Django Admin muncul dengan normal meskipun `DEBUG=False`.
+
+**7. Menguji persistensi database dan media**
+
+- Tambahkan data baru melalui Django Admin.
+- Unggah gambar atau dokumen melalui Django Admin.
+- Hentikan container tanpa menghapus volume:
+
+```bash
+docker compose down
+```
+
+- Jalankan kembali container:
+
+```bash
+docker compose up -d
+```
+
+- Periksa kembali website dan Django Admin.
+
+Hasil yang diharapkan: data dan file yang diunggah tetap tersedia setelah container dihentikan dan dijalankan kembali.
+
+**8. Memeriksa penyimpanan file media**
+
+```bash
+docker compose exec web ls -lah /app/media/
+```
+
+Perintah tersebut digunakan untuk melihat file media yang tersimpan di dalam container dan terhubung dengan named volume Docker.
+
+### D. Pengujian Database dan Volume dari Kondisi Kosong
+
+Bagian ini digunakan untuk menguji apakah proyek dapat dijalankan kembali menggunakan database dan volume baru, seperti ketika pertama kali di-clone.
+
+**Peringatan:** Perintah `docker compose down -v` menghapus named volume proyek, termasuk database PostgreSQL dan file media yang tersimpan di dalamnya. Pastikan data penting telah dicadangkan sebelum menjalankannya.
+
+**1. Menghapus container dan volume lama**
+
+```bash
+docker compose down -v
+```
+
+**2. Build dan menjalankan kembali container**
+
+```bash
+docker compose up -d --build
+```
+
+Periksa status container:
+
+```bash
+docker compose ps
+```
+
+**3. Memasukkan data awal**
+
+```bash
+docker compose exec web uv run python manage.py seed_pcm
+```
+
+**4. Membuat akun administrator**
+
+```bash
+docker compose exec web uv run python manage.py createsuperuser
+```
+
+Setelah selesai, website dapat diakses kembali melalui `http://localhost:8000/`.
+
+### E. Perintah Docker Tambahan
+
+Melihat status container:
 
 ```bash
 docker compose ps
@@ -310,7 +510,13 @@ docker compose ps
 Melihat log aplikasi:
 
 ```bash
-docker compose logs -f
+docker compose logs -f web
+```
+
+Melihat log database:
+
+```bash
+docker compose logs -f db
 ```
 
 Menghentikan container tanpa menghapus volume:
@@ -319,19 +525,25 @@ Menghentikan container tanpa menghapus volume:
 docker compose down
 ```
 
-**PERINGATAN:**
+Menjalankan kembali container yang sudah dihentikan:
+
+```bash
+docker compose up -d
+```
+
+Build ulang image dan menjalankan container:
+
+```bash
+docker compose up -d --build
+```
+
+Menghentikan container sekaligus menghapus named volume:
 
 ```bash
 docker compose down -v
 ```
 
-Perintah tersebut menghapus container beserta volume yang terhubung dengan proyek.
-
-Volume Docker dapat menyimpan data persisten, termasuk database PostgreSQL. Oleh karena itu, penggunaan opsi `-v` dapat menyebabkan seluruh data database yang tersimpan di volume tersebut terhapus secara permanen.
-
-Gunakan perintah tersebut hanya jika memang ingin menghapus data dan telah melakukan pencadangan (backup) terlebih dahulu.
-
----
+**Catatan:** Gunakan `docker compose down` untuk menghentikan aplikasi sehari-hari. Gunakan `docker compose down -v` hanya ketika memang ingin menghapus database dan file media yang tersimpan di volume.
 
 ## 9. Konfigurasi Environment Variable
 
@@ -421,168 +633,6 @@ Source code proyek dapat diakses melalui GitHub:
 https://github.com/403ArkhamS3c/Django-pcm
 
 ---
-
-Instalasi dan Menjalankan Proyek
-
-1. Clone Repository
-
-git clone https://github.com/403ArkhamS3c/Django-pcm.git
-cd Django-pcm
-
-2. Membuat File Environment
-
-Salin .env.example menjadi .env.
-
-Windows PowerShell:
-
-Copy-Item .env.example .env
-
-Linux/macOS:
-
-cp .env.example .env
-
-Buka file .env, kemudian sesuaikan konfigurasi berikut:
-
-SECRET_KEY=isi-dengan-secret-key-yang-aman
-DEBUG=False
-ALLOWED_HOSTS=localhost,127.0.0.1,web
-CSRF_TRUSTED_ORIGINS=http://localhost:8000
-
-POSTGRES_DB=pcm_db
-POSTGRES_USER=pcm_user
-POSTGRES_PASSWORD=isi-dengan-password-yang-kuat
-
-DATABASE_URL=
-
-Gunakan secret key dan password database yang kuat. Jangan mengunggah file .env ke repository.
-
-3. Menjalankan Docker
-
-Jalankan perintah:
-
-docker compose up --build
-
-Docker Compose akan menjalankan dua layanan:
-
-db: PostgreSQL 17 sebagai database.
-
-web: Aplikasi Django yang dijalankan menggunakan Gunicorn.
-
-Proses startup aplikasi akan menjalankan migrasi database secara otomatis sebelum Gunicorn dijalankan.
-
-Setelah proses berhasil, website dapat diakses melalui:
-
-http://localhost:8000
-
-4. Menyalin File Media
-
-Folder media/ tidak disertakan dalam Docker build context karena dikecualikan melalui .dockerignore.
-
-Oleh karena itu, setelah container berjalan, salin file media lokal ke named volume Docker:
-
-docker compose cp ./media/. web:/app/media/
-
-Perintah tersebut menyalin gambar dan dokumen ke penyimpanan media aplikasi.
-
-Untuk Windows PowerShell, perintah yang sama dapat digunakan:
-
-docker compose cp .\media\. web:/app/media/
-
-Langkah ini harus dilakukan sebelum menjalankan perintah seed data, agar file yang dibutuhkan oleh data awal tersedia.
-
-5. Membuat Akun Administrator
-
-Jalankan:
-
-docker compose exec web uv run python manage.py createsuperuser
-
-Ikuti instruksi untuk membuat username, email, dan password administrator.
-
-Halaman administrasi dapat diakses melalui:
-
-http://localhost:8000/admin/
-
-6. Memasukkan Data Awal
-
-Jalankan perintah:
-
-docker compose exec web uv run python manage.py seed_pcm
-
-Perintah tersebut digunakan untuk memasukkan data awal PCM Grogol ke database.
-
-Secara default, perintah seed menggunakan mode aman sehingga data yang sudah tersedia tidak ditimpa. Untuk memperbarui data yang sudah ada, gunakan opsi --update apabila memang diperlukan:
-
-docker compose exec web uv run python manage.py seed_pcm --update
-
-Perintah Docker yang Berguna
-
-Melihat status container:
-
-docker compose ps
-
-Melihat log aplikasi:
-
-docker compose logs -f web
-
-Melihat log database:
-
-docker compose logs -f db
-
-Menghentikan container:
-
-docker compose stop
-
-Menjalankan kembali container:
-
-docker compose start
-
-Menghentikan dan menghapus container serta network:
-
-docker compose down
-
-Membangun ulang aplikasi:
-
-docker compose up --build
-
-Penyimpanan Data
-
-Proyek menggunakan Docker named volume untuk menjaga data tetap tersimpan meskipun container dihentikan atau dihapus.
-
-Volume
-
-Fungsi
-
-postgres_data
-
-Menyimpan database PostgreSQL
-
-media_data
-
-Menyimpan gambar dan dokumen yang diunggah
-
-Perintah berikut tidak menghapus data dalam named volume:
-
-docker compose down
-
-Ketika container dijalankan kembali, data database dan media tetap tersedia.
-
-Perhatian: Perintah berikut menghapus container sekaligus seluruh named volume proyek, termasuk database dan file media:
-
-docker compose down -v
-
-Gunakan perintah tersebut hanya jika memang ingin menghapus seluruh data dan memulai proyek dari kondisi kosong.
-
-Catatan Pengembangan
-
-File .env berisi konfigurasi rahasia dan tidak boleh dimasukkan ke repository.
-
-File media awal harus disalin ke Docker volume sebelum menjalankan seed data.
-
-File media yang baru ditambahkan ke folder lokal setelah proses penyalinan perlu disalin kembali ke volume jika ingin digunakan oleh aplikasi.
-
-Migrasi database dijalankan secara otomatis ketika container web mulai berjalan.
-
-File statis dikumpulkan menggunakan collectstatic ketika Docker image dibangun.
 
 **Dikembangkan oleh Kelompok [Nama Kelompok]**
 
