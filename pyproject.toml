@@ -23,3 +23,6 @@ dependencies = [
     "whitenoise>=6.12.0",
 ]
 
+[tool.vercel]
+entrypoint = "config.wsgi:application"
+
