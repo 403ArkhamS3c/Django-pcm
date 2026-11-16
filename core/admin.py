@@ -54,6 +54,8 @@ class BeritaAdmin(ModelAdmin):
     list_filter = ("status", "tanggal_terbit")
     date_hierarchy = "tanggal_terbit"
     prepopulated_fields = {"slug": ("judul",)}
+    date_hierarchy = "tanggal_terbit"
+    ordering = ("-tanggal_terbit",)
 
 
 @admin.register(Agenda)
@@ -77,8 +79,24 @@ class PesanMasukAdmin(ModelAdmin):
     )
     search_fields = ("nama", "email", "subjek", "pesan")
     list_filter = ("sudah_dibaca", "waktu_kirim")
-    readonly_fields = ("waktu_kirim",)
 
+    readonly_fields = [
+        field.name
+        for field in PesanMasuk._meta.fields
+        if field.name != "sudah_dibaca"
+    ]
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_view_permission(self, request, obj=None):
+        return True
+
+    def has_change_permission(self, request, obj=None):
+        return True
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 @admin.register(TautanTerkait)
 class TautanTerkaitAdmin(ModelAdmin):

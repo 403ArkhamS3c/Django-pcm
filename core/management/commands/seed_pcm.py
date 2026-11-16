@@ -48,10 +48,10 @@ PROFIL = {
                ),
     "visi": "Sebagai Gerakan Islam yang berlandaskan pada Al-Qur’an dan As-Sunnah dengan watak tajdid yang dimilikinya senantiasa istiqamah dan aktif dalam melaksanakan Dakwah Islam Amar Ma’ruf  Nahi Munkar di segala bidang sehingga menjadi rahmatan li al-’alamin bagi umat, bangsa, dan dunia kemanusiaan menuju terciptanya Masyarakat Utama yang diridhai Allah Subhanahu Wata’ala dalam kehidupan di dunia ini. \n",
     "misi": (
-            "1. Menegakkan keyakinan tauhid yang murni sesuai dengan ajaran Allah SWT, yang dibawa oleh Rasul Allah yang disyariatkan sejak Nabi Nuh AS hingga Nabi Muhammad SAW.\n"
-            "2. Memahami agama dengan menggunakan akal pikiran sesuai dengan jiwa ajaran Islam untuk menjawab dan menyelesaikan persoalan-persoalan kehidupan yang bersifat duniawi.\n"
-            "3. Menyebarluaskan ajaran Islam yang bersumber kepada Al-Qur’an sebagai kitab Allah yang terakhir untuk umat manusia dan Sunnah Rasul.\n"
-            "4. Mewujudkan amalan-amalan Islam dalam kehidupan pribadi, keluarga, dan masyarakat.\n"),
+            "Menegakkan keyakinan tauhid yang murni sesuai dengan ajaran Allah SWT, yang dibawa oleh Rasul Allah yang disyariatkan sejak Nabi Nuh AS hingga Nabi Muhammad SAW.\n"
+            "Memahami agama dengan menggunakan akal pikiran sesuai dengan jiwa ajaran Islam untuk menjawab dan menyelesaikan persoalan-persoalan kehidupan yang bersifat duniawi.\n"
+            "Menyebarluaskan ajaran Islam yang bersumber kepada Al-Qur’an sebagai kitab Allah yang terakhir untuk umat manusia dan Sunnah Rasul.\n"
+            "Mewujudkan amalan-amalan Islam dalam kehidupan pribadi, keluarga, dan masyarakat.\n"),
     "alamat_sekretariat": "Jl. Raya Solo Baru No. 62 A Madegondo, Grogol, Sukoharjo, Jawa Tengah",
     "telepon": "0811 2634 335 (Safruddin)",
     "email": None,

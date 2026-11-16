@@ -427,11 +427,23 @@
                                     </p>
                                 {% endif %}
 
-                            {% else %}
+                                {% else %}
 
-                                <p class="field-value">{{ field.nilai }}</p>
+                                    {% if field.label|lower == "misi" %}
 
-                            {% endif %}
+                                        <ol class="mission-list">
+                                            {% for item in field.nilai|linebreaksbr %}
+                                                {{ item }}
+                                            {% endfor %}
+                                        </ol>
+
+                                    {% else %}
+
+                                        <p class="field-value">{{ field.nilai|linebreaks }}</p>
+
+                                    {% endif %}
+
+                                {% endif %}
 
                         </div>
 

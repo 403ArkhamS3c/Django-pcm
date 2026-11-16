@@ -43,7 +43,7 @@ def home(request):
     berita_terbaru = Berita.objects.terbit()[:3]
     ketua = SambutanKetua.objects.first()
     galeri = GaleriKegiatan.objects.all()[:5]
-    agenda_list = Agenda.objects.all()[:6]
+    agenda_list = Agenda.objects.all()[:3]
     pimpinan_list = Pimpinan.objects.all()
 
     return render(
@@ -83,7 +83,7 @@ def daftar_pimpinan(request):
     #raise Exception("Tes Internal Server Error pada halaman Pimpinan") = test eror 500
     semua_pimpinan = Pimpinan.objects.all().order_by("urutan_tampil")
 
-    per_halaman = 4 
+    per_halaman = 6 
     paginator = Paginator(semua_pimpinan, per_halaman)
 
     halaman = request.GET.get("page", 1)
@@ -128,25 +128,26 @@ def daftar_ranting(request):
         },
     )
 
-# pengubahan fungsi pagination
 def daftar_amal_usaha(request):
-    semua_amal_usaha = AmalUsaha.objects.all().order_by("nama")
+    semua_amal_usaha = AmalUsaha.objects.all().order_by("bidang", "nama")
 
-    paginator = Paginator(semua_amal_usaha, 2)
+    paginator = Paginator(semua_amal_usaha, 6)
     halaman = request.GET.get("page", 1)
 
     amal_usaha = paginator.get_page(halaman)
 
-    daftar = [
-        {
+    kelompok = {}
+
+    for item in amal_usaha:
+        bidang = item.get_bidang_display()
+
+        kelompok.setdefault(bidang, []).append({
             "objek": item,
-            "detail": data_tampilan(item)
-        }
-        for item in amal_usaha
-    ]
+            "detail": data_tampilan(item),
+        })
 
     return render(request, "core/amal_usaha.html", {
-        "daftar": daftar,
+        "kelompok_amal_usaha": kelompok.items(),
         "halaman": amal_usaha.number,
         "ada_next": amal_usaha.has_next(),
         "ada_previous": amal_usaha.has_previous(),

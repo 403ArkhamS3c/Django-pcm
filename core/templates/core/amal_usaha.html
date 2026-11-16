@@ -31,88 +31,109 @@
         <hr>
 
         <!-- Daftar Amal Usaha -->
-        <div class="row g-3" id="daftarAmalUsaha">
+        <div id="daftarAmalUsaha">
 
-            {% for entri in daftar %}
+            {% for bidang, daftar_bidang in kelompok_amal_usaha %}
 
-                <div class="col-12">
+                <section class="mb-5">
 
-                    <article class="pimpinan-card h-100">
+                    <!-- Judul Bidang -->
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <h3 class="h5 fw-bold mb-0">
+                            {{ bidang }}
+                        </h3>
 
-                        <div class="row g-3 align-items-center">
+                        <hr class="flex-grow-1 my-0">
+                    </div>
 
-                            <!-- Kolom Gambar -->
-                            <div class="col-12 col-md-4">
+                    <div class="row g-3">
 
-                                <figure class="ketua-figure">
+                        {% for entri in daftar_bidang %}
 
-                                    {% if entri.objek.gambar %}
-                                        <img
-                                            src="{{ entri.objek.gambar.url }}"
-                                            alt="Gambar {{ entri.objek.nama }}"
-                                            loading="lazy"
-                                        >
-                                    {% else %}
-                                        <div class="ketua-placeholder">
-                                            <i class="bi bi-building"></i>
+                            <div class="col-12">
+
+                                <article class="pimpinan-card h-100">
+
+                                    <div class="row g-3 align-items-center">
+
+                                        <!-- Kolom Gambar -->
+                                        <div class="col-12 col-md-4">
+
+                                            <figure class="ketua-figure">
+
+                                                {% if entri.objek.gambar %}
+                                                    <img
+                                                        src="{{ entri.objek.gambar.url }}"
+                                                        alt="Gambar {{ entri.objek.nama }}"
+                                                        loading="lazy"
+                                                    >
+                                                {% else %}
+                                                    <div class="ketua-placeholder">
+                                                        <i class="bi bi-building"></i>
+                                                    </div>
+                                                {% endif %}
+
+                                            </figure>
+
                                         </div>
-                                    {% endif %}
 
-                                </figure>
+                                        <!-- Kolom Informasi -->
+                                        <div class="col-12 col-md-8">
 
-                            </div>
+                                            <div class="pimpinan-identitas">
 
-                            <!-- Kolom Informasi -->
-                            <div class="col-12 col-md-8">
+                                                {% for field in entri.detail %}
 
-                                <div class="pimpinan-identitas">
+                                                    {% if field.label|lower != "gambar" %}
 
-                                    {% for field in entri.detail %}
+                                                        <div class="pimpinan-field">
 
-                                        {% if field.label|lower != "gambar" %}
+                                                            <strong class="pimpinan-field-label">
+                                                                {{ field.label|capfirst }}
+                                                            </strong>
 
-                                            <div class="pimpinan-field">
+                                                            <div class="pimpinan-field-content">
 
-                                                <strong class="pimpinan-field-label">
-                                                    {{ field.label|capfirst }}
-                                                </strong>
+                                                                {% if field.jenis == "file" %}
 
-                                                <div class="pimpinan-field-content">
+                                                                    <a
+                                                                        href="{{ field.url_file }}"
+                                                                        target="_blank"
+                                                                        rel="noopener noreferrer"
+                                                                        class="file-link"
+                                                                    >
+                                                                        Buka atau unduh {{ field.label }}
+                                                                    </a>
 
-                                                    {% if field.jenis == "file" %}
+                                                                {% else %}
 
-                                                        <a
-                                                            href="{{ field.url_file }}"
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
-                                                            class="file-link"
-                                                        >
-                                                            Buka atau unduh {{ field.label }}
-                                                        </a>
+                                                                    <p>{{ field.nilai|default:"-" }}</p>
 
-                                                    {% else %}
+                                                                {% endif %}
 
-                                                        <p>{{ field.nilai|default:"-" }}</p>
+                                                            </div>
+
+                                                        </div>
 
                                                     {% endif %}
 
-                                                </div>
+                                                {% endfor %}
 
                                             </div>
 
-                                        {% endif %}
+                                        </div>
 
-                                    {% endfor %}
+                                    </div>
 
-                                </div>
+                                </article>
 
                             </div>
 
-                        </div>
+                        {% endfor %}
 
-                    </article>
+                    </div>
 
-                </div>
+                </section>
 
             {% empty %}
 
@@ -132,6 +153,7 @@
                 </div>
 
             {% endfor %}
+
         </div>
         <!-- PAGINATION BERITA -->
         {% include "core/components/pagination.html" %}
