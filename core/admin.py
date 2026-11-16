@@ -1,5 +1,7 @@
+
 from django.contrib import admin
 from unfold.admin import ModelAdmin
+
 from .models import (
     ProfilOrganisasi,
     Pimpinan,
@@ -18,12 +20,11 @@ from .models import (
 @admin.register(ProfilOrganisasi)
 class ProfilOrganisasiAdmin(ModelAdmin):
     def has_add_permission(self, request):
-        # Hanya izinkan penambahan jika profil belum ada.
         return not ProfilOrganisasi.objects.exists()
 
     def has_delete_permission(self, request, obj=None):
-        # Profil organisasi tidak boleh dihapus melalui admin.
         return False
+
 
 @admin.register(Pimpinan)
 class PimpinanAdmin(ModelAdmin):
@@ -54,7 +55,6 @@ class BeritaAdmin(ModelAdmin):
     list_filter = ("status", "tanggal_terbit")
     date_hierarchy = "tanggal_terbit"
     prepopulated_fields = {"slug": ("judul",)}
-    date_hierarchy = "tanggal_terbit"
     ordering = ("-tanggal_terbit",)
 
 
@@ -75,15 +75,16 @@ class DokumenAdmin(ModelAdmin):
 @admin.register(PesanMasuk)
 class PesanMasukAdmin(ModelAdmin):
     list_display = (
-        "nama", "email", "subjek", "sudah_dibaca", "waktu_kirim"
+        "nama",
+        "email",
+        "subjek",
+        "sudah_dibaca",
+        "waktu_kirim",
     )
     search_fields = ("nama", "email", "subjek", "pesan")
     list_filter = ("sudah_dibaca", "waktu_kirim")
-
     readonly_fields = [
-        field.name
-        for field in PesanMasuk._meta.fields
-        if field.name != "sudah_dibaca"
+        field.name for field in PesanMasuk._meta.fields
     ]
 
     def has_add_permission(self, request):
@@ -93,16 +94,18 @@ class PesanMasukAdmin(ModelAdmin):
         return True
 
     def has_change_permission(self, request, obj=None):
-        return True
+        return False
 
     def has_delete_permission(self, request, obj=None):
         return False
+
 
 @admin.register(TautanTerkait)
 class TautanTerkaitAdmin(ModelAdmin):
     list_display = ("nama", "url", "urutan")
     search_fields = ("nama",)
     ordering = ("urutan", "nama")
+
 
 @admin.register(SambutanKetua)
 class SambutanKetuaAdmin(ModelAdmin):
@@ -113,6 +116,7 @@ class SambutanKetuaAdmin(ModelAdmin):
 
     def has_delete_permission(self, request, obj=None):
         return False
+
 
 @admin.register(GaleriKegiatan)
 class GaleriKegiatanAdmin(ModelAdmin):

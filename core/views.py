@@ -1,25 +1,55 @@
-from django.shortcuts import render
-from .models import ProfilOrganisasi, Pimpinan, Ranting, AmalUsaha, Berita, Agenda, Dokumen, TautanTerkait, SambutanKetua, GaleriKegiatan
-from django.shortcuts import render, get_object_or_404
-from django.shortcuts import render, redirect
+
+from collections import defaultdict
+
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
-from .models import PesanMasuk
-from .forms import PesanMasukForm
 from django.utils import timezone
-from django.db.models import ImageField, FileField
+from django.db.models import ImageField, FileField, Q
 from django.core.paginator import Paginator
-from django.db.models import Q
+
+from .models import (
+    ProfilOrganisasi,
+    Pimpinan,
+    Ranting,
+    AmalUsaha,
+    Berita,
+    Agenda,
+    Dokumen,
+    PesanMasuk,
+    TautanTerkait,
+    SambutanKetua,
+    GaleriKegiatan,
+)
+from .forms import PesanMasukForm
 
 
 FIELD_PUBLIK = {
-    ProfilOrganisasi: ["nama", "nama_singkat", "tagline", "tentang", "sejarah", "visi", "misi", "alamat_sekretariat", "telepon", "email", "jumlah_anggota_ktam", "gambar_utama"],
-    Pimpinan: ["nama", "jabatan", "periode","foto", "urutan_tampil"],
-    Ranting: ["nama_ranting", "ketua", "alamat", "telepon"],
-    AmalUsaha: ["nama", "bidang", "deskripsi", "alamat", "gambar"],
-    Berita: ["judul", "slug", "ringkasan", "isi", "gambar_sampul", "tanggal_terbit", "status"],
-    Agenda: ["nama_kegiatan", "waktu_mulai", "tempat", "keterangan"],
-    Dokumen: ["judul", "keterangan", "berkas", "tanggal_unggah"],
+    ProfilOrganisasi: [
+        "nama", "nama_singkat", "tagline", "tentang", "sejarah",
+        "visi", "misi", "alamat_sekretariat", "telepon", "email",
+        "jumlah_anggota_ktam", "gambar_utama",
+    ],
+    Pimpinan: [
+        "nama", "jabatan", "periode", "foto", "urutan_tampil",
+    ],
+    Ranting: [
+        "nama_ranting", "ketua", "alamat", "telepon",
+    ],
+    AmalUsaha: [
+        "nama", "bidang", "deskripsi", "alamat", "gambar",
+    ],
+    Berita: [
+        "judul", "slug", "ringkasan", "isi", "gambar_sampul",
+        "tanggal_terbit", "status",
+    ],
+    Agenda: [
+        "nama_kegiatan", "waktu_mulai", "tempat", "keterangan",
+    ],
+    Dokumen: [
+        "judul", "keterangan", "berkas", "tanggal_unggah",
+    ],
 }
+
 
 KONFIGURASI_PUBLIKASI = {
     Berita: {
@@ -32,6 +62,7 @@ KONFIGURASI_PUBLIKASI = {
     },
 }
 
+
 def home(request):
     profil = ProfilOrganisasi.objects.first()
 
@@ -40,6 +71,43 @@ def home(request):
         if profil is not None
         else []
     )
+
+    # Mengubah misi menjadi daftar bernomor
+    misi_list = (
+        [
+            m.strip()
+            for m in profil.misi.splitlines()
+            if m.strip()
+        ]
+        if profil and profil.misi
+        else []
+    )
+
+    # Statistik dari database
+    jumlah_ranting = Ranting.objects.count()
+    jumlah_amal_usaha = AmalUsaha.objects.count()
+    jumlah_anggota_ktam = (
+        profil.jumlah_anggota_ktam if profil else 0
+    )
+
+    # Mengelompokkan amal usaha berdasarkan bidang
+    kelompok_amal_usaha = defaultdict(list)
+
+    semua_amal_usaha = AmalUsaha.objects.all().order_by(
+        "bidang", "nama"
+    )
+
+    for item in semua_amal_usaha:
+        bidang = item.get_bidang_display()
+        kelompok_amal_usaha[bidang].append(item)
+
+    # Mengambil gambar utama untuk hero
+    hero_image = (
+        profil.gambar_utama.url
+        if profil and profil.gambar_utama
+        else ""
+    )
+
     berita_terbaru = Berita.objects.terbit()[:3]
     ketua = SambutanKetua.objects.first()
     galeri = GaleriKegiatan.objects.all()[:5]
@@ -52,13 +120,20 @@ def home(request):
         {
             "profil": profil,
             "detail_profil": detail_profil,
+            "misi_list": misi_list,
+            "jumlah_ranting": jumlah_ranting,
+            "jumlah_amal_usaha": jumlah_amal_usaha,
+            "jumlah_anggota_ktam": jumlah_anggota_ktam,
+            "kelompok_amal_usaha": dict(kelompok_amal_usaha),
+            "hero_image": hero_image,
             "berita_terbaru": berita_terbaru,
             "ketua": ketua,
             "galeri": galeri,
-            "agenda_list":agenda_list,
-            "pimpinan_list": pimpinan_list,  
+            "agenda_list": agenda_list,
+            "pimpinan_list": pimpinan_list,
         },
     )
+
 
 def profil_organisasi(request):
     profil = ProfilOrganisasi.objects.first()
@@ -78,12 +153,14 @@ def profil_organisasi(request):
         },
     )
 
-# pengubahan pagination
-def daftar_pimpinan(request):
-    #raise Exception("Tes Internal Server Error pada halaman Pimpinan") = test eror 500
-    semua_pimpinan = Pimpinan.objects.all().order_by("urutan_tampil")
 
-    per_halaman = 6 
+# Daftar pimpinan dengan pagination
+def daftar_pimpinan(request):
+    semua_pimpinan = Pimpinan.objects.all().order_by(
+        "urutan_tampil"
+    )
+
+    per_halaman = 6
     paginator = Paginator(semua_pimpinan, per_halaman)
 
     halaman = request.GET.get("page", 1)
@@ -92,22 +169,29 @@ def daftar_pimpinan(request):
     daftar = [
         {
             "objek": item,
-            "detail": data_tampilan(item)
+            "detail": data_tampilan(item),
         }
         for item in pimpinan
     ]
 
-    return render(request, "core/pimpinan.html", {
-        "daftar": daftar,
-        "halaman": pimpinan.number,
-        "ada_next": pimpinan.has_next(),
-        "ada_previous": pimpinan.has_previous(),
-        "pagination_anchor": "pimpinan",
-    })
+    return render(
+        request,
+        "core/pimpinan.html",
+        {
+            "daftar": daftar,
+            "halaman": pimpinan.number,
+            "ada_next": pimpinan.has_next(),
+            "ada_previous": pimpinan.has_previous(),
+            "pagination_anchor": "pimpinan",
+        },
+    )
 
-# pengubahan pagination
+
+# Daftar ranting dengan pagination
 def daftar_ranting(request):
-    semua_ranting = Ranting.objects.all().order_by("nama_ranting")
+    semua_ranting = Ranting.objects.all().order_by(
+        "nama_ranting"
+    )
 
     per_halaman = 10
     paginator = Paginator(semua_ranting, per_halaman)
@@ -128,8 +212,11 @@ def daftar_ranting(request):
         },
     )
 
+
 def daftar_amal_usaha(request):
-    semua_amal_usaha = AmalUsaha.objects.all().order_by("bidang", "nama")
+    semua_amal_usaha = AmalUsaha.objects.all().order_by(
+        "bidang", "nama"
+    )
 
     paginator = Paginator(semua_amal_usaha, 6)
     halaman = request.GET.get("page", 1)
@@ -146,19 +233,25 @@ def daftar_amal_usaha(request):
             "detail": data_tampilan(item),
         })
 
-    return render(request, "core/amal_usaha.html", {
-        "kelompok_amal_usaha": kelompok.items(),
-        "halaman": amal_usaha.number,
-        "ada_next": amal_usaha.has_next(),
-        "ada_previous": amal_usaha.has_previous(),
-        "pagination_anchor": "amal-usaha",
-    })
+    return render(
+        request,
+        "core/amal_usaha.html",
+        {
+            "kelompok_amal_usaha": kelompok.items(),
+            "halaman": amal_usaha.number,
+            "ada_next": amal_usaha.has_next(),
+            "ada_previous": amal_usaha.has_previous(),
+            "pagination_anchor": "amal-usaha",
+        },
+    )
+
 
 # Pencarian dan pagination berita
 def daftar_berita(request):
     kata_kunci = request.GET.get("q", "").strip()
 
     berita = Berita.objects.terbit()
+
     if kata_kunci:
         berita = berita.cari(kata_kunci)
 
@@ -189,24 +282,25 @@ def daftar_berita(request):
 
     return render(request, "core/berita.html", context)
 
+
 def daftar_agenda(request):
     tanggal_hari_ini = timezone.localdate()
 
-    # 1. Agenda mendatang
+    # Agenda mendatang
     agenda_mendatang = (
         Agenda.objects
         .filter(waktu_mulai__date__gt=tanggal_hari_ini)
         .order_by("waktu_mulai")
     )
 
-    # 2. Agenda hari ini
+    # Agenda hari ini
     agenda_hari_ini = (
         Agenda.objects
         .filter(waktu_mulai__date=tanggal_hari_ini)
         .order_by("waktu_mulai")
     )
 
-    # 3. Agenda sebelumnya
+    # Agenda sebelumnya
     agenda_sebelumnya = (
         Agenda.objects
         .filter(waktu_mulai__date__lt=tanggal_hari_ini)
@@ -241,6 +335,7 @@ def daftar_agenda(request):
         },
     )
 
+
 def daftar_dokumen(request):
     semua_dokumen = Dokumen.objects.all().order_by("judul")
 
@@ -269,6 +364,7 @@ def daftar_dokumen(request):
         },
     )
 
+
 def detail_berita(request, slug):
     item = get_object_or_404(
         Berita.objects.terbit(),
@@ -277,7 +373,7 @@ def detail_berita(request, slug):
 
     detail = data_tampilan(item)
 
-    # 5 berita terbaru selain yang sedang dibuka
+    # Lima berita terbaru selain berita yang sedang dibuka
     berita_terbaru = (
         Berita.objects.terbit()
         .exclude(pk=item.pk)
@@ -294,16 +390,22 @@ def detail_berita(request, slug):
         },
     )
 
+
 def detail_agenda(request, pk):
     item = get_object_or_404(
         konten_publik(Agenda),
         pk=pk,
     )
+
     detail = data_tampilan(item)
+
     return render(
         request,
         "core/detail_agenda.html",
-        {"item": item, "detail": detail},
+        {
+            "item": item,
+            "detail": detail,
+        },
     )
 
 
@@ -315,7 +417,7 @@ def pesan_masuk(request):
             form.save()
             messages.success(
                 request,
-                "Pesan berhasil dikirim."
+                "Pesan berhasil dikirim.",
             )
             return redirect("core:pesan_masuk")
     else:
@@ -330,6 +432,7 @@ def pesan_masuk(request):
 
 def daftar_tautan(request):
     tautan = TautanTerkait.objects.all()
+
     return render(
         request,
         "core/tautan.html",
@@ -396,4 +499,3 @@ def konten_publik(model):
     return model.objects.filter(
         **{nama_field: nilai_terbit}
     )
-

@@ -1,94 +1,102 @@
+
 {% extends 'core/components/base.html' %}
 {% load static %}
+
 {% block title %}Beranda{% endblock %}
+
 {% block hero %}
     {% if profil %}
-        {% include 'core/components/hero.html' with hero_label="WEBSITE ORGANISASI" hero_title=profil.nama_organisasi hero_description="Mengenal organisasi, sejarah, visi, misi, serta berbagai informasi kegiatan Pimpinan Cabang Muhammadiyah Grogol dalam satu platform digital." %}
+        {% include 'core/components/hero.html' with hero_label="WEBSITE ORGANISASI" hero_title=profil.nama hero_description="Mengenal organisasi, sejarah, visi, misi, serta berbagai informasi kegiatan Pimpinan Cabang Muhammadiyah Grogol dalam satu platform digital." hero_image=hero_image %}
     {% else %}
         {% include 'core/components/hero.html' with hero_label="WEBSITE ORGANISASI" hero_title="Pimpinan Cabang Muhammadiyah Grogol" hero_description="Mengenal organisasi, sejarah, visi, misi, serta berbagai informasi kegiatan Pimpinan Cabang Muhammadiyah Grogol dalam satu platform digital." %}
     {% endif %}
 {% endblock %}
+
 {% block content %}
-    <!-- SAMBUTAN KETUA
-         Variabel: ketua.nama, ketua.foto, ketua.sambutan -->
-            {% if ketua %}
-            <section class="section section-alt" id="sambutan">
-                <div class="container">
-                    <div class="row g-4 g-lg-5 align-items-center">
 
-                        <!-- Judul Sambutan (khusus HP) -->
-                        <div class="col-12 d-md-none">
-                            <h2 class="section-title-tanpajarak">
-                                Sambutan Ketua
-                            </h2>
-                        </div>
+    <!-- SAMBUTAN KETUA -->
+    {% if ketua %}
+    <section class="section section-alt" id="sambutan">
+        <div class="container">
+            <div class="row g-4 g-lg-5 align-items-center">
 
-                        <!-- Gambar Ketua -->
-                        <div class="col-md-5 col-lg-4">
-                            <figure class="ketua-figure">
-                                {% if ketua.foto %}
-                                    <img src="{{ ketua.foto.url }}" alt="Foto {{ ketua.nama }}" loading="lazy">
-                                {% else %}
-                                    <div class="ketua-placeholder" aria-hidden="true">
-                                        <i class="bi bi-person"></i>
-                                    </div>
-                                {% endif %}
-                                <figcaption>
-                                    <strong>{{ ketua.nama }}</strong>
-                                    <span>Ketua Pimpinan Cabang Muhammadiyah Grogol</span>
-                                </figcaption>
-                            </figure>
-                        </div>
+                <div class="col-12 d-md-none">
+                    <h2 class="section-title-tanpajarak">
+                        Sambutan Ketua
+                    </h2>
+                </div>
 
-                        <!-- Isi Sambutan -->
-                        <div class="col-md-7 col-lg-8">
-                            <!-- Judul khusus desktop -->
-                            <h2 class="section-title-tanpajarak d-none d-md-block">
-                                Sambutan Ketua
-                            </h2>
-
-                            <div class="sambutan">
-                                {{ ketua.sambutan|linebreaks }}
+                <div class="col-md-5 col-lg-4">
+                    <figure class="ketua-figure">
+                        {% if ketua.foto %}
+                            <img src="{{ ketua.foto.url }}" alt="Foto {{ ketua.nama }}" loading="lazy">
+                        {% else %}
+                            <div class="ketua-placeholder" aria-hidden="true">
+                                <i class="bi bi-person"></i>
                             </div>
-                        </div>
+                        {% endif %}
+                        <figcaption>
+                            <strong>{{ ketua.nama }}</strong>
+                            <span>Ketua Pimpinan Cabang Muhammadiyah Grogol</span>
+                        </figcaption>
+                    </figure>
+                </div>
 
+                <div class="col-md-7 col-lg-8">
+                    <h2 class="section-title-tanpajarak d-none d-md-block">
+                        Sambutan Ketua
+                    </h2>
+
+                    <div class="sambutan">
+                        {{ ketua.sambutan|linebreaks }}
                     </div>
                 </div>
-            </section>
-            {% endif %}
 
-    <!-- STATISTIK Variabel: jumlah_ranting, jumlah_aisyiyah, jumlah_masjid, jumlah_amal_usaha-->
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+
+    <!-- STATISTIK -->
     <section class="section" id="statistik">
         <div class="container">
             <div class="section-head">
-            <div>
-                <h2 class="section-title">Akumulasi Aset</h2>
-                <p class="section-sub">
-                    Aset yang dikelola oleh Pimpinan Cabang Muhammadiyah Grogol.
-                </p>
+                <div>
+                    <h2 class="section-title">Akumulasi Aset</h2>
+                    <p class="section-sub">
+                        Data organisasi Pimpinan Cabang Muhammadiyah Grogol.
+                    </p>
+                </div>
             </div>
-            </div>
+
             <div class="row g-3 g-lg-4">
 
                 <div class="col-6 col-lg-3">
                     <div class="stat-card">
-                        <span class="stat-icon"><i class="bi bi-diagram-3" aria-hidden="true"></i></span>
-                        <div class="stat-number">15</div>
+                        <span class="stat-icon">
+                            <i class="bi bi-diagram-3" aria-hidden="true"></i>
+                        </span>
+                        <div class="stat-number">{{ jumlah_ranting }}</div>
                         <div class="stat-label">Pimpinan Ranting</div>
                     </div>
                 </div>
 
                 <div class="col-6 col-lg-3">
                     <div class="stat-card">
-                        <span class="stat-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
-                        <div class="stat-number">-</div>
-                        <div class="stat-label">Pimpinan Aisyiyah</div>
+                        <span class="stat-icon">
+                            <i class="bi bi-people" aria-hidden="true"></i>
+                        </span>
+                        <div class="stat-number">{{ jumlah_anggota_ktam }}</div>
+                        <div class="stat-label">Anggota KTAM</div>
                     </div>
                 </div>
 
                 <div class="col-6 col-lg-3">
                     <div class="stat-card">
-                        <span class="stat-icon"><i class="bi bi-moon-stars" aria-hidden="true"></i></span>
+                        <span class="stat-icon">
+                            <i class="bi bi-moon-stars" aria-hidden="true"></i>
+                        </span>
                         <div class="stat-number">6</div>
                         <div class="stat-label">Masjid &amp; Mushola</div>
                     </div>
@@ -96,8 +104,10 @@
 
                 <div class="col-6 col-lg-3">
                     <div class="stat-card">
-                        <span class="stat-icon"><i class="bi bi-buildings" aria-hidden="true"></i></span>
-                        <div class="stat-number">14</div>
+                        <span class="stat-icon">
+                            <i class="bi bi-buildings" aria-hidden="true"></i>
+                        </span>
+                        <div class="stat-number">{{ jumlah_amal_usaha }}</div>
                         <div class="stat-label">Amal Usaha</div>
                     </div>
                 </div>
@@ -106,100 +116,180 @@
         </div>
     </section>
 
-    <!--BERITA TERBARU Variabel: berita_terbaru (queryset model Berita) Field: judul, gambar, tanggal, isi-->
-    
-<section class="section section-alt" id="berita">
-    <div class="container">
 
-        <div class="section-head">
-            <div>
-                <h2 class="section-title">Berita Terbaru</h2>
-                <p class="section-sub">
-                    Informasi dan kabar terbaru dari Pimpinan Cabang Muhammadiyah Grogol.
-                </p>
+    <!-- AMAL USAHA -->
+    <section class="section section-alt" id="amal-usaha">
+        <div class="container">
+
+            <div class="section-head">
+                <div>
+                    <h2 class="section-title">Amal Usaha</h2>
+                    <p class="section-sub">
+                        Amal usaha Muhammadiyah berdasarkan bidang pengelolaannya.
+                    </p>
+                </div>
+
+                <a class="section-more" href="{% url 'core:amal_usaha' %}">
+                    Lihat semua
+                </a>
             </div>
 
-            <a class="section-more" href="{% url 'core:berita' %}">
-                Lihat semua berita
-            </a>
-        </div>
+            {% for bidang, daftar in kelompok_amal_usaha.items %}
+                <div class="mb-4">
+                    <h3 class="h5 fw-bold mb-3">{{ bidang }}</h3>
 
-        <div class="row g-4">
-            {% for b in berita_terbaru %}
-                <div class="col-md-6 col-lg-4">
-                    <article class="news-card">
+                    <div class="row g-3">
+                        {% for item in daftar %}
+                            <div class="col-md-6 col-lg-4">
+                                <article class="news-card h-100">
 
-                        <a class="news-thumb"
-                           href="{% url 'core:detail_berita' slug=b.slug %}"
-                           tabindex="-1"
-                           aria-hidden="true">
+                                    {% if item.gambar %}
+                                        <div class="news-thumb">
+                                            <img src="{{ item.gambar.url }}"
+                                                 alt="{{ item.nama }}"
+                                                 loading="lazy">
+                                        </div>
+                                    {% endif %}
 
-                            {% if b.gambar_sampul %}
-                                <img src="{{ b.gambar_sampul.url }}"
-                                     alt="{{ b.judul }}"
-                                     loading="lazy">
-                            {% else %}
-                                <span class="thumb-placeholder">
-                                    <i class="bi bi-newspaper"></i>
-                                </span>
-                            {% endif %}
+                                    <div class="news-body">
+                                        <h4 class="news-title">
+                                            {{ item.nama }}
+                                        </h4>
 
-                        </a>
+                                        {% if item.deskripsi %}
+                                            <p class="news-excerpt">
+                                                {{ item.deskripsi|striptags|truncatewords:20 }}
+                                            </p>
+                                        {% endif %}
 
-                        <div class="news-body">
+                                        {% if item.alamat %}
+                                            <p class="mb-0 text-secondary">
+                                                <i class="bi bi-geo-alt"></i>
+                                                {{ item.alamat }}
+                                            </p>
+                                        {% endif %}
+                                    </div>
 
-                            <time class="news-date"
-                                  datetime="{{ b.tanggal_terbit|date:'Y-m-d' }}">
-                                {{ b.tanggal_terbit|date:"d F Y" }}
-                            </time>
-
-                            <h3 class="news-title">
-                                <a href="{% url 'core:detail_berita' slug=b.slug %}">
-                                    {{ b.judul }}
-                                </a>
-                            </h3>
-
-                            <p class="news-excerpt">
-                                {{ b.ringkasan|striptags|truncatewords:22 }}
-                            </p>
-
-                        </div>
-                    </article>
-                </div>
-
-            {% empty %}
-                <div class="col-12">
-                    <div class="empty-state text-center">
-                        <h3 class="h5 fw-bold mb-2">
-                            Belum Ada Berita
-                        </h3>
-                        <p class="mb-0">
-                            Berita terbaru akan tampil di sini setelah diterbitkan.
-                        </p>
+                                </article>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
+            {% empty %}
+                <div class="empty-state text-center">
+                    <h3 class="h5 fw-bold mb-2">
+                        Data Amal Usaha Belum Tersedia
+                    </h3>
+                    <p class="mb-0">
+                        Data amal usaha akan tampil setelah ditambahkan.
+                    </p>
+                </div>
             {% endfor %}
+
         </div>
+    </section>
 
-    </div>
-</section>
 
-    <!--GALERI KEGIATAN Variabel: galeri (queryset), field: gambar, judul Gambar pertama tampil besar, sisanya kotak kecil.-->
+    <!-- BERITA TERBARU -->
+    <section class="section section-alt" id="berita">
+        <div class="container">
+
+            <div class="section-head">
+                <div>
+                    <h2 class="section-title">Berita Terbaru</h2>
+                    <p class="section-sub">
+                        Informasi dan kabar terbaru dari Pimpinan Cabang Muhammadiyah Grogol.
+                    </p>
+                </div>
+
+                <a class="section-more" href="{% url 'core:berita' %}">
+                    Lihat semua berita
+                </a>
+            </div>
+
+            <div class="row g-4">
+                {% for b in berita_terbaru %}
+                    <div class="col-md-6 col-lg-4">
+                        <article class="news-card">
+
+                            <a class="news-thumb"
+                               href="{% url 'core:detail_berita' slug=b.slug %}"
+                               tabindex="-1"
+                               aria-hidden="true">
+
+                                {% if b.gambar_sampul %}
+                                    <img src="{{ b.gambar_sampul.url }}"
+                                         alt="{{ b.judul }}"
+                                         loading="lazy">
+                                {% else %}
+                                    <span class="thumb-placeholder">
+                                        <i class="bi bi-newspaper"></i>
+                                    </span>
+                                {% endif %}
+                            </a>
+
+                            <div class="news-body">
+                                <time class="news-date"
+                                      datetime="{{ b.tanggal_terbit|date:'Y-m-d' }}">
+                                    {{ b.tanggal_terbit|date:"d F Y" }}
+                                </time>
+
+                                <h3 class="news-title">
+                                    <a href="{% url 'core:detail_berita' slug=b.slug %}">
+                                        {{ b.judul }}
+                                    </a>
+                                </h3>
+
+                                <p class="news-excerpt">
+                                    {{ b.ringkasan|striptags|truncatewords:22 }}
+                                </p>
+                            </div>
+                        </article>
+                    </div>
+
+                {% empty %}
+                    <div class="col-12">
+                        <div class="empty-state text-center">
+                            <h3 class="h5 fw-bold mb-2">
+                                Belum Ada Berita
+                            </h3>
+                            <p class="mb-0">
+                                Berita terbaru akan tampil di sini setelah diterbitkan.
+                            </p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- GALERI KEGIATAN -->
     <section class="section" id="galeri">
         <div class="container">
 
             <div class="section-head">
                 <div>
                     <h2 class="section-title">Galeri Kegiatan</h2>
-                    <p class="section-sub">Dokumentasi kegiatan Pimpinan Cabang Muhammadiyah Grogol.</p>
+                    <p class="section-sub">
+                        Dokumentasi kegiatan Pimpinan Cabang Muhammadiyah Grogol.
+                    </p>
                 </div>
             </div>
 
             <div class="galeri-grid">
                 {% for g in galeri %}
                     {% if g.gambar %}
-                        <a class="galeri-item" href="{{ g.gambar.url }}" target="_blank" rel="noopener noreferrer">
-                            <img src="{{ g.gambar.url }}" alt="{{ g.judul|default:'Dokumentasi kegiatan' }}" loading="lazy">
+                        <a class="galeri-item"
+                           href="{{ g.gambar.url }}"
+                           target="_blank"
+                           rel="noopener noreferrer">
+
+                            <img src="{{ g.gambar.url }}"
+                                 alt="{{ g.judul|default:'Dokumentasi kegiatan' }}"
+                                 loading="lazy">
+
                             {% if g.judul %}
                                 <span class="galeri-cap">{{ g.judul }}</span>
                             {% endif %}
@@ -207,8 +297,12 @@
                     {% endif %}
                 {% empty %}
                     <div class="empty-state text-center galeri-empty">
-                        <h3 class="h5 fw-bold mb-2">Galeri Belum Tersedia</h3>
-                        <p class="mb-0">Foto kegiatan akan tampil di sini setelah ditambahkan.</p>
+                        <h3 class="h5 fw-bold mb-2">
+                            Galeri Belum Tersedia
+                        </h3>
+                        <p class="mb-0">
+                            Foto kegiatan akan tampil di sini setelah ditambahkan.
+                        </p>
                     </div>
                 {% endfor %}
             </div>
@@ -216,127 +310,173 @@
         </div>
     </section>
 
-    <!--AGENDA KEGIATAN Variabel: agenda_list, field: judul, tanggal, waktu, lokasi-->
-        <section class="section section-alt" id="agenda">
-            <div class="container">
 
-                <div class="section-head">
-                    <div>
-                        <h2 class="section-title">Agenda Kegiatan</h2>
-                        <p class="section-sub">Jadwal kegiatan Pimpinan Cabang Muhammadiyah Grogol.</p>
-                    </div>
-                    <a class="section-more" href="{% url 'core:agenda' %}">Lihat semua agenda</a>
+    <!-- AGENDA KEGIATAN -->
+    <section class="section section-alt" id="agenda">
+        <div class="container">
+
+            <div class="section-head">
+                <div>
+                    <h2 class="section-title">Agenda Kegiatan</h2>
+                    <p class="section-sub">
+                        Jadwal kegiatan Pimpinan Cabang Muhammadiyah Grogol.
+                    </p>
                 </div>
 
-                <div class="agenda-grid">
-                    {% for a in agenda_list %}
-                        <article class="agenda-card">
-                            <div class="agenda-date">
-                                <span class="agenda-day">{{ a.waktu_mulai|date:"d" }}</span>
-                                <span class="agenda-month">{{ a.waktu_mulai|date:"M Y" }}</span>
-                            </div>
+                <a class="section-more" href="{% url 'core:agenda' %}">
+                    Lihat semua agenda
+                </a>
+            </div>
 
-                            <div class="agenda-content">
-                                <h3 class="agenda-title">{{ a.nama_kegiatan }}</h3>
-
-                                <div class="agenda-meta">
-                                    <span>
-                                        <i class="bi bi-clock" aria-hidden="true"></i>
-                                        {{ a.waktu_mulai|date:"H:i" }} WIB
-                                    </span>
-
-                                    <span>
-                                        <i class="bi bi-geo-alt" aria-hidden="true"></i>
-                                        {{ a.tempat }}
-                                    </span>
-                                </div>
-
-                                {% if a.keterangan %}
-                                    <p class="agenda-description">
-                                        {{ a.keterangan }}
-                                    </p>
-                                {% endif %}
-                            </div>
-                        </article>
-                    {% empty %}
-                        <div class="empty-state text-center">
-                            <h3 class="h5 fw-bold mb-2">Belum Ada Agenda</h3>
-                            <p class="mb-0">Agenda kegiatan akan tampil di sini setelah ditambahkan.</p>
+            <div class="agenda-grid">
+                {% for a in agenda_list %}
+                    <article class="agenda-card">
+                        <div class="agenda-date">
+                            <span class="agenda-day">
+                                {{ a.waktu_mulai|date:"d" }}
+                            </span>
+                            <span class="agenda-month">
+                                {{ a.waktu_mulai|date:"M Y" }}
+                            </span>
                         </div>
-                    {% endfor %}
-                </div>
 
-            </div>
-        </section>
+                        <div class="agenda-content">
+                            <h3 class="agenda-title">
+                                {{ a.nama_kegiatan }}
+                            </h3>
 
-        
-        <!-- Panel Video Profil PCM -->
-        <section class="video-section" id="video-profil">
-            <div class="container">
-                <div class="video-panel">
+                            <div class="agenda-meta">
+                                <span>
+                                    <i class="bi bi-clock" aria-hidden="true"></i>
+                                    {{ a.waktu_mulai|date:"H:i" }} WIB
+                                </span>
 
-                    <video
-                        id="videoProfil"
-                        class="video-player"
-                        preload="none"
-                        playsinline>
-                        <source
-                            src="{% static 'videos/profil-pcm.mp4' %}"
-                            type="video/mp4">
-                        Browser Anda tidak mendukung pemutaran video.
-                    </video>
+                                <span>
+                                    <i class="bi bi-geo-alt" aria-hidden="true"></i>
+                                    {{ a.tempat }}
+                                </span>
+                            </div>
 
-                    <button
-                        type="button"
-                        class="video-play-btn"
-                        id="videoPlayBtn"
-                        aria-label="Putar video profil PCM">
-                        <i class="bi bi-play-fill" aria-hidden="true"></i>
-                    </button>
+                            {% if a.keterangan %}
+                                <p class="agenda-description">
+                                    {{ a.keterangan }}
+                                </p>
+                            {% endif %}
+                        </div>
+                    </article>
 
-                </div>
-            </div>
-        </section>
-        <!-- Akhir Panel Video Profil PCM -->
-
-    <!--PIMPINAN PCM (sliding button) Variabel: pimpinan_list, field: nama, jabatan, foto-->
-        <section class="section" id="pimpinan">
-            <div class="container">
-
-                <div class="section-head">
-                    <div>
-                        <h2 class="section-title">Pimpinan PCM</h2>
-                        <p class="section-sub">
-                            Susunan pimpinan Cabang Muhammadiyah Grogol periode ini.
+                {% empty %}
+                    <div class="empty-state text-center">
+                        <h3 class="h5 fw-bold mb-2">
+                            Belum Ada Agenda
+                        </h3>
+                        <p class="mb-0">
+                            Agenda kegiatan akan tampil di sini setelah ditambahkan.
                         </p>
                     </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- VIDEO PROFIL PCM -->
+    <section class="video-section" id="video-profil">
+        <div class="container">
+            <div class="video-panel">
+
+                <video
+                    id="videoProfil"
+                    class="video-player"
+                    preload="none"
+                    playsinline>
+
+                    <source
+                        src="{% static 'videos/profil-pcm.mp4' %}"
+                        type="video/mp4">
+
+                    Browser Anda tidak mendukung pemutaran video.
+                </video>
+
+                <button
+                    type="button"
+                    class="video-play-btn"
+                    id="videoPlayBtn"
+                    aria-label="Putar video profil PCM">
+
+                    <i class="bi bi-play-fill" aria-hidden="true"></i>
+                </button>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- PIMPINAN PCM -->
+    <section class="section" id="pimpinan">
+        <div class="container">
+
+            <div class="section-head">
+                <div>
+                    <h2 class="section-title">Pimpinan PCM</h2>
+                    <p class="section-sub">
+                        Susunan pimpinan Cabang Muhammadiyah Grogol periode ini.
+                    </p>
+                </div>
+
                 <div class="slider-controls">
-                    <button type="button" class="slider-btn" data-slider-btn data-target="#pimpinanTrack" data-dir="-1" aria-label="Geser ke kiri">
+                    <button type="button"
+                            class="slider-btn"
+                            data-slider-btn
+                            data-target="#pimpinanTrack"
+                            data-dir="-1"
+                            aria-label="Geser ke kiri">
+
                         <i class="bi bi-chevron-left" aria-hidden="true"></i>
                     </button>
-                    <button type="button" class="slider-btn" data-slider-btn data-target="#pimpinanTrack" data-dir="1" aria-label="Geser ke kanan">
+
+                    <button type="button"
+                            class="slider-btn"
+                            data-slider-btn
+                            data-target="#pimpinanTrack"
+                            data-dir="1"
+                            aria-label="Geser ke kanan">
+
                         <i class="bi bi-chevron-right" aria-hidden="true"></i>
                     </button>
                 </div>
             </div>
 
-            <div class="slider-track" id="pimpinanTrack" tabindex="0" aria-label="Daftar pimpinan">
+            <div class="slider-track"
+                 id="pimpinanTrack"
+                 tabindex="0"
+                 aria-label="Daftar pimpinan">
+
                 {% for p in pimpinan_list %}
                     <article class="person-card">
                         <div class="person-photo">
                             {% if p.foto %}
-                                <img src="{{ p.foto.url }}" alt="Foto {{ p.nama }}" loading="lazy">
+                                <img src="{{ p.foto.url }}"
+                                     alt="Foto {{ p.nama }}"
+                                     loading="lazy">
                             {% else %}
                                 <i class="bi bi-person" aria-hidden="true"></i>
                             {% endif %}
                         </div>
+
                         <h3 class="person-name">{{ p.nama }}</h3>
                         <p class="person-role">{{ p.jabatan }}</p>
                     </article>
+
                 {% empty %}
                     <div class="empty-state text-center w-100">
-                        <h3 class="h5 fw-bold mb-2">Data Pimpinan Belum Tersedia</h3>
-                        <p class="mb-0">Susunan pimpinan akan tampil di sini setelah ditambahkan.</p>
+                        <h3 class="h5 fw-bold mb-2">
+                            Data Pimpinan Belum Tersedia
+                        </h3>
+                        <p class="mb-0">
+                            Susunan pimpinan akan tampil di sini setelah ditambahkan.
+                        </p>
                     </div>
                 {% endfor %}
             </div>
@@ -344,9 +484,10 @@
         </div>
     </section>
 
-    <!--KONTEN PROFIL-->
-        <section class="section section-alt" id="profil">
-            <div class="container main-content">
+
+    <!-- KONTEN PROFIL -->
+    <section class="section section-alt" id="profil">
+        <div class="container main-content">
 
             <section class="profile-card">
 
@@ -369,7 +510,6 @@
                 {% if profil %}
 
                     {% for field in detail_profil %}
-
                         <div class="profile-field">
 
                             <h3 class="field-title">
@@ -378,36 +518,36 @@
 
                             {% if field.jenis == "gambar" %}
 
-                            {% if field.url_file %}
-                                <a
-                                    href="{{ field.url_file }}"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    aria-label="Buka gambar {{ field.label }}"
-                                >
-                                    <img
-                                        src="{{ field.url_file }}"
-                                        alt="{{ field.label }}"
-                                        class="profile-image"
-                                        loading="lazy"
-                                    >
-                                </a>
-
-                                <div class="d-flex justify-content-end mt-3">
+                                {% if field.url_file %}
                                     <a
                                         href="{{ field.url_file }}"
-                                        download
-                                        class="file-link"
-                                    >
-                                        <span aria-hidden="true">↓</span>
-                                        Unduh gambar {{ field.label }}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        aria-label="Buka gambar {{ field.label }}">
+
+                                        <img
+                                            src="{{ field.url_file }}"
+                                            alt="{{ field.label }}"
+                                            class="profile-image"
+                                            loading="lazy">
                                     </a>
-                                </div>
-                            {% else %}
-                                <p class="field-value">
-                                    Gambar belum tersedia.
-                                </p>
-                            {% endif %}
+
+                                    <div class="d-flex justify-content-end mt-3">
+                                        <a
+                                            href="{{ field.url_file }}"
+                                            download
+                                            class="file-link">
+
+                                            <span aria-hidden="true">↓</span>
+                                            Unduh gambar {{ field.label }}
+                                        </a>
+                                    </div>
+
+                                {% else %}
+                                    <p class="field-value">
+                                        Gambar belum tersedia.
+                                    </p>
+                                {% endif %}
 
                             {% elif field.jenis == "file" %}
 
@@ -416,39 +556,41 @@
                                         href="{{ field.url_file }}"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        class="file-link"
-                                    >
+                                        class="file-link">
+
                                         <span aria-hidden="true">↗</span>
                                         Buka atau unduh {{ field.label }}
                                     </a>
+
                                 {% else %}
                                     <p class="field-value">
                                         Dokumen belum tersedia.
                                     </p>
                                 {% endif %}
 
+                            {% else %}
+
+                                {% if field.label|lower == "misi" %}
+
+                                    <ol class="mission-list">
+                                        {% for item in misi_list %}
+                                            <li>{{ item }}</li>
+                                        {% empty %}
+                                            <li>Misi belum ditambahkan.</li>
+                                        {% endfor %}
+                                    </ol>
+
                                 {% else %}
-
-                                    {% if field.label|lower == "misi" %}
-
-                                        <ol class="mission-list">
-                                            {% for item in field.nilai|linebreaksbr %}
-                                                {{ item }}
-                                            {% endfor %}
-                                        </ol>
-
-                                    {% else %}
-
-                                        <p class="field-value">{{ field.nilai|linebreaks }}</p>
-
-                                    {% endif %}
-
+                                    <p class="field-value">
+                                        {{ field.nilai|linebreaks }}
+                                    </p>
                                 {% endif %}
+
+                            {% endif %}
 
                         </div>
 
                     {% empty %}
-
                         <div class="empty-state text-center">
                             <h3 class="h5 fw-bold mb-2">
                                 Informasi Belum Tersedia
@@ -457,11 +599,9 @@
                                 Data profil organisasi belum ditambahkan.
                             </p>
                         </div>
-
                     {% endfor %}
 
                 {% else %}
-
                     <div class="empty-state text-center">
                         <h3 class="h5 fw-bold mb-2">
                             Selamat Datang
@@ -471,10 +611,10 @@
                             akan ditampilkan di halaman ini.
                         </p>
                     </div>
-
                 {% endif %}
 
             </section>
         </div>
-</section>
+    </section>
+
 {% endblock %}
