@@ -28,7 +28,7 @@ Website ini bertujuan untuk menyediakan informasi organisasi, meliputi profil, s
 | 2 | Faqih Indra | L2002400 | Hihi |
 | 3 | Arifa Satya Wicaksana | L200240029 | Pengembangan backend Django, perancangan model database, implementasi views dan URL routing, integrasi template, pagination, fitur pencarian berita, serta konfigurasi dependensi menggunakan uv. |
 | 4 | Satria Maulana | L2002400 | Haha |
-| 5 | Mada Kumba | L2002400 | Hoho |
+| 5 | Mada Kumba | L200240057 | Hoho |
 
 ---
 
