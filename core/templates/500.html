@@ -28,7 +28,7 @@
     </a>
 
     <header class="error-header">
-        <a class="error-brand" href="{% url 'home' %}" aria-label="Beranda PCM Grogol">
+        <a class="error-brand" href="{% url 'core:home' %}" aria-label="Beranda PCM Grogol">
             <img
                 src="{% static 'images/logo.png' %}"
                 alt="Logo PCM Grogol"
@@ -42,9 +42,9 @@
         </a>
 
         <nav class="error-nav" aria-label="Navigasi utama">
-            <a href="{% url 'home' %}">Beranda</a>
-            <a href="{% url 'pimpinan' %}">Pimpinan</a>
-            <a href="{% url 'berita' %}">Berita</a>
+            <a href="{% url 'core:home' %}">Beranda</a>
+            <a href="{% url 'core:pimpinan' %}">Pimpinan</a>
+            <a href="{% url 'core:berita' %}">Berita</a>
         </nav>
     </header>
 
@@ -138,7 +138,7 @@
                     </button>
 
                     <a
-                        href="{% url 'home' %}"
+                        href="{% url 'core:home' %}"
                         class="error-button error-button-secondary"
                     >
                         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">

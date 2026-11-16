@@ -52,6 +52,7 @@ class BeritaAdmin(ModelAdmin):
     list_display = ("judul", "status", "tanggal_terbit")
     search_fields = ("judul", "slug", "isi")
     list_filter = ("status", "tanggal_terbit")
+    date_hierarchy = "tanggal_terbit"
     prepopulated_fields = {"slug": ("judul",)}
 
 

@@ -31,11 +31,11 @@ RUN SECRET_KEY=dummy-build-secret-key \
 
 # Buat user non-root
 RUN useradd --create-home appuser \
+    && chmod +x /app/docker-entrypoint.sh \
     && chown -R appuser:appuser /app
 
 USER appuser
 
 EXPOSE 8000
 
-# Migrasi database dan jalankan Gunicorn
-CMD ["sh", "-c", "uv run --no-sync python manage.py migrate && exec uv run --no-sync gunicorn config.wsgi:application --bind 0.0.0.0:${PORT:-8000} --workers 3"]
+ENTRYPOINT ["/app/docker-entrypoint.sh"]

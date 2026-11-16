@@ -316,7 +316,7 @@ def pesan_masuk(request):
                 request,
                 "Pesan berhasil dikirim."
             )
-            return redirect("pesan_masuk")
+            return redirect("core:pesan_masuk")
     else:
         form = PesanMasukForm()
 

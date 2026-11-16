@@ -55,7 +55,7 @@
 
         <a
             class="error-brand"
-            href="{% url 'home' %}"
+            href="{% url 'core:home' %}"
             aria-label="Beranda PCM Grogol"
         >
             <img
@@ -71,9 +71,9 @@
         </a>
 
         <nav class="error-nav" aria-label="Navigasi utama">
-            <a href="{% url 'home' %}">Beranda</a>
-            <a href="{% url 'pimpinan' %}">Pimpinan</a>
-            <a href="{% url 'berita' %}">Berita</a>
+            <a href="{% url 'core:home' %}">Beranda</a>
+            <a href="{% url 'core:pimpinan' %}">Pimpinan</a>
+            <a href="{% url 'core:berita' %}">Berita</a>
         </nav>
 
     </header>
@@ -174,7 +174,7 @@
             <div class="error-404-actions">
 
                 <a
-                    href="{% url 'home' %}"
+                    href="{% url 'core:home' %}"
                     class="error-button error-button-primary"
                 >
                     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">

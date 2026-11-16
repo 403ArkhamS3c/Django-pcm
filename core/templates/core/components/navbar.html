@@ -34,7 +34,7 @@
                 <ul class="navbar-nav ms-auto align-items-xl-center gap-xl-1 py-3 py-xl-0">
 
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" {% if request.resolver_match.url_name == 'home' %}aria-current="page"{% endif %} href="{% url 'home' %}">Beranda</a>
+                        <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" {% if request.resolver_match.url_name == 'home' %}aria-current="page"{% endif %} href="{% url 'core:home' %}">Beranda</a>
                     </li>
                              
                     <li class="nav-item dropdown">
@@ -56,7 +56,7 @@
                             <li>
                                 <a
                                     class="dropdown-item {% if request.resolver_match.url_name == 'profil' %}active{% endif %}"
-                                    href="{% url 'profil' %}"
+                                    href="{% url 'core:profil' %}"
                                 >
                                     <i class="bi bi-building"></i>
                                     <span>Profil Organisasi</span>
@@ -66,7 +66,7 @@
                             <li>
                                 <a
                                     class="dropdown-item {% if request.resolver_match.url_name == 'pimpinan' %}active{% endif %}"
-                                    href="{% url 'pimpinan' %}"
+                                    href="{% url 'core:pimpinan' %}"
                                 >
                                     <i class="bi bi-people"></i>
                                     <span>Struktur Pimpinan</span>
@@ -76,7 +76,7 @@
                             <li>
                                 <a
                                     class="dropdown-item {% if request.resolver_match.url_name == 'ranting' %}active{% endif %}"
-                                    href="{% url 'ranting' %}"
+                                    href="{% url 'core:ranting' %}"
                                 >
                                     <i class="bi bi-diagram-3"></i>
                                     <span>Pimpinan Ranting</span>
@@ -88,25 +88,25 @@
 
 
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'amal_usaha' %}active{% endif %}" {% if request.resolver_match.url_name == 'amal_usaha' %}aria-current="page"{% endif %} href="{% url 'amal_usaha' %}">Amal Usaha</a>
+                        <a class="nav-link {% if request.resolver_match.url_name == 'amal_usaha' %}active{% endif %}" {% if request.resolver_match.url_name == 'amal_usaha' %}aria-current="page"{% endif %} href="{% url 'core:amal_usaha' %}">Amal Usaha</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'berita' %}active{% endif %}" {% if request.resolver_match.url_name == 'berita' %}aria-current="page"{% endif %} href="{% url 'berita' %}">Berita</a>
+                        <a class="nav-link {% if request.resolver_match.url_name == 'berita' %}active{% endif %}" {% if request.resolver_match.url_name == 'berita' %}aria-current="page"{% endif %} href="{% url 'core:berita' %}">Berita</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'agenda' %}active{% endif %}" {% if request.resolver_match.url_name == 'agenda' %}aria-current="page"{% endif %} href="{% url 'agenda' %}">Agenda</a>
+                        <a class="nav-link {% if request.resolver_match.url_name == 'agenda' %}active{% endif %}" {% if request.resolver_match.url_name == 'agenda' %}aria-current="page"{% endif %} href="{% url 'core:agenda' %}">Agenda</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'dokumen' %}active{% endif %}" {% if request.resolver_match.url_name == 'dokumen' %}aria-current="page"{% endif %} href="{% url 'dokumen' %}">Dokumen</a>
+                        <a class="nav-link {% if request.resolver_match.url_name == 'unduhan' %}active{% endif %}" {% if request.resolver_match.url_name == 'unduhan' %}aria-current="page"{% endif %} href="{% url 'core:unduhan' %}">Dokumen</a>
                     </li>
 
                     <li class="nav-item mt-2 mt-xl-0 ms-xl-2">
                         <a
                             class="btn btn-success rounded-pill px-3 py-2 fw-semibold"
-                            href="{% url 'pesan_masuk' %}"
+                            href="{% url 'core:pesan_masuk' %}"
                         >
                             Hubungi Kami
                         </a>

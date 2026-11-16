@@ -134,7 +134,7 @@
                 <div class="detail-actions mt-4">
 
                     <a
-                        href="{% url 'berita' %}"
+                        href="{% url 'core:berita' %}"
                         class="btn btn-success rounded-pill px-4"
                     >
                         <i class="bi bi-arrow-left"></i>
@@ -142,7 +142,7 @@
                     </a>
 
                     <a
-                        href="{% url 'home' %}"
+                        href="{% url 'core:home' %}"
                         class="btn btn-outline-success rounded-pill px-4"
                     >
                         Kembali ke Beranda
@@ -192,7 +192,7 @@
                                 </small>
 
                                 <a
-                                    href="{% url 'detail_berita' berita.slug %}"
+                                    href="{% url 'core:detail_berita' berita.slug %}"
                                     class="btn btn-outline-success btn-sm rounded-pill"
                                 >
                                     Baca Selengkapnya

@@ -17,3 +17,11 @@ class PesanMasukForm(forms.ModelForm):
                 and not field.choices
             )
         ]
+
+    def clean_pesan(self):
+        pesan = self.cleaned_data["pesan"].strip()
+        if len(pesan) < 10:
+            raise forms.ValidationError(
+                "Pesan harus terdiri dari minimal 10 karakter."
+            )
+        return pesan

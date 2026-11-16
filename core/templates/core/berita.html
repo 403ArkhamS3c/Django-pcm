@@ -10,7 +10,7 @@
 
         <!-- FORM PENCARIAN BERITA -->
         <div class="mb-4">
-            <form method="GET" action="{% url 'berita' %}">
+            <form method="GET" action="{% url 'core:berita' %}">
                 <div class="input-group">
                     <span class="input-group-text bg-white">
                         <i class="bi bi-search text-success"></i>
@@ -30,7 +30,7 @@
                     </button>
 
                     {% if sedang_mencari %}
-                        <a href="{% url 'berita' %}" class="btn btn-outline-secondary">
+                        <a href="{% url 'core:berita' %}" class="btn btn-outline-secondary">
                             Reset
                         </a>
                     {% endif %}
@@ -91,7 +91,7 @@
                                         </span>
 
                                         <h3>
-                                            <a href="{% url 'detail_berita' slug=entri.objek.slug %}">
+                                            <a href="{% url 'core:detail_berita' slug=entri.objek.slug %}">
                                                 {{ entri.objek.judul }}
                                             </a>
                                         </h3>
@@ -105,7 +105,7 @@
                                             {{ entri.objek.tanggal_terbit|date:"d F Y" }}
                                         </div>
 
-                                        <a class="read-more" href="{% url 'detail_berita' slug=entri.objek.slug %}">
+                                        <a class="read-more" href="{% url 'core:detail_berita' slug=entri.objek.slug %}">
                                             Baca selengkapnya
                                             <i class="bi bi-arrow-right"></i>
                                         </a>
@@ -152,7 +152,7 @@
                                         <div class="col-8">
                                             <div class="news-card-body">
                                                 <h3 class="h6">
-                                                    <a href="{% url 'detail_berita' slug=entri.objek.slug %}">
+                                                    <a href="{% url 'core:detail_berita' slug=entri.objek.slug %}">
                                                         {{ entri.objek.judul }}
                                                     </a>
                                                 </h3>
@@ -162,7 +162,7 @@
                                                     {{ entri.objek.tanggal_terbit|date:"d F Y" }}
                                                 </div>
 
-                                                <a class="read-more" href="{% url 'detail_berita' slug=entri.objek.slug %}">
+                                                <a class="read-more" href="{% url 'core:detail_berita' slug=entri.objek.slug %}">
                                                     Baca selengkapnya
                                                     <i class="bi bi-arrow-right"></i>
                                                 </a>
@@ -193,7 +193,7 @@
                         "<strong>{{ kata_kunci }}</strong>".
                         Coba gunakan kata kunci lainnya.
                     </p>
-                    <a href="{% url 'berita' %}" class="btn btn-outline-success rounded-pill px-4">
+                    <a href="{% url 'core:berita' %}" class="btn btn-outline-success rounded-pill px-4">
                         <i class="bi bi-arrow-counterclockwise"></i>
                         Tampilkan Semua Berita
                     </a>

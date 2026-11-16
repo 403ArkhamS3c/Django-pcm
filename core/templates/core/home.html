@@ -119,7 +119,7 @@
                 </p>
             </div>
 
-            <a class="section-more" href="{% url 'berita' %}">
+            <a class="section-more" href="{% url 'core:berita' %}">
                 Lihat semua berita
             </a>
         </div>
@@ -130,7 +130,7 @@
                     <article class="news-card">
 
                         <a class="news-thumb"
-                           href="{% url 'detail_berita' slug=b.slug %}"
+                           href="{% url 'core:detail_berita' slug=b.slug %}"
                            tabindex="-1"
                            aria-hidden="true">
 
@@ -154,7 +154,7 @@
                             </time>
 
                             <h3 class="news-title">
-                                <a href="{% url 'detail_berita' slug=b.slug %}">
+                                <a href="{% url 'core:detail_berita' slug=b.slug %}">
                                     {{ b.judul }}
                                 </a>
                             </h3>
@@ -225,7 +225,7 @@
                         <h2 class="section-title">Agenda Kegiatan</h2>
                         <p class="section-sub">Jadwal kegiatan Pimpinan Cabang Muhammadiyah Grogol.</p>
                     </div>
-                    <a class="section-more" href="{% url 'agenda' %}">Lihat semua agenda</a>
+                    <a class="section-more" href="{% url 'core:agenda' %}">Lihat semua agenda</a>
                 </div>
 
                 <div class="agenda-grid">

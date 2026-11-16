@@ -40,7 +40,7 @@ Website ini bertujuan untuk menyediakan informasi organisasi, meliputi profil, s
 | Singkatan | PCM Grogol |
 | Wilayah | Grogol, Kabupaten Sukoharjo, Jawa Tengah |
 | Organisasi Induk | Muhammadiyah |
-| Website | [URL Produksi] |
+| Website | https://pcmgrogolsukoharjo.vercel.app |
 
 ---
 
@@ -252,6 +252,8 @@ uv sync
 
 **5. Menjalankan migrasi database**
 
+Pastikan `DATABASE_URL` di `.env` tetap kosong agar proyek menggunakan SQLite lokal.
+
 ```bash
 uv run python manage.py migrate
 ```
@@ -274,6 +276,8 @@ http://127.0.0.1:8000/
 
 Metode ini digunakan untuk menjalankan aplikasi Django bersama PostgreSQL menggunakan Docker Compose. Aplikasi dijalankan menggunakan Gunicorn, sedangkan file statis dilayani oleh WhiteNoise.
 
+Konfigurasi Compose disiapkan untuk pengembangan lokal. Database hanya berada di jaringan internal Docker dan menggunakan autentikasi `trust`; jangan gunakan konfigurasi ini sebagai database produksi.
+
 **1. Clone repository**
 
 ```bash
@@ -281,36 +285,10 @@ git clone https://github.com/403ArkhamS3c/Django-pcm.git
 cd Django-pcm
 ```
 
-**2. Membuat file environment**
-
-Windows PowerShell:
-
-```powershell
-Copy-Item .env.example .env
-```
-
-Linux/macOS:
+**2. Build dan menjalankan container**
 
 ```bash
-cp .env.example .env
-```
-
-Buka file `.env`, kemudian sesuaikan `SECRET_KEY`, password PostgreSQL, dan konfigurasi lainnya. Jangan mengunggah file `.env` ke repository.
-
-**3. Membuat Secret Key**
-
-Jika belum memiliki Secret Key, jalankan:
-
-```bash
-uv run python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
-```
-
-Masukkan hasilnya ke dalam file `.env`.
-
-**4. Build dan menjalankan container**
-
-```bash
-docker compose up -d --build
+docker compose up --build
 ```
 
 Docker Compose akan menjalankan dua layanan:
@@ -318,13 +296,19 @@ Docker Compose akan menjalankan dua layanan:
 - `db`: PostgreSQL 17 sebagai database.
 - `web`: Aplikasi Django yang dijalankan menggunakan Gunicorn.
 
-Pada saat container `web` dimulai, proses migrasi database dijalankan secara otomatis melalui Dockerfile sebelum Gunicorn dijalankan.
+Jika `.env` tidak tersedia, Compose memakai konfigurasi lokal bawaan. Container `web` membuat `SECRET_KEY` sementara saat mulai, menjalankan migrasi database, lalu menjalankan Gunicorn. Kunci sementara ini hanya untuk pengembangan lokal; atur `SECRET_KEY` tetap di environment platform untuk produksi.
 
 File statis juga dikumpulkan menggunakan `collectstatic` pada saat proses build Docker image.
 
 **Dengan demikian, tidak perlu menjalankan `migrate` dan `collectstatic` secara manual setelah container berhasil dijalankan.**
 
-**5. Memeriksa status container**
+Untuk menjalankan container di latar belakang, gunakan:
+
+```bash
+docker compose up -d --build
+```
+
+**3. Memeriksa status container**
 
 ```bash
 docker compose ps
@@ -340,7 +324,7 @@ docker compose logs -f web
 
 Tekan `Ctrl + C` untuk keluar dari tampilan log tanpa menghentikan container.
 
-**6. Mengisi data awal**
+**4. Mengisi data awal**
 
 Setelah aplikasi berjalan, masukkan data awal PCM Grogol:
 
@@ -356,7 +340,7 @@ Secara default, perintah seed menggunakan mode aman sehingga data yang sudah ter
 docker compose exec web uv run python manage.py seed_pcm --update
 ```
 
-**7. Membuat akun administrator**
+**5. Membuat akun administrator**
 
 ```bash
 docker compose exec web uv run python manage.py createsuperuser
@@ -364,7 +348,7 @@ docker compose exec web uv run python manage.py createsuperuser
 
 Ikuti instruksi untuk membuat username, email, dan password administrator.
 
-**8. Mengakses website**
+**6. Mengakses website**
 
 Website:
 
@@ -555,23 +539,39 @@ File `.env` tidak disertakan dalam repository GitHub. Sebagai gantinya, reposito
 
 | Variable | Fungsi | Contoh |
 |---|---|---|
-| SECRET_KEY | Kunci keamanan Django | Hihu |
-| DEBUG | Mengaktifkan mode debug | Haha |
-| ALLOWED_HOSTS | Daftar host yang diizinkan | Hihi |
-| DATABASE_URL | Koneksi database | Huhu |
-
-*Daftar ini harus disesuaikan dengan variabel yang benar-benar dibaca oleh aplikasi.*
+| SECRET_KEY | Kunci keamanan Django; wajib di produksi | Kosong di `.env.example` |
+| DEBUG | Mengaktifkan mode debug | `True` lokal, `False` produksi |
+| ALLOWED_HOSTS | Daftar host yang diizinkan, dipisah koma | `localhost,127.0.0.1` |
+| CSRF_TRUSTED_ORIGINS | Daftar origin tepercaya | `http://localhost:8000` |
+| DATABASE_URL | URL database; kosong memakai SQLite | Kosong untuk lokal |
+| POSTGRES_DB | Nama database Compose lokal | `pcm_db` |
+| POSTGRES_USER | Pengguna database Compose lokal | `pcm_user` |
+| WEB_PORT | Port host untuk aplikasi Docker lokal | `8000` |
+| USE_SUPABASE_STORAGE | Mengaktifkan penyimpanan media Supabase | `False` |
+| AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY | Kredensial Supabase Storage | Kosong di `.env.example` |
+| AWS_STORAGE_BUCKET_NAME, AWS_S3_ENDPOINT_URL, AWS_S3_REGION_NAME, SUPABASE_PROJECT_URL | Konfigurasi bucket Supabase Storage | Kosong di `.env.example` |
 
 Contoh `.env.example`:
 
 ```env
-SECRET_KEY= Hihu
-DEBUG=Hihi
-ALLOWED_HOSTS=Haha
-DATABASE_URL=Huhu
+DEBUG=True
+SECRET_KEY=
+ALLOWED_HOSTS=localhost,127.0.0.1
+CSRF_TRUSTED_ORIGINS=http://localhost:8000
+DATABASE_URL=
+POSTGRES_DB=pcm_db
+POSTGRES_USER=pcm_user
+WEB_PORT=8000
+USE_SUPABASE_STORAGE=False
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_STORAGE_BUCKET_NAME=
+AWS_S3_ENDPOINT_URL=
+AWS_S3_REGION_NAME=
+SUPABASE_PROJECT_URL=
 ```
 
-**Penting:** Jangan memasukkan SECRET_KEY asli, password database, atau kredensial lainnya ke repository publik.
+`.env.example` tidak berisi secret. File `.env` lokal opsional untuk Docker Compose dan tidak boleh diunggah ke repository. Compose lokal memakai database PostgreSQL pada jaringan internal Docker tanpa password; konfigurasi tersebut hanya untuk pengembangan. Untuk produksi, gunakan database terkelola dan simpan `SECRET_KEY`, `DATABASE_URL`, serta kredensial storage di environment platform.
 
 ---
 
@@ -581,9 +581,9 @@ Website direncanakan atau telah dipublikasikan melalui platform berikut.
 
 | Komponen | Keterangan |
 |---|---|
-| URL Produksi | [URL Website] |
-| Platform Hosting | [Nama Platform] |
-| Database Produksi | [Nama Database] |
+| URL Produksi | https://pcmgrogolsukoharjo.vercel.app |
+| Platform Hosting | Vercel |
+| Database Produksi | Belum dikonfirmasi |
 | Backend | Django |
 | Pengelolaan Dependensi | uv |
 
