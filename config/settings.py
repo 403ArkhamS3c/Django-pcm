@@ -113,6 +113,10 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
 
+    # Kompresi gzip untuk response dinamis (HTML). File static sudah
+    # dikompresi oleh Whitenoise, jadi middleware ini hanya menangani HTML.
+    "django.middleware.gzip.GZipMiddleware",
+
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",

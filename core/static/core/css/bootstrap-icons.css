@@ -1,0 +1,56 @@
+/*!
+ * Bootstrap Icons v1.13.1 — SUBSET (37 ikon yang dipakai project ini)
+ * Sumber: https://icons.getbootstrap.com/
+ * Copyright (c) 2018-2024 The Bootstrap Authors
+ * Licensed under MIT (https://github.com/twbs/icons/blob/main/LICENSE.md)
+ *
+ * CATATAN: File ini hanya memuat ikon yang benar-benar dipakai.
+ * Jika menambah ikon baru, subset ulang font ini:
+ *   pyftsubset bootstrap-icons.woff2 --flavor=woff2 --unicodes=U+XXXX,...
+ */
+
+@font-face {
+    font-display: block;
+    font-family: "bootstrap-icons";
+    src: url("../fonts/bootstrap-icons.woff2") format("woff2");
+}
+
+.bi::before,[class*=" bi-"]::before,[class^=bi-]::before{display:inline-block;font-family:bootstrap-icons!important;font-style:normal;font-weight:400!important;font-variant:normal;text-transform:none;line-height:1;vertical-align:-.125em;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+
+.bi-archive::before{content:"\f10d"}
+.bi-arrow-counterclockwise::before{content:"\f117"}
+.bi-arrow-left::before{content:"\f12f"}
+.bi-arrow-right::before{content:"\f138"}
+.bi-arrow-up-right::before{content:"\f144"}
+.bi-building::before{content:"\f1dd"}
+.bi-buildings::before{content:"\f87d"}
+.bi-calendar-check::before{content:"\f1e2"}
+.bi-calendar-day::before{content:"\f1e6"}
+.bi-calendar-event::before{content:"\f1e8"}
+.bi-calendar2-check::before{content:"\f1f8"}
+.bi-calendar2-x::before{content:"\f20b"}
+.bi-calendar3::before{content:"\f214"}
+.bi-chevron-left::before{content:"\f284"}
+.bi-chevron-right::before{content:"\f285"}
+.bi-clock::before{content:"\f293"}
+.bi-diagram-3::before{content:"\f2ee"}
+.bi-download::before{content:"\f30a"}
+.bi-envelope::before{content:"\f32f"}
+.bi-facebook::before{content:"\f344"}
+.bi-file-earmark-arrow-down::before{content:"\f356"}
+.bi-folder2-open::before{content:"\f3d8"}
+.bi-geo-alt::before{content:"\f3e8"}
+.bi-image::before{content:"\f42a"}
+.bi-info-circle::before{content:"\f431"}
+.bi-instagram::before{content:"\f437"}
+.bi-link-45deg::before{content:"\f470"}
+.bi-moon-stars::before{content:"\f496"}
+.bi-newspaper::before{content:"\f4a3"}
+.bi-people::before{content:"\f4d0"}
+.bi-person::before{content:"\f4e1"}
+.bi-play-fill::before{content:"\f4f4"}
+.bi-search::before{content:"\f52a"}
+.bi-send::before{content:"\f6c0"}
+.bi-telephone::before{content:"\f5c1"}
+.bi-tiktok::before{content:"\f6cc"}
+.bi-youtube::before{content:"\f62b"}
