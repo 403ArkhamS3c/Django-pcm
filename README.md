@@ -25,7 +25,7 @@ Website ini bertujuan untuk menyediakan informasi organisasi, meliputi profil, s
 | No. | Nama Anggota | NIM | Kontribusi |
 |---|---|---|---|
 | 1 | Amanda Yesi Kurniaty | L200240007 | Hihu |
-| 2 | Faqih Indra | L2002400 | Hihi |
+| 2 | Faqih Indra | L2002400 | Merevisi Homepage agar data statistik dan Amal Usaha terintegrasi dengan database, memperbaiki tampilan daftar misi, mengintegrasikan gambar Hero, membatasi akses Pesan Masuk di Django Admin menjadi read-only, serta mengamankan konfigurasi environment agar tidak terunggah ke GitHub |
 | 3 | Arifa Satya Wicaksana | L200240029 | Pengembangan backend Django, perancangan model database, implementasi views dan URL routing, integrasi template, pagination, fitur pencarian berita, serta konfigurasi dependensi menggunakan uv. |
 | 4 | Satria Maulana | L2002400 | Haha |
 | 5 | Mada Kumba | L200240057 | Menambahkan navigasi berdasarkan tanggal terbit pada halaman admin berita |
